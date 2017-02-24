@@ -1,6 +1,7 @@
 SliTaz Users Packages
 ================================================================================
 
+CURRENT : cook extract and install work nicely.
 
 The goal is to have a user land packages management system using SHell scripts
 to pack and install files. The sup packages can install all kind of files such
@@ -131,10 +132,7 @@ is newly installed you can update the mime database:
 
   $ update-mime-database /usr/share/mime/
 
-Icon paths: /usr/share/icons/hicolor/32x32/apps/sup.png
-
-  $ ln -s ../apps/sup.png \
-      /usr/share/icons/hicolor/32x32/mimetypes/application-x-sup.png
+Sup use a generic icon: application-x-archive
 
 
 Translations
