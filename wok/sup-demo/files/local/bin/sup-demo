@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# SliTaz User Package - Demo script
+# Copyright (C) 2017 SliTaz GNU/Linux - BSD License
+#
+. /lib/libtaz.sh
+
+newline
+echo "$(colorize 33 'Running script :') sup-demo"
+echo "$(boldify 'Script dir     :') $PWD"
+echo "Timestamp      : $(date)"
+echo "Local path     : $HOME/.local"
+echo "Sleeping       : 2 seconds" && sleep 2
+newline
+
+exit 0

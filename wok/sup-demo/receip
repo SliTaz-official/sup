@@ -1,0 +1,18 @@
+# SliTaz User Package receip
+
+PACKAGE="sup-demo"
+VERSION="0.1"
+SHORT_DESC="Short package description and information"
+MAINTAINER="devel@slitaz.org"
+LICENSE="BSD"
+WEB_SITE="http://www.slitaz.org/"
+
+# Sup dependencies will be automaticaly downloaded but system wide 
+# deps must be manually installed by root.
+SUP_DEPS=""
+DEPENDS=""
+
+# Here are the optional install rules (download, configure, etc)
+sup_install() {
+	echo "Running sup_install() sequence"
+} 
