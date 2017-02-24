@@ -1,0 +1,163 @@
+SliTaz Users Packages
+================================================================================
+
+
+The goal is to have a user land packages management system using SHell scripts
+to pack and install files. The sup packages can install all kind of files such
+as scripts, non free tools, icons, wallpapers, templates, pre-compiled binary,
+etc. Sup is designed to handle software that can/should be installed in user
+space such as web frameworks.
+
+This let user get involve in the project without coding skills, sup provide a
+cmdline tool and a GTK+ interface to install and build packages. The server
+provide a CGI web interface to upload packages receipt and files. The build 
+is a simple pack without compilations since the idea is to provide custom 
+tools using scripting languages or precompiled packages such as Firefox.
+
+Sup will be also usefull in live mode with a persistent home mounted so users
+will have installed sup packages without having a too big rootfs in RAM.
+
+Quickstart
+--------------------------------------------------------------------------------
+
+  1) Get source:
+     $ hg clone http://hg.slitaz.org/sup
+  2) Change dir and become root:
+     $ cd sup && su
+  3) Install clients as root:
+     $ make && make install-clients
+  4) Play :-)
+     $ sup help
+  
+
+Where goes what ?
+--------------------------------------------------------------------------------
+
+  * sup         Client side cmdline tool to install and cook packages
+                --> /usr/bin/sup
+  * sup-box     GTK+ Client side user iinterface to manage packages
+                --> /usr/bin/sup-box
+  * libsup.sh   Shared SHell function between sup tools
+                --> /usr/lib/slitaz/libsup.sh
+  * server      Server side web interface: TinyCM/SCN plugin
+                --> http://scn.slitaz.org/?sup
+
+
+Development environment
+--------------------------------------------------------------------------------
+It's easy to work on sup code, commands will talk by them self:
+
+  --> Cmdline client
+  $ hg clone http://hg.slitaz.org/sup
+  $ cd sup && ./sup
+  
+  --> Server side needs lighttpd & TinyCM install
+  $ make DESTDIR=/home/tux/Public/cgi-bin/tinycm server-install
+  $ tazweb http://localhost/~tux/cgi-bin/tinycm/?sup
+
+
+Developers coding style
+--------------------------------------------------------------------------------
+Keep sup simple, clean and fast. Sup tools are written in SHell script, ther
+use libtaz.sh and httphelper.sh functions. Sup use XDG directories paths to 
+store packages information and build process:
+	
+  ~/.local         User data, executables and sup database
+  ~/.cache         Non-essiential data such as tmp and build files
+  ~/.config        Peer user configuration files
+
+
+Packages format and max size
+--------------------------------------------------------------------------------
+Sup packages are cpio archive compressed with lzma and with a .sup extension.
+The goal is to have lightweight packages with every big file downloaded from
+the web.
+
+Sup use a minimal 'receipt' with an sup_install() function to dl any wanted 
+files, no pkg size or file list are created when packing. A list of installed
+files is generated at install.
+
+Package can have a single receipt or a local/ folder with files to install. All
+download and extracting must be done in the cache to build-up a list of files
+before installing. The package folder tree should look like that:
+
+  * receipt                    Sup package receipt
+  * README                     Optional sup package desc/howto
+  * files                      For all installed files
+  
+files/
+  |- local/bin                 For executable binaries and scripts
+  |- local/share/XXX           Where XXX is the name of the package
+  |- local/share/applications  All .desktop files for menu entry
+   ` config/                   For any configuration file in ~/.config
+
+More directories into files/ can be added accourding to the needs and goal 
+of the packages
+
+Receipt variables and function
+--------------------------------------------------------------------------------
+Her is the variables used or usable in sup receipt as well as the uniq function.
+Checkout the sup-demo package for a receipt example.
+
+  * $build_date     Auto added by 'sup cook' to get the build date
+  * $sup_size       Auto added by 'sup cook' to get installed size
+
+
+Packages dependencies
+--------------------------------------------------------------------------------
+Since sup is not run as root, less deps is better but some precompiled packages
+will need some system wide tools/libraries, sup will not install any system wide
+package but warn is dependencies are not installed if DEPENDS is set. 
+
+Sup packages can be very simple but also very complex, so feel free to use the 
+receipt to warn or promt users to make an action.
+
+
+Cook sup packages to be uploaded to server
+--------------------------------------------------------------------------------
+Sup let users upload package to server. To cook your first one you may want to
+the sup-demo package:
+
+  $ sup cook --init
+  $ cp -rf /usr/share/sup/wok/sup-demo ~/.local/share/sup/wok
+  $ sup cook sup-demo
+
+
+Mime type & Icon
+--------------------------------------------------------------------------------
+The *.sup file are reconised by the system as sup packages using an mime type
+XML file installed in /usr/share/mime/packages/sup.xml. When data/mime/sup.xml
+is newly installed you can update the mime database:
+
+  $ update-mime-database /usr/share/mime/
+
+Icon paths: /usr/share/icons/hicolor/32x32/apps/sup.png
+
+  $ ln -s ../apps/sup.png \
+      /usr/share/icons/hicolor/32x32/mimetypes/application-x-sup.png
+
+
+Translations
+--------------------------------------------------------------------------------
+To start a new translation please use msginit from the pot file directory.
+Example for French/France locale (fr_FR):
+
+	$ msginit -l fr_FR -o fr.po -i tazbox.pot
+
+To update all pot files when some new strings have been added (mainly for
+developers before commit):
+
+	$ make pot
+
+To update all translations from the pot file:
+
+	$ make msgmerge
+
+To compile po files for testing purposes you can use 'make msgfmt' or manually
+compile your translation. Example for french locale, note that the file must
+be copied into /usr/share/locale/fr/LC_MESSAGES so gettext can find it:
+
+	$ msgfmt -o sup-client.mo fr.po
+
+
+================================================================================
