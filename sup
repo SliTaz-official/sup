@@ -34,7 +34,7 @@ $(boldify $(gettext "Commands:"))
 
 $(boldify $(gettext "Options:"))
   --init     cook    $(gettext "Initialize sup build environment")
-  --verbose  all     $(gettext "Display more output message")
+  --verbose  all     $(gettext "Display more output messages")
 
 EOT
 	exit 0
@@ -109,7 +109,7 @@ case "$1" in
 		cp -rf ${wok}/${pkg} ${cache}/${supfile%.sup}
 		cd ${cache}/${supfile%.sup}
 		
-		# Mouve to hidden dir: ~/.local and ~/.config
+		# Move to hidden dir: ~/.local and ~/.config
 		for dir in local config; do
 			mv files/${dir} files/.${dir}
 		done

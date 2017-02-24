@@ -84,7 +84,7 @@ install_sup() {
 	extract_sup "$supfile"
 	
 	# Execute sup_install() in files/ tree so packages maintainers just
-	# have to dl and move files has they wher in $HOME
+	# have to dl and move files where they were in $HOME
 	cd files
 	if grep -q "^sup_install" ../receip; then
 		gettext "Executing install function:"; colorize 33 " sup_install"

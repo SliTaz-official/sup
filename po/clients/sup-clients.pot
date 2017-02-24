@@ -38,7 +38,7 @@ msgid "Initialize sup build environment"
 msgstr ""
 
 #: sup:37
-msgid "Display more output message"
+msgid "Display more output messages"
 msgstr ""
 
 #: sup:64

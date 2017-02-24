@@ -3,20 +3,20 @@ SliTaz Users Packages
 
 CURRENT : cook extract and install work nicely.
 
-The goal is to have a user land packages management system using SHell scripts
+The goal is to have a user-land packages management system using SHell scripts
 to pack and install files. The sup packages can install all kind of files such
-as scripts, non free tools, icons, wallpapers, templates, pre-compiled binary,
+as scripts, non free tools, icons, wallpapers, templates, pre-compiled binaries,
 etc. Sup is designed to handle software that can/should be installed in user
 space such as web frameworks.
 
-This let user get involve in the project without coding skills, sup provide a
+This lets users get involved in the project without coding skills, sup provides a
 cmdline tool and a GTK+ interface to install and build packages. The server
-provide a CGI web interface to upload packages receipt and files. The build 
-is a simple pack without compilations since the idea is to provide custom 
+provides a CGI web interface to upload packages receipts and files. The build 
+is a simple pack without compilation since the idea is to provide custom 
 tools using scripting languages or precompiled packages such as Firefox.
 
-Sup will be also usefull in live mode with a persistent home mounted so users
-will have installed sup packages without having a too big rootfs in RAM.
+Sup will be also useful in live mode with a persistent home mounted so users
+will have sup packages installed without having a too big rootfs in RAM.
 
 Quickstart
 --------------------------------------------------------------------------------
@@ -31,12 +31,12 @@ Quickstart
      $ sup help
   
 
-Where goes what ?
+What goes where ?
 --------------------------------------------------------------------------------
 
   * sup         Client side cmdline tool to install and cook packages
                 --> /usr/bin/sup
-  * sup-box     GTK+ Client side user iinterface to manage packages
+  * sup-box     GTK+ Client side user interface to manage packages
                 --> /usr/bin/sup-box
   * libsup.sh   Shared SHell function between sup tools
                 --> /usr/lib/slitaz/libsup.sh
@@ -46,7 +46,7 @@ Where goes what ?
 
 Development environment
 --------------------------------------------------------------------------------
-It's easy to work on sup code, commands will talk by them self:
+It's easy to work on sup code, commands will talk by themselves:
 
   --> Cmdline client
   $ hg clone http://hg.slitaz.org/sup
@@ -59,28 +59,28 @@ It's easy to work on sup code, commands will talk by them self:
 
 Developers coding style
 --------------------------------------------------------------------------------
-Keep sup simple, clean and fast. Sup tools are written in SHell script, ther
-use libtaz.sh and httphelper.sh functions. Sup use XDG directories paths to 
-store packages information and build process:
+Keep sup simple, clean and fast. Sup tools are written in SHell script, they
+use libtaz.sh and httphelper.sh functions. Sup uses XDG directories paths to 
+store packages' information and build process:
 	
   ~/.local         User data, executables and sup database
-  ~/.cache         Non-essiential data such as tmp and build files
+  ~/.cache         Non-essential data such as tmp and build files
   ~/.config        Peer user configuration files
 
 
 Packages format and max size
 --------------------------------------------------------------------------------
-Sup packages are cpio archive compressed with lzma and with a .sup extension.
+Sup packages are cpio archives compressed with lzma and with a .sup extension.
 The goal is to have lightweight packages with every big file downloaded from
 the web.
 
-Sup use a minimal 'receipt' with an sup_install() function to dl any wanted 
+Sup uses a minimal 'receipt' with a sup_install() function to dl any wanted 
 files, no pkg size or file list are created when packing. A list of installed
 files is generated at install.
 
-Package can have a single receipt or a local/ folder with files to install. All
-download and extracting must be done in the cache to build-up a list of files
-before installing. The package folder tree should look like that:
+Packages can have a single receipt or a local/ folder with files to install. All
+downloading and extracting must be done in the cache to build up a list of files
+before installing. The package folder tree should look like this:
 
   * receipt                    Sup package receipt
   * README                     Optional sup package desc/howto
@@ -92,13 +92,13 @@ files/
   |- local/share/applications  All .desktop files for menu entry
    ` config/                   For any configuration file in ~/.config
 
-More directories into files/ can be added accourding to the needs and goal 
-of the packages
+More directories into files/ can be added according to the needs and goals
+of the packages.
 
 Receipt variables and function
 --------------------------------------------------------------------------------
-Her is the variables used or usable in sup receipt as well as the uniq function.
-Checkout the sup-demo package for a receipt example.
+Here is the variables used or usable in a sup receipt as well as the uniq function.
+Check out the sup-demo package for a receipt example.
 
   * $build_date     Auto added by 'sup cook' to get the build date
   * $sup_size       Auto added by 'sup cook' to get installed size
@@ -106,18 +106,18 @@ Checkout the sup-demo package for a receipt example.
 
 Packages dependencies
 --------------------------------------------------------------------------------
-Since sup is not run as root, less deps is better but some precompiled packages
+Since sup is not run as root, less deps is better - but some precompiled packages
 will need some system wide tools/libraries, sup will not install any system wide
-package but warn is dependencies are not installed if DEPENDS is set. 
+packages but warns if dependencies are not installed if DEPENDS is set. 
 
 Sup packages can be very simple but also very complex, so feel free to use the 
-receipt to warn or promt users to make an action.
+receipt to warn or prompt users to make an action.
 
 
-Cook sup packages to be uploaded to server
+Cook sup packages to be uploaded to the server
 --------------------------------------------------------------------------------
-Sup let users upload package to server. To cook your first one you may want to
-the sup-demo package:
+Sup lets users upload packages to the server. To cook your first one you may want to
+use the sup-demo package:
 
   $ sup cook --init
   $ cp -rf /usr/share/sup/wok/sup-demo ~/.local/share/sup/wok
@@ -126,13 +126,13 @@ the sup-demo package:
 
 Mime type & Icon
 --------------------------------------------------------------------------------
-The *.sup file are reconised by the system as sup packages using an mime type
+The *.sup file are recognised by the system as sup packages using a mime type
 XML file installed in /usr/share/mime/packages/sup.xml. When data/mime/sup.xml
 is newly installed you can update the mime database:
 
   $ update-mime-database /usr/share/mime/
 
-Sup use a generic icon: application-x-archive
+Sup uses a generic icon: application-x-archive
 
 
 Translations
