@@ -97,7 +97,7 @@ of the packages.
 
 Receipt variables and function
 --------------------------------------------------------------------------------
-Here is the variables used or usable in a sup receipt as well as the uniq function.
+Here are the variables used or usable in a sup receipt as well as the uniq function.
 Check out the sup-demo package for a receipt example.
 
   * $build_date     Auto added by 'sup cook' to get the build date
