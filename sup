@@ -1,0 +1,219 @@
+#!/bin/sh
+#
+# SliTaz Users Package - Minimal cmdline tools - README for devel info
+#
+# Copyright (C) 2017 SliTaz GNU/Linux - BSD License
+# Author: Christophe Lincoln <pankso@slitaz.org>
+#
+if [ -f "/usr/lib/slitaz/libsup.sh" ]; then
+	. /usr/lib/slitaz/libsup.sh
+else
+	. ./libsup.sh
+fi
+
+# Sanity check
+if [ ! "/home/$USER" ]; then
+	gettext "Not a valid user: "; echo "id $(id -u)" && exit 1
+fi
+mkdir -p ${cache} ${installed}
+
+#
+# Functions
+#
+
+help() {
+	cat << EOT
+
+$(boldify $(gettext "Usage:")) $(basename $0) [command] [package]
+
+$(boldify $(gettext "Commands:"))
+  -c  cook
+  -e  extract
+  -i  install
+  -l  list
+
+$(boldify $(gettext "Options:"))
+  --init     cook    $(gettext "Initialize sup build environment")
+  --verbose  all     $(gettext "Display more output message")
+
+EOT
+	exit 0
+}
+
+cook_init() {
+	mkdir -p ${wok} ${cooked}
+	if [ ! -d "$supcook/wok" ]; then
+		ln -s ${wok} ${supcook}/wok
+	fi
+}
+
+#
+# Commands
+#
+
+case "$1" in
+
+	-c|cook)
+		# Cook in $cache/cook amd mv pkg to a visible dir
+		pkg="$2"
+		receip="$wok/$pkg/receip"
+		cache="$cache/cook"
+		
+		# Handle --init
+		if [ "$init" ]; then
+			gettext "Initializing sup cook environment..."
+			cook_init
+			status && exit 0
+		fi
+		
+		# Sanity check
+		if [ ! "$pkg" ]; then
+			gettext "You must specify a package to cook:"
+			boldify " sup cook [package]" && exit 1
+		fi
+		if [ ! -f "$receip" ]; then
+			gettext "Can't find receip in wok for:"
+			colorize 31 " $pkg" && exit 1
+		fi
+		
+		newline
+		gettext "Building package:"; colorize 36 " $pkg"
+		separator
+		rm -rf ${cache} && mkdir -p ${cache} ${cooked}
+		
+		# Check receip
+		[ "$verbose" ] && gettext "Checking receip variables..."
+		. ${receip}
+		for var in PACKAGE VERSION SHORT_DESC MAINTAINER LICENSE WEB_SITE
+		do
+			value="$(. $receip; eval echo \$$var)"
+			case "$var" in
+				PACKAGE|VERSION|SHORT_DESC|MAINTAINER|LICENSE)
+					if [ ! "$value" ]; then
+						gettext "Empty variable:"; colorize 31 " $var=\"\""
+						exit 1
+					fi ;;
+				WEB_SITE)
+					if [ ! "$value" ]; then
+						gettext "Empty variable:"; colorize 31 " $var=\"\""
+						gettext "You can use:"
+						boldify " http://scn.slitaz.org/?sup&pkg=$PACKAGE"
+						exit 1
+					fi ;;
+			esac
+		done
+		[ "$verbose" ] && status
+		
+		# Set $PACKAGE-$VERSION.sup and copy pkg to cache
+		supfile="$PACKAGE-$VERSION.sup"
+		cp -rf ${wok}/${pkg} ${cache}/${supfile%.sup}
+		cd ${cache}/${supfile%.sup}
+		
+		# Mouve to hidden dir: ~/.local and ~/.config
+		for dir in local config; do
+			mv files/${dir} files/.${dir}
+		done
+		
+		# Add $build_date
+		echo "build_date=\"$(date "+%Y-%m-%d %H:%M")\"" >> ${receip}
+		
+		gettext "Creating compressed archive..."
+		find files | cpio -o -H newc --quiet | lzma e files.lzma -si
+		rm -rf files
+		find . -print | cpio -o -H newc --quiet > ${cooked}/${supfile}
+		status
+		
+		size="$(du -sh $cooked/$supfile | cut -d "	" -f 1)"
+		echo "$(gettext 'Packages:') $(colorize 33 $supfile) ($size)"
+		sed -i "/^build_date=/"d ${receip}
+		rm -rf ${cache} && newline ;;
+	
+	-e|extract)
+		# Extract package.sup to current dir
+		pkg="$2"
+		
+		# Sanity check
+		if [ ! "$pkg" ]; then
+			gettext "Missing package in argument:"
+			colorize 35 " sup extract [package.sup]" && exit 1
+		fi
+		if [ ! -f "$pkg" ]; then
+			gettext "Can't find package file:"; colorize 35 " $pkg" && exit 1
+		fi
+		
+		newline
+		gettext "Extract package:"; colorize 36 " $(basename $pkg)"
+		separator
+
+		extract_sup "$pkg"
+		
+		echo "$(gettext 'Packages:') $(colorize 33 $pkg) ($size)"
+		newline ;;
+		 
+	-i|install)
+		# Download/extract run install() in $cache/install
+		pkg="$2"
+		
+		if [ ! "$pkg" ]; then
+			gettext "Missing package in argument:"
+			boldify " sup install [name|pkg.sup]" && exit 1
+		fi
+		
+		# Sup pkg in current dir
+		if [ -f "$pkg" ]; then
+			install_sup "$pkg" && exit 0
+		fi
+		
+		# Sup cooked
+		if [ -f "$cooked/$pkg" ]; then
+			install_sup "$cooked/$pkg" && exit 0
+		fi 
+		
+		gettext "Can't find sup package:"; colorize 31 " $pkg" ;;
+	
+	-l|list)
+		installed_nb=$(ls ${installed} | wc -l)
+		newline
+		echo -n "$(colorize 36 $(gettext 'Installed sup packages:'))"
+		boldify " $installed_nb"
+		separator
+		for pkg in $(ls ${installed}); do
+			. ${wok}/${pkg}/receip
+			echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
+		done
+		if [ "$installed_nb" == 0 ]; then
+			gettext "No sup packages installed"; echo
+		fi
+		newline
+		if [ -d "$wok" ]; then
+			echo -n "$(colorize 35 $(gettext 'Sup packages in your wok:'))"
+			boldify " $(ls ${wok} | wc -l)"
+			separator
+			for pkg in $(ls ${wok}); do
+				. ${wok}/${pkg}/receip
+				echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
+			done
+			newline 
+		fi ;;
+	
+	""|-h|help) help ;;
+		
+	*)
+		# Display pkg info if installed
+		pkg="$1"
+		if [ -f "$installed/$pkg/receip" ]; then
+			. ${installed}/${pkg}/receip
+			newline
+			gettext "Installed package:"; colorize 32 " $PACKAGE $VERSION"
+			separator
+			echo "Short desc: $SHORT_DESC"
+			echo ""
+			boldify "Installed files size: $sup_size"
+			#
+			cat ${installed}/${pkg}/files.list
+			newline
+		else
+			gettext "Can't find installed package:"; colorize 31 " $pkg"
+		fi ;;
+
+esac && exit 0
