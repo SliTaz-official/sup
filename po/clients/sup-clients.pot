@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Sup Clients\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-24 02:11+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: sup:16
+msgid "Not a valid user: "
+msgstr ""
+
+#: sup:27
+msgid "Usage:"
+msgstr ""
+
+#: sup:29
+msgid "Commands:"
+msgstr ""
+
+#: sup:35
+msgid "Options:"
+msgstr ""
+
+#: sup:36
+msgid "Initialize sup build environment"
+msgstr ""
+
+#: sup:37
+msgid "Display more output message"
+msgstr ""
+
+#: sup:64
+msgid "Initializing sup cook environment..."
+msgstr ""
+
+#: sup:71
+msgid "You must specify a package to cook:"
+msgstr ""
+
+#: sup:75
+msgid "Can't find receipt in wok for:"
+msgstr ""
+
+#: sup:80
+msgid "Building package:"
+msgstr ""
+
+#: sup:85
+msgid "Checking receipt variables..."
+msgstr ""
+
+#: sup:93 sup:98
+msgid "Empty variable:"
+msgstr ""
+
+#: sup:99
+msgid "You can use:"
+msgstr ""
+
+#: sup:110
+msgid "Creating compressed archive..."
+msgstr ""
+
+#: sup:119 sup:144
+msgid "Packages:"
+msgstr ""
+
+#: sup:129 sup:152
+msgid "Missing package in argument:"
+msgstr ""
+
+#: sup:133
+msgid "Can't find package file:"
+msgstr ""
+
+#: sup:138
+msgid "Extract package:"
+msgstr ""
+
+#: sup:166
+msgid "Can't find sup package:"
+msgstr ""
+
+#: sup:171
+msgid "Installed sup packages:"
+msgstr ""
+
+#: sup:178
+msgid "No sup packages installed"
+msgstr ""
+
+#: sup:181
+msgid "Sup packages in your wok:"
+msgstr ""
+
+#: sup:202
+msgid "Can't find installed package:"
+msgstr ""
+
+#: libsup.sh:37
+msgid "Installing package:"
+msgstr ""
+
+#: libsup.sh:49
+msgid "Uncompressing package tree..."
+msgstr ""
