@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/x-sup">
+		<comment>package SUP</comment>
+		<comment xml:lang="es">paquete SUP</comment>
+		<comment xml:lang="fr">paquet SUP</comment>
+		<comment xml:lang="pt">pacote SUP</comment>
+		<comment xml:lang="ru">пакет SUP</comment>
+		<sub-class-of type="application/x-cpio"/>
+		<generic-icon name="application-x-archive"/>
+		<glob pattern="*.sup" />
+	</mime-type>
+	<mime-type type="text/x-sup-receip">
+		<comment>recipe SUP</comment>
+		<comment xml:lang="es">receta SUP</comment>
+		<comment xml:lang="fr">recette SUP</comment>
+		<comment xml:lang="pt">receita SUP</comment>
+		<comment xml:lang="ru">файл SUP</comment>
+		<sub-class-of type="application/x-shellscript"/>
+		<generic-icon name="text-x-script"/>
+		<magic priority="50">
+			<match value="# SliTaz User Package receip" type="string" offset="0"/>
+		</magic>
+		<glob pattern="receip"/>
+	</mime-type>
+</mime-info>
