@@ -1,11 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=TazPkg Manager
-Name[fr]=Gestionnaire de TazPkg
-Name[pt]=Gerenciador de Pacotes TazPkg
-Name[pt_BR]=Gerenciador de Pacotes TazPkg
-Name[ru]=Менеджер пакетов TazPkg
-Exec=tazbox su tazpkg-box actions %f
+Name=SUP Install
+Exec=terminal -geometry 80x10 -hold -e sup install %f
 Icon=system-software-installer
 NoDisplay=true
-MimeType=application/x-tazpkg;
+MimeType=application/x-sup;

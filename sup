@@ -52,7 +52,7 @@ new_receip() {
 	cat > receip << EOT
 # SliTaz User Package receipt
 
-PACKAGE=""
+PACKAGE="$1"
 VERSION=""
 SHORT_DESC=""
 MAINTAINER=""

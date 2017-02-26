@@ -45,9 +45,9 @@ install:
 	install -m 0755 libsup.sh $(DESTDIR)$(PREFIX)/lib/slitaz
 	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0644 data/mime/sup.xml $(DESTDIR)$(PREFIX)/share/mime/packages
-	cp -rf po/clients/mo/* $(DESTDIR)$(PREFIX)/share/locale
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/sup/wok
 	cp -rf wok/sup-demo $(DESTDIR)$(PREFIX)/share/sup/wok
+	cp -rf po/clients/mo/* $(DESTDIR)$(PREFIX)/share/locale
 
 # Use DESTDIR for TinyCM install path
 # Example: make DESTDIR=/home/tux/Public/cgi-bin/tinycm server-install
