@@ -6,9 +6,11 @@
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 if [ -f "/usr/lib/slitaz/libsup.sh" ]; then
-	. ./libsup.sh
-else
 	. /usr/lib/slitaz/libsup.sh
+fi
+# Devel mode
+if [ -f "./libsup.sh" ]; then
+	. ./libsup.sh
 fi
 
 # Sanity check
