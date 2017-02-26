@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Sup Clients\n"
+"Project-Id-Version: SUP Clients\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-26 19:19+0100\n"
+"POT-Creation-Date: 2017-02-26 21:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,113 +42,149 @@ msgid "Install a sup package"
 msgstr ""
 
 #: sup:35
+msgid "Remove package files"
+msgstr ""
+
+#: sup:36
 msgid "List installed packages and your wok"
 msgstr ""
 
-#: sup:37
+#: sup:38
 msgid "Options:"
 msgstr ""
 
-#: sup:38
+#: sup:39
 msgid "Initialize sup cook environment"
 msgstr ""
 
-#: sup:39
+#: sup:40
 msgid "Display more output messages"
 msgstr ""
 
-#: sup:91
+#: sup:92
 msgid "Initializing sup cook environment..."
 msgstr ""
 
-#: sup:98
+#: sup:99
 msgid "You must specify a package to cook:"
 msgstr ""
 
-#: sup:102
+#: sup:103
 msgid "Can't find receip in wok for:"
 msgstr ""
 
-#: sup:107
+#: sup:108
 msgid "Building package:"
 msgstr ""
 
-#: sup:112
+#: sup:113
 msgid "Checking receip variables..."
 msgstr ""
 
-#: sup:120 sup:125
+#: sup:121 sup:126
 msgid "Empty variable:"
 msgstr ""
 
-#: sup:126
+#: sup:127
 msgid "You can use:"
 msgstr ""
 
-#: sup:147
+#: sup:148
 msgid "Creating compressed archive..."
 msgstr ""
 
-#: sup:154 sup:177
+#: sup:155 sup:178
 msgid "Packages:"
 msgstr ""
 
-#: sup:164 sup:185
-msgid "Missing package in argument:"
+#: sup:165
+msgid "Missing package file in argument:"
 msgstr ""
 
-#: sup:168
+#: sup:169
 msgid "Can't find package file:"
 msgstr ""
 
-#: sup:172
+#: sup:173
 msgid "Extract package:"
 msgstr ""
 
-#: sup:205
+#: sup:186
+msgid "Missing package name or file in argument:"
+msgstr ""
+
+#: sup:206
 msgid "Can't find sup package:"
 msgstr ""
 
-#: sup:210
-msgid "Installed sup packages:"
+#: sup:213
+msgid "Missing package name in argument:"
 msgstr ""
 
-#: sup:218
-msgid "No sup packages installed"
-msgstr ""
-
-#: sup:222
-msgid "Sup packages in your wok:"
-msgstr ""
-
-#: sup:240
-msgid "Installed package:"
-msgstr ""
-
-#: sup:249
+#: sup:220 sup:265
 msgid "Can't find installed package:"
 msgstr ""
 
-#: libsup.sh:38
+#: sup:227
+msgid "Installed sup packages:"
+msgstr ""
+
+#: sup:235
+msgid "No sup packages installed"
+msgstr ""
+
+#: sup:239
+msgid "Sup packages in your wok:"
+msgstr ""
+
+#: sup:257
+msgid "Installed package:"
+msgstr ""
+
+#: sup:261
+msgid "Installed files:"
+msgstr ""
+
+#: libsup.sh:45
 msgid "Uncompressing package tree..."
 msgstr ""
 
-#: libsup.sh:64
+#: libsup.sh:71
 msgid "Checking dependencies for"
 msgstr ""
 
-#: libsup.sh:78 libsup.sh:79
+#: libsup.sh:85 libsup.sh:86
 msgid "Installing package:"
 msgstr ""
 
-#: libsup.sh:90
+#: libsup.sh:96
 msgid "Executing install function:"
 msgstr ""
 
-#: libsup.sh:97
+#: libsup.sh:103
 msgid "Creating the list of installed files..."
 msgstr ""
 
-#: libsup.sh:119
-msgid "Installed files:"
+#: libsup.sh:115
+msgid "Installing files:"
+msgstr ""
+
+#: libsup.sh:136 libsup.sh:137
+msgid "Removing package:"
+msgstr ""
+
+#: libsup.sh:140
+msgid "Files to remove :"
+msgstr ""
+
+#: libsup.sh:149
+msgid "Removing file   :"
+msgstr ""
+
+#: libsup.sh:154
+msgid "Removing folder :"
+msgstr ""
+
+#: libsup.sh:165
+msgid "Removing packages from local database..."
 msgstr ""

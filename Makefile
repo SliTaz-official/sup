@@ -12,7 +12,7 @@ all: msgfmt
 
 pot:
 	xgettext -o po/clients/sup-clients.pot -L Shell \
-		--package-name="Sup Clients" \
+		--package-name="SUP Clients" \
 		./sup ./libsup.sh
 
 msgmerge:

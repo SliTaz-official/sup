@@ -32,7 +32,7 @@ $(boldify $(gettext "Commands:"))
   -c  cook           $(gettext "Cook a package from the wok")
   -e  extract        $(gettext "Extract a package to current dir")
   -i  install        $(gettext "Install a sup package")
-  -r  remove         $(gettext "Install a sup package")
+  -r  remove         $(gettext "Remove package files")
   -l  list           $(gettext "List installed packages and your wok")
 
 $(boldify $(gettext "Options:"))

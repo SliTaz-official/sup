@@ -112,11 +112,11 @@ install_sup() {
 	echo "sup_size=\"$(du -sh files | cut -d "	" -f 1)\"" >> receip
 	
 	# Now we need a place to store package data and set $sup_size
-	
 	gettext "Installing files:"
 	echo -n "$(colorize 35 " $(wc -l files.list | cut -d " " -f 1)")"
 	data="${installed}/${PACKAGE}"
 	mkdir -p ${data}
+	
 	for file in receip README files.list; do
 		[ -f "$file" ] && cp -f ${file} ${data}
 	done
