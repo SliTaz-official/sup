@@ -32,6 +32,7 @@ $(boldify $(gettext "Commands:"))
   -c  cook           $(gettext "Cook a package from the wok")
   -e  extract        $(gettext "Extract a package to current dir")
   -i  install        $(gettext "Install a sup package")
+  -r  remove         $(gettext "Install a sup package")
   -l  list           $(gettext "List installed packages and your wok")
 
 $(boldify $(gettext "Options:"))
@@ -96,7 +97,7 @@ case "$1" in
 		# Sanity check
 		if [ ! "$pkg" ]; then
 			gettext "You must specify a package to cook:"
-			boldify " sup cook [package]" && exit 1
+			boldify " sup $1 [package]" && exit 1
 		fi
 		if [ ! -f "$receip" ]; then
 			gettext "Can't find receip in wok for:"
@@ -161,8 +162,8 @@ case "$1" in
 		
 		# Sanity check
 		if [ ! "$pkg" ]; then
-			gettext "Missing package in argument:"
-			colorize 35 " sup extract [package.sup]" && exit 1
+			gettext "Missing package file in argument:"
+			colorize 35 " sup $1 [package.sup]" && exit 1
 		fi
 		if [ ! -f "$pkg" ]; then
 			gettext "Can't find package file:"; colorize 35 " $pkg" && exit 1
@@ -182,8 +183,8 @@ case "$1" in
 		pkg="$2"
 		
 		if [ ! "$pkg" ]; then
-			gettext "Missing package in argument:"
-			boldify " sup install [name|pkg.sup]" && exit 1
+			gettext "Missing package name or file in argument:"
+			boldify " sup $1 [package] or [file.sup]" && exit 1
 		fi
 		
 		# Sup pkg in current dir
@@ -203,6 +204,22 @@ case "$1" in
 		echo "TODO: check for package on mirror"
 		
 		gettext "Can't find sup package:"; colorize 31 " $pkg" ;;
+	
+	-r|remove)
+		# Remove a package
+		pkg="$2"
+		
+		if [ ! "$pkg" ]; then
+			gettext "Missing package name in argument:"
+			boldify " sup $1 [package]" && exit 1
+		fi
+		
+		if [ -d "$installed/$pkg" ]; then
+			remove_sup "$pkg"
+		else
+			gettext "Can't find installed package:"; colorize 31 " $pkg"
+			exit 1
+		fi ;;
 	
 	-l|list)
 		installed_nb=$(ls ${installed} | wc -l)
@@ -241,8 +258,7 @@ case "$1" in
 			separator
 			echo "Short desc: $SHORT_DESC"
 			echo ""
-			boldify "Installed files size: $sup_size"
-			#
+			boldify "$(gettext 'Installed files:') ($sup_size)"
 			cat ${installed}/${pkg}/files.list
 			newline
 		else

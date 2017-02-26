@@ -30,6 +30,13 @@ alias wget="busybox wget"
 # Functions
 #
 
+# Set ttysize= # stty will not work if called from GTK box or CGI script
+tty_size() {
+	local size=$(stty size | cut -d " " -f 2)
+	[ "$size" ] && local size=80
+	echo ${size}
+}
+
 # Extract a sup package: extract_sup "/path/to/pkg.sup"
 extract_sup() {
 	pkg="$(basename ${1%.sup})"
@@ -76,7 +83,7 @@ install_sup() {
 	
 	newline
 	gettext "Installing package:"; colorize 36 " $PACKAGE $VERSION"
-	log "$(gettext 'Installing package:') $pkg"
+	log "$(gettext 'Installing package:') $PACKAGE $VERSION"
 	separator
 	
 	# Extract and source receip first to check deps
@@ -86,9 +93,8 @@ install_sup() {
 	# have to dl and move files where they were in $HOME
 	cd files
 	if grep -q "^sup_install" ../receip; then
-		local in=$(($(stty size | cut -d " " -f 2) - 15))
 		gettext "Executing install function:"
-		indent ${in} $(colorize 33 " sup_install")
+		indent $(($(tty_size) - 18)) "[ $(colorize 33 sup_install) ]"
 		sup_install
 	fi
 	
@@ -106,7 +112,9 @@ install_sup() {
 	echo "sup_size=\"$(du -sh files | cut -d "	" -f 1)\"" >> receip
 	
 	# Now we need a place to store package data and set $sup_size
-	gettext "Installing files to $HOME..."
+	
+	gettext "Installing files:"
+	echo -n "$(colorize 35 " $(wc -l files.list | cut -d " " -f 1)")"
 	data="${installed}/${PACKAGE}"
 	mkdir -p ${data}
 	for file in receip README files.list; do
@@ -115,7 +123,46 @@ install_sup() {
 	for file in $(ls -A files); do
 		cp -rf files/${file} ${HOME}
 	done && status
-	separator
-	gettext "Installed files:"; colorize 35 " $(cat files.list | wc -l)"
 	newline && rm -rf ${cache}
+}
+
+# Remove a sup package
+remove_sup() {
+	pkg="$1"
+	files_list="$installed/$pkg/files.list"
+	. ${installed}/${pkg}/receip
+	
+	newline
+	gettext "Removing package:"; colorize 36 " $PACKAGE $VERSION"
+	log "$(gettext 'Removing package:') $PACKAGE $VERSION"
+	separator
+	
+	gettext "Files to remove :"
+	indent $(($(tty_size) - 8)) \
+		"[ $(colorize 33 $(wc -l ${files_list} | cut -d ' ' -f 1)) ]"
+	
+	# Remove all files
+	for file in $(cat $files_list)
+	do
+		# --verbose
+		if [ "$verbose" ]; then
+			gettext "Removing file   :"; echo -n " ${file#/}"
+			rm -f "${HOME}${file}"; status
+			# Empty folder ?
+			if [ ! "$(ls -A ${HOME}$(dirname $file))" ]; then
+				path="$(dirname $file)"
+				gettext "Removing folder :"; echo -n " ${path#/}"
+				rmdir "${HOME}$(dirname $file)"; status
+			fi
+		else
+			rm -f "${HOME}${file}"
+			# Empty folder ?
+			if [ ! "$(ls -A ${HOME}$(dirname $file))" ]; then
+				rmdir "${HOME}$(dirname $file)"
+			fi
+		fi
+	done
+	gettext "Removing packages from local database..."
+	rm -rf ${installed}/${pkg}; status
+	newline
 }
