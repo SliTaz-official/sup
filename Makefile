@@ -46,6 +46,7 @@ install:
 	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0644 data/mime/sup.xml $(DESTDIR)$(PREFIX)/share/mime/packages
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/sup
+	install -m 0644 README $(DESTDIR)$(PREFIX)/share/sup
 	cp -rf sup-demo $(DESTDIR)$(PREFIX)/share/sup
 	cp -rf po/clients/mo/* $(DESTDIR)$(PREFIX)/share/locale
 

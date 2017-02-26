@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sup Clients\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-26 21:09+0100\n"
+"POT-Creation-Date: 2017-02-26 22:08+0100\n"
 "PO-Revision-Date: 2017-02-26 21:15+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -40,7 +40,8 @@ msgid "Extract a package to current dir"
 msgstr ""
 
 #: sup:34
-msgid "Install a sup package"
+#, fuzzy
+msgid "Install a new package"
 msgstr "Installe un paquet sup"
 
 #: sup:35
@@ -48,102 +49,106 @@ msgid "Remove package files"
 msgstr "Supprime un paquet et ses fichiers"
 
 #: sup:36
+msgid "Create a new package :-)"
+msgstr ""
+
+#: sup:37
 msgid "List installed packages and your wok"
 msgstr ""
 
-#: sup:38
+#: sup:39
 msgid "Options:"
 msgstr ""
 
-#: sup:39
+#: sup:40
 msgid "Initialize sup cook environment"
 msgstr ""
 
-#: sup:40
+#: sup:41
 msgid "Display more output messages"
 msgstr ""
 
-#: sup:92
+#: sup:60
+msgid "Missing package name or file path:"
+msgstr ""
+
+#: sup:104
 msgid "Initializing sup cook environment..."
 msgstr ""
 
-#: sup:99
-msgid "You must specify a package to cook:"
-msgstr ""
-
-#: sup:103
+#: sup:112
 msgid "Can't find receip in wok for:"
 msgstr ""
 
-#: sup:108
+#: sup:117
 msgid "Building package:"
 msgstr ""
 
-#: sup:113
+#: sup:122
 msgid "Checking receip variables..."
 msgstr ""
 
-#: sup:121 sup:126
+#: sup:130 sup:135
 msgid "Empty variable:"
 msgstr ""
 
-#: sup:127
+#: sup:136
 msgid "You can use:"
 msgstr ""
 
-#: sup:148
+#: sup:157
 msgid "Creating compressed archive..."
 msgstr ""
 
-#: sup:155 sup:178
+#: sup:164 sup:200
 msgid "Packages:"
 msgstr ""
 
-#: sup:165
-msgid "Missing package file in argument:"
+#: sup:172
+msgid "New package name:"
 msgstr ""
 
-#: sup:169
+#: sup:176
+msgid "Package already exist in wok:"
+msgstr ""
+
+#: sup:179
+msgid "Creating new package files and tree..."
+msgstr ""
+
+#: sup:191
 msgid "Can't find package file:"
 msgstr ""
 
-#: sup:173
+#: sup:195
 msgid "Extract package:"
 msgstr ""
 
-#: sup:186
-msgid "Missing package name or file in argument:"
-msgstr ""
-
-#: sup:206
+#: sup:224
 msgid "Can't find sup package:"
 msgstr ""
 
-#: sup:213
-msgid "Missing package name in argument:"
-msgstr ""
-
-#: sup:220 sup:265
+#: sup:233 sup:278
 msgid "Can't find installed package:"
 msgstr ""
 
-#: sup:227
+#: sup:240
 msgid "Installed sup packages:"
 msgstr ""
 
-#: sup:235
+#: sup:248
 msgid "No sup packages installed"
 msgstr ""
 
-#: sup:239
+#: sup:252
 msgid "Sup packages in your wok:"
 msgstr ""
 
-#: sup:257
+#: sup:270
 msgid "Installed package:"
 msgstr "Paquet installé:"
 
-#: sup:261
+#: sup:274
 msgid "Installed files:"
 msgstr "Fichers installés:"
 

@@ -31,13 +31,17 @@ $(boldify $(gettext "Usage:")) $(basename $0) [command|package] [package]
 $(boldify $(gettext "Commands:"))
   -c  cook           $(gettext "Cook a package from the wok")
   -e  extract        $(gettext "Extract a package to current dir")
-  -i  install        $(gettext "Install a sup package")
+  -i  install        $(gettext "Install a new package")
   -r  remove         $(gettext "Remove package files")
+  -n  new            $(gettext "Create a new package :-)")
   -l  list           $(gettext "List installed packages and your wok")
 
 $(boldify $(gettext "Options:"))
   --init     cook    $(gettext "Initialize sup cook environment")
   --verbose  all     $(gettext "Display more output messages")
+
+$(colorize 33 README)               /usr/share/sup/README
+$(colorize 33 Documentation)        http://scn.slitaz.org/?d=en/sup
 
 EOT
 	exit 0
@@ -50,10 +54,18 @@ cook_init() {
 	fi
 }
 
-# new_receipt "package"
+# check_pkg_arg "command"
+check_pkg_arg() {
+	if [ ! "$pkg" ]; then
+		gettext "Missing package name or file path:"
+		boldify " sup $1 [package|file.sup]" && exit 1
+	fi
+}
+
+# new_receip "package"
 new_receip() {
-	cat > receip << EOT
-# SliTaz User Package receipt
+	cat > ${wok}/${1}/receip << EOT
+# SliTaz User Package receip
 
 PACKAGE="$1"
 VERSION=""
@@ -95,10 +107,7 @@ case "$1" in
 		fi
 		
 		# Sanity check
-		if [ ! "$pkg" ]; then
-			gettext "You must specify a package to cook:"
-			boldify " sup $1 [package]" && exit 1
-		fi
+		check_pkg_arg "$1"
 		if [ ! -f "$receip" ]; then
 			gettext "Can't find receip in wok for:"
 			colorize 31 " $pkg" && exit 1
@@ -156,15 +165,28 @@ case "$1" in
 		sed -i "/^build_date=/"d ${receip}
 		rm -rf ${cache} && newline ;;
 	
+	-n|new)
+		pkg="$2"
+		newline
+		if [ ! "$pkg" ]; then
+			gettext "New package name:"; echo -n " "; read pkg
+		fi
+		[ ! "$pkg" ] && exit 0
+		if [ -d "$wok/$pkg" ]; then
+			gettext "Package already exist in wok:"; colorize 36 " $pkg"
+			newline && exit 0
+		fi
+		gettext "Creating new package files and tree..."
+		mkdir -p ${wok}/${pkg}/files
+		new_receip "$pkg"
+		status && newline ;;
+	
 	-e|extract)
 		# Extract package.sup to current dir
 		pkg="$2"
 		
 		# Sanity check
-		if [ ! "$pkg" ]; then
-			gettext "Missing package file in argument:"
-			colorize 35 " sup $1 [package.sup]" && exit 1
-		fi
+		check_pkg_arg "$1"
 		if [ ! -f "$pkg" ]; then
 			gettext "Can't find package file:"; colorize 35 " $pkg" && exit 1
 		fi
@@ -181,11 +203,7 @@ case "$1" in
 	-i|install)
 		# Download/extract run install() in $cache/install
 		pkg="$2"
-		
-		if [ ! "$pkg" ]; then
-			gettext "Missing package name or file in argument:"
-			boldify " sup $1 [package] or [file.sup]" && exit 1
-		fi
+		check_pkg_arg "$1"
 		
 		# Sup pkg in current dir
 		if [ -f "$pkg" ]; then
@@ -208,12 +226,7 @@ case "$1" in
 	-r|remove)
 		# Remove a package
 		pkg="$2"
-		
-		if [ ! "$pkg" ]; then
-			gettext "Missing package name in argument:"
-			boldify " sup $1 [package]" && exit 1
-		fi
-		
+		check_pkg_arg "$1"
 		if [ -d "$installed/$pkg" ]; then
 			remove_sup "$pkg"
 		else

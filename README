@@ -1,4 +1,4 @@
-SliTaz Users Packages
+README for SliTaz Users Packages (SUP)
 ================================================================================
 
 CURRENT : cook extract and install work nicely.
@@ -23,11 +23,12 @@ Quickstart
 
   1) Get source:
      $ hg clone http://hg.slitaz.org/sup
-  2) Change dir and become root:
-     $ cd sup && su
-  3) Install clients as root:
-     $ make && make install-clients
-  4) Play :-)
+     
+  2) Install SUP Tool:
+     $ cd sup && make
+     $ sudo make install
+     
+  3) Play :-)
      $ sup help
   
 
@@ -74,15 +75,15 @@ Sup packages are cpio archives compressed with lzma and with a .sup extension.
 The goal is to have lightweight packages with every big file downloaded from
 the web.
 
-Sup uses a minimal 'receipt' with a sup_install() function to dl any wanted 
+Sup uses a minimal 'receip' with a sup_install() function to dl any wanted 
 files, no pkg size or file list are created when packing. A list of installed
 files is generated at install.
 
-Packages can have a single receipt or a local/ folder with files to install. All
+Packages can have a single receip or a local/ folder with files to install. All
 downloading and extracting must be done in the cache to build up a list of files
 before installing. The package folder tree should look like this:
 
-  * receipt                    Sup package receipt
+  * receip                     SUP package receip (receip NOT receipt ;-)
   * README                     Optional sup package desc/howto
   * files                      For all installed files
   
@@ -97,8 +98,8 @@ of the packages.
 
 Receipt variables and function
 --------------------------------------------------------------------------------
-Here are the variables used or usable in a sup receipt as well as the uniq function.
-Check out the sup-demo package for a receipt example.
+Here are the variables used or usable in a sup receip as well as the uniq function.
+Check out the sup-demo package for a receip example.
 
   * $build_date     Auto added by 'sup cook' to get the build date
   * $sup_size       Auto added by 'sup cook' to get installed size
@@ -111,7 +112,7 @@ will need some system wide tools/libraries, sup will not install any system wide
 packages but warns if dependencies are not installed if DEPENDS is set. 
 
 Sup packages can be very simple but also very complex, so feel free to use the 
-receipt to warn or prompt users to make an action.
+receip to warn or prompt users to make an action.
 
 
 Cook sup packages to be uploaded to the server
