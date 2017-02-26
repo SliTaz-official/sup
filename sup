@@ -6,9 +6,9 @@
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
 if [ -f "/usr/lib/slitaz/libsup.sh" ]; then
-	. /usr/lib/slitaz/libsup.sh
-else
 	. ./libsup.sh
+else
+	. /usr/lib/slitaz/libsup.sh
 fi
 
 # Sanity check

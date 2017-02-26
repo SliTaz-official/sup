@@ -14,5 +14,5 @@ DEPENDS=""
 
 # Here are the optional install rules (download, configure, etc)
 sup_install() {
-	echo "Running sup_install() sequence"
+	echo "Hello :-) I'm a demo package!"
 } 

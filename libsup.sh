@@ -23,13 +23,12 @@ wok="$supdb/wok"
 supcook="$HOME/sup-cook"
 cooked="$supcook/packages"
 
+export TEXTDOMAIN='sup-clients'
+alias wget="busybox wget"
+
 #
 # Functions
 #
-
-get() {
-	busybox wget "$1"
-}
 
 # Extract a sup package: extract_sup "/path/to/pkg.sup"
 extract_sup() {
@@ -87,7 +86,9 @@ install_sup() {
 	# have to dl and move files where they were in $HOME
 	cd files
 	if grep -q "^sup_install" ../receip; then
-		gettext "Executing install function:"; colorize 33 " sup_install"
+		local in=$(($(stty size | cut -d " " -f 2) - 15))
+		gettext "Executing install function:"
+		indent ${in} $(colorize 33 " sup_install")
 		sup_install
 	fi
 	
@@ -114,5 +115,7 @@ install_sup() {
 	for file in $(ls -A files); do
 		cp -rf files/${file} ${HOME}
 	done && status
-	rm -rf ${cache} && separator && newline
+	separator
+	gettext "Installed files:"; colorize 35 " $(cat files.list | wc -l)"
+	newline && rm -rf ${cache}
 }

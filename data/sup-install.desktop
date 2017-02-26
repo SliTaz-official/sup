@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=SUP Install
-Exec=terminal -geometry 80x10 -hold -e sup install %f
-Icon=system-software-installer
+Name=Install SUP Package
+Exec=terminal -geometry 80x20 -hold -e sup install %f
+Icon=package-install
 NoDisplay=true
 MimeType=application/x-sup;
