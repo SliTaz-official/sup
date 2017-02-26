@@ -40,14 +40,14 @@ install:
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/lib/slitaz
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/mime/packages
 	install -m 0755 sup $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 libsup.sh $(DESTDIR)$(PREFIX)/lib/slitaz
 	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
+	install -m 0644 data/mime/sup.xml $(DESTDIR)$(PREFIX)/share/mime/packages
 	cp -rf po/clients/mo/* $(DESTDIR)$(PREFIX)/share/locale
-	# Demo & skeleton
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/sup/wok
 	cp -rf wok/sup-demo $(DESTDIR)$(PREFIX)/share/sup/wok
-	cp -rf wok/sup-skel $(DESTDIR)$(PREFIX)/share/sup/wok
 
 # Use DESTDIR for TinyCM install path
 # Example: make DESTDIR=/home/tux/Public/cgi-bin/tinycm server-install
@@ -64,7 +64,7 @@ install-server:
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/sup
 	rm -f $(DESTDIR)$(PREFIX)/lib/slitaz/libsup.sh
-	rm -f $(DESTDIR)$(PREFIX)/share/applications/sup
+	rm -rf $(DESTDIR)$(PREFIX)/share/sup
 	rm -f $(DESTDIR)$(PREFIX)/share/applications/sup-*.desktop
 	rm -rf $(DESTDIR)$(PREFIX)/share/locale/*/LC_MESSAGES/sup-client.mo
 

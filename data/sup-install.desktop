@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=TazPkg Manager
+Name[fr]=Gestionnaire de TazPkg
+Name[pt]=Gerenciador de Pacotes TazPkg
+Name[pt_BR]=Gerenciador de Pacotes TazPkg
+Name[ru]=Менеджер пакетов TazPkg
+Exec=tazbox su tazpkg-box actions %f
+Icon=system-software-installer
+NoDisplay=true
+MimeType=application/x-tazpkg;

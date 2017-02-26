@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Name=Sup web service
+Name=SUP Web Services
 Exec=tazweb --notoolbar http://scn.slitaz.org/?sup
-Icon=slitaz-icon
+Icon=application-x-archive
 Categories=Network;
