@@ -26,16 +26,16 @@ mkdir -p ${cache} ${installed}
 help() {
 	cat << EOT
 
-$(boldify $(gettext "Usage:")) $(basename $0) [command] [package]
+$(boldify $(gettext "Usage:")) $(basename $0) [command|package] [package]
 
 $(boldify $(gettext "Commands:"))
-  -c  cook
-  -e  extract
-  -i  install
-  -l  list
+  -c  cook           $(gettext "Cook a package from the wok")
+  -e  extract        $(gettext "Extract a package to current dir")
+  -i  install        $(gettext "Install a sup package")
+  -l  list           $(gettext "List installed packages and your wok")
 
 $(boldify $(gettext "Options:"))
-  --init     cook    $(gettext "Initialize sup build environment")
+  --init     cook    $(gettext "Initialize sup cook environment")
   --verbose  all     $(gettext "Display more output messages")
 
 EOT
@@ -191,10 +191,16 @@ case "$1" in
 			install_sup "$pkg" && exit 0
 		fi
 		
-		# Sup cooked
-		if [ -f "$cooked/$pkg" ]; then
-			install_sup "$cooked/$pkg" && exit 0
-		fi 
+		# Sup cooked from wok
+		if [ -f "$wok/$pkg/receip" ]; then
+			. $wok/$pkg/receip
+			if [ -f "$cooked/$PACKAGE-$VERSION.sup" ]; then
+				install_sup "$cooked/$PACKAGE-$VERSION.sup" && exit 0
+			fi
+		fi
+		
+		# Sup on mirror
+		echo "TODO: check for package on mirror"
 		
 		gettext "Can't find sup package:"; colorize 31 " $pkg" ;;
 	
@@ -231,7 +237,7 @@ case "$1" in
 		if [ -f "$installed/$pkg/receip" ]; then
 			. ${installed}/${pkg}/receip
 			newline
-			gettext "Installed package:"; colorize 32 " $PACKAGE $VERSION"
+			gettext "Installed package:"; colorize 36 " $PACKAGE $VERSION"
 			separator
 			echo "Short desc: $SHORT_DESC"
 			echo ""

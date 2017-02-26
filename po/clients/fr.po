@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sup Clients\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-26 18:59+0100\n"
+"POT-Creation-Date: 2017-02-26 19:19+0100\n"
 "PO-Revision-Date: 2017-02-23 14:15+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -31,12 +31,29 @@ msgstr "Utilisation:"
 msgid "Commands:"
 msgstr ""
 
+#: sup:32
+msgid "Cook a package from the wok"
+msgstr ""
+
+#: sup:33
+msgid "Extract a package to current dir"
+msgstr ""
+
+#: sup:34
+#, fuzzy
+msgid "Install a sup package"
+msgstr "Installation de:"
+
+#: sup:35
+msgid "List installed packages and your wok"
+msgstr ""
+
 #: sup:37
 msgid "Options:"
 msgstr ""
 
 #: sup:38
-msgid "Initialize sup build environment"
+msgid "Initialize sup cook environment"
 msgstr ""
 
 #: sup:39
@@ -91,28 +108,28 @@ msgstr ""
 msgid "Extract package:"
 msgstr ""
 
-#: sup:199
+#: sup:205
 msgid "Can't find sup package:"
 msgstr ""
 
-#: sup:204
+#: sup:210
 msgid "Installed sup packages:"
 msgstr ""
 
-#: sup:212
+#: sup:218
 msgid "No sup packages installed"
 msgstr ""
 
-#: sup:216
+#: sup:222
 msgid "Sup packages in your wok:"
 msgstr ""
 
-#: sup:234
+#: sup:240
 #, fuzzy
 msgid "Installed package:"
 msgstr "Installation de:"
 
-#: sup:243
+#: sup:249
 msgid "Can't find installed package:"
 msgstr ""
 
