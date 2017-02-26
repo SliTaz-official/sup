@@ -35,7 +35,7 @@ msgfmt:
 
 # Installation
 
-install-clients:
+install:
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/lib/slitaz
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
@@ -61,9 +61,10 @@ install-server:
 
 # Uninstallation
 
-uninstall-clients:
+uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/sup
 	rm -f $(DESTDIR)$(PREFIX)/lib/slitaz/libsup.sh
+	rm -f $(DESTDIR)$(PREFIX)/share/applications/sup
 	rm -f $(DESTDIR)$(PREFIX)/share/applications/sup-*.desktop
 	rm -rf $(DESTDIR)$(PREFIX)/share/locale/*/LC_MESSAGES/sup-client.mo
 

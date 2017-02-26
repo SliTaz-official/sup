@@ -12,8 +12,8 @@ else
 fi
 
 # Sanity check
-if [ ! "/home/$USER" ]; then
-	gettext "Not a valid user: "; echo "id $(id -u)" && exit 1
+if ! [ -d "/home/$(id -un)" ]; then
+	gettext "Not a valid user:"; colorize 31 " $(id -un)" && exit 1
 fi
 mkdir -p ${cache} ${installed}
 
