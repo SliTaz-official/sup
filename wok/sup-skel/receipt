@@ -1,4 +1,4 @@
-# SliTaz User Package receip
+# SliTaz User Package receipt
 
 PACKAGE=""
 VERSION=""
@@ -7,7 +7,7 @@ MAINTAINER=""
 LICENSE=""
 WEB_SITE=""
 
-# Sup dependencies will be automaticaly downloaded but system wide 
+# Sup dependencies will be automatically downloaded but system wide 
 # deps must be manually installed by root.
 SUP_DEPS=""
 DEPENDS=""

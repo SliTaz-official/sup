@@ -1,4 +1,4 @@
-# SliTaz User Package receip
+# SliTaz User Package receipt
 
 PACKAGE="sup-demo"
 VERSION="0.1"
@@ -7,7 +7,7 @@ MAINTAINER="devel@slitaz.org"
 LICENSE="BSD"
 WEB_SITE="http://www.slitaz.org/"
 
-# Sup dependencies will be automaticaly downloaded but system wide 
+# Sup dependencies will be automatically downloaded but system wide 
 # deps must be manually installed by root.
 SUP_DEPS=""
 DEPENDS=""

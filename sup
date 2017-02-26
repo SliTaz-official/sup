@@ -56,7 +56,7 @@ case "$1" in
 	-c|cook)
 		# Cook in $cache/cook amd mv pkg to a visible dir
 		pkg="$2"
-		receip="$wok/$pkg/receip"
+		receipt="$wok/$pkg/receipt"
 		cache="$cache/cook"
 		
 		# Handle --init
@@ -71,8 +71,8 @@ case "$1" in
 			gettext "You must specify a package to cook:"
 			boldify " sup cook [package]" && exit 1
 		fi
-		if [ ! -f "$receip" ]; then
-			gettext "Can't find receip in wok for:"
+		if [ ! -f "$receipt" ]; then
+			gettext "Can't find receipt in wok for:"
 			colorize 31 " $pkg" && exit 1
 		fi
 		
@@ -81,12 +81,12 @@ case "$1" in
 		separator
 		rm -rf ${cache} && mkdir -p ${cache} ${cooked}
 		
-		# Check receip
-		[ "$verbose" ] && gettext "Checking receip variables..."
-		. ${receip}
+		# Check receipt
+		[ "$verbose" ] && gettext "Checking receipt variables..."
+		. ${receipt}
 		for var in PACKAGE VERSION SHORT_DESC MAINTAINER LICENSE WEB_SITE
 		do
-			value="$(. $receip; eval echo \$$var)"
+			value="$(. $receipt; eval echo \$$var)"
 			case "$var" in
 				PACKAGE|VERSION|SHORT_DESC|MAINTAINER|LICENSE)
 					if [ ! "$value" ]; then
@@ -115,7 +115,7 @@ case "$1" in
 		done
 		
 		# Add $build_date
-		echo "build_date=\"$(date "+%Y-%m-%d %H:%M")\"" >> ${receip}
+		echo "build_date=\"$(date "+%Y-%m-%d %H:%M")\"" >> ${receipt}
 		
 		gettext "Creating compressed archive..."
 		find files | cpio -o -H newc --quiet | lzma e files.lzma -si
@@ -125,7 +125,7 @@ case "$1" in
 		
 		size="$(du -sh $cooked/$supfile | cut -d "	" -f 1)"
 		echo "$(gettext 'Packages:') $(colorize 33 $supfile) ($size)"
-		sed -i "/^build_date=/"d ${receip}
+		sed -i "/^build_date=/"d ${receipt}
 		rm -rf ${cache} && newline ;;
 	
 	-e|extract)
@@ -178,7 +178,7 @@ case "$1" in
 		boldify " $installed_nb"
 		separator
 		for pkg in $(ls ${installed}); do
-			. ${wok}/${pkg}/receip
+			. ${wok}/${pkg}/receipt
 			echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
 		done
 		if [ "$installed_nb" == 0 ]; then
@@ -190,7 +190,7 @@ case "$1" in
 			boldify " $(ls ${wok} | wc -l)"
 			separator
 			for pkg in $(ls ${wok}); do
-				. ${wok}/${pkg}/receip
+				. ${wok}/${pkg}/receipt
 				echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
 			done
 			newline 
@@ -201,8 +201,8 @@ case "$1" in
 	*)
 		# Display pkg info if installed
 		pkg="$1"
-		if [ -f "$installed/$pkg/receip" ]; then
-			. ${installed}/${pkg}/receip
+		if [ -f "$installed/$pkg/receipt" ]; then
+			. ${installed}/${pkg}/receipt
 			newline
 			gettext "Installed package:"; colorize 32 " $PACKAGE $VERSION"
 			separator

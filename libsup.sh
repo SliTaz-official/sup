@@ -56,9 +56,9 @@ install_sup() {
 	rm -rf ${cache} && mkdir ${cache} 
 	cp ${supfile} ${cache} && cd ${cache}
 	
-	# Get receip for deps
-	cpio -i receip --quiet < ${supfile}
-	. receip
+	# Get receipt for deps
+	cpio -i receipt --quiet < ${supfile}
+	. receipt
 	
 	# Install sup deps || exit on missing system deps ?
 	newline
@@ -80,13 +80,13 @@ install_sup() {
 	log "$(gettext 'Installing package:') $pkg"
 	separator
 	
-	# Extract and source receip first to check deps
+	# Extract and source receipt first to check deps
 	extract_sup "$supfile"
 	
 	# Execute sup_install() in files/ tree so packages maintainers just
 	# have to dl and move files where they were in $HOME
 	cd files
-	if grep -q "^sup_install" ../receip; then
+	if grep -q "^sup_install" ../receipt; then
 		gettext "Executing install function:"; colorize 33 " sup_install"
 		sup_install
 	fi
@@ -102,13 +102,13 @@ install_sup() {
 	
 	# Back to pkg tree
 	cd ${cache}/${PACKAGE}-${VERSION}
-	echo "sup_size=\"$(du -sh files | cut -d "	" -f 1)\"" >> receip
+	echo "sup_size=\"$(du -sh files | cut -d "	" -f 1)\"" >> receipt
 	
 	# Now we need a place to store package data and set $sup_size
 	gettext "Installing files to $HOME..."
 	data="${installed}/${PACKAGE}"
 	mkdir -p ${data}
-	for file in receip README files.list; do
+	for file in receipt README files.list; do
 		[ -f "$file" ] && cp -f ${file} ${data}
 	done
 	for file in $(ls -A files); do

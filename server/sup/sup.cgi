@@ -30,12 +30,12 @@ EOT
 	<a href='?sup=debug'>Sup debug</a>
 EOT
 		fi
-		#. ${wok}/${pkg}/receip
+		#. ${wok}/${pkg}/receipt
 		cat << EOT
 </div>
 
 <pre>
-$(cat ${wok}/${pkg}/receip )
+$(cat ${wok}/${pkg}/receipt )
 </pre>
 EOT
 		
