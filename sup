@@ -5,10 +5,13 @@
 # Copyright (C) 2017 SliTaz GNU/Linux - BSD License
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
+# Colors: installed 36; wok/package 35; commands/functions 33
+#
+
+# Get system wide libsup.sh or development version if working in Hg folder
 if [ -f "/usr/lib/slitaz/libsup.sh" ]; then
 	. /usr/lib/slitaz/libsup.sh
 fi
-# Devel mode
 if [ -f "./libsup.sh" ]; then
 	. ./libsup.sh
 fi
@@ -167,19 +170,24 @@ case "$1" in
 	
 	-n|new)
 		pkg="$2"
-		newline
 		if [ ! "$pkg" ]; then
+			newline
 			gettext "New package name:"; echo -n " "; read pkg
 		fi
+		newline
 		[ ! "$pkg" ] && exit 0
+		[ ! -d "$wok" ] && cook_init
 		if [ -d "$wok/$pkg" ]; then
-			gettext "Package already exist in wok:"; colorize 36 " $pkg"
+			gettext "Package already exist in wok:"; colorize 35 " $pkg"
 			newline && exit 0
 		fi
 		gettext "Creating new package files and tree..."
 		mkdir -p ${wok}/${pkg}/files
-		new_receip "$pkg"
-		status && newline ;;
+		new_receip "$pkg"; status
+		gettext "Executing your favorite editor..."
+		editor ${wok}/${pkg}/receip; status 
+		gettext "To cook your package:"; colorize 33 " sup cook $pkg"
+		newline ;;
 	
 	-e|extract)
 		# Extract package.sup to current dir
@@ -222,6 +230,19 @@ case "$1" in
 		echo "TODO: check for package on mirror"
 		
 		gettext "Can't find sup package:"; colorize 31 " $pkg" ;;
+	
+	-u|update)
+		# Update packages
+		newline
+		colorize 33 $(gettext "SUP Update")
+		separator
+		
+		# Skip HTTP/1.1 404 Not Found: 2>/dev/null
+		if ! wget --spider -q ${mirror}/${pkgsdb} 2>/dev/null; then
+			gettext "Mirror is unreachable"; echo
+		fi
+		
+		newline ;;
 	
 	-r|remove)
 		# Remove a package
