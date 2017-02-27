@@ -38,7 +38,7 @@ SQLite version   : $(sqlite3 -version | cut -d " " -f 1)
 Database tables  : $(sqlite3 ${pkgsdb} '.tables')
 Database size    : $(du -mh ${pkgsdb} | cut -d "	" -f 1)
 EOT
-			sqlite3 ${pkgsdb} 'SELECT * FROM info' \
+			sqlite3 ${pkgsdb} 'SELECT timestamp FROM info' \
 				| awk '{printf "Timestamp        : %s %s\n",$1,$2 }'
 			echo "</pre>"
 		else
@@ -47,13 +47,18 @@ EOT
 		
 		# Check/admin wok: remove packagage
 		#
-		#echo "<h3>Public wok</h3>"
-		#echo "<pre>"
-		#echo "Checking public wok..."
-		#for pkg in $(ls $content/sup/wok); do
+		echo "<h3>Public wok</h3>"
+		echo "<pre>"
+		echo "Wok path     : $wok"
+		echo "Wok size     : $(du -smh $wok | cut -d "	" -f 1)"
+		echo "Packages     : $(ls $wok | wc -l)"
+		echo "README files : $(find ${wok} -name README -type f | wc -l)"
+		
+		#${wok}/${pkg}/receip
+		#for pkg in $(ls $wok); do
 			#echo "$pkg"
 		#done
-		#echo "</pre>"
+		echo "</pre>"
 		
 		html_footer && exit 0 ;;
 	
@@ -80,7 +85,7 @@ EOT
 		create_pkgs_table() {
 			sqlite3 ${pkgsdb} << EOT
 CREATE TABLE pkgs(
-	pkg PRIMARY KEY,
+	name PRIMARY KEY,
 	version,
 	short_desc,
 	maintainer,
@@ -152,8 +157,8 @@ EOT
 				# SUP SQLite commands testsuite
 				echo "<pre>"
 				
-				echo "Running: <span class='value'>SELECT pkg FROM pkgs LIMIT 4</span>"
-				sqlite3 ${pkgsdb} 'SELECT pkg FROM pkgs LIMIT 4' && newline
+				echo "Running: <span class='value'>SELECT name FROM pkgs LIMIT 4</span>"
+				sqlite3 ${pkgsdb} 'SELECT name FROM pkgs LIMIT 4' && newline
 				
 				# .schema
 				echo "<span class='value'>CREATE statements</span>"

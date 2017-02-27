@@ -16,7 +16,7 @@ installed="$supdb/installed"
 activity="$cache/activity.log"
 
 mirror="http://scn.slitaz.org/content/sup/packages"
-pkgsdb="$supdb/packages.db"
+pkgsdb="$supdb/packages.sql"
 
 wok="$supdb/wok"
 supcook="$HOME/sup-cook"
