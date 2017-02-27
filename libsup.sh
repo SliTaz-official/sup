@@ -15,7 +15,9 @@ supdb="$data/sup"
 installed="$supdb/installed"
 activity="$cache/activity.log"
 
-mirror="http://scn.slitaz.org/content/sup/packages"
+host="http://localhost/~pankso/cgi-bin/scn/"
+#host="http://scn.slitaz.org/"
+mirror="${host}content/sup/packages"
 pkgsdb="$supdb/packages.sql"
 
 wok="$supdb/wok"

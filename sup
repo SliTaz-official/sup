@@ -238,11 +238,22 @@ case "$1" in
 		separator
 		
 		# Skip HTTP/1.1 404 Not Found: 2>/dev/null
-		if ! wget --spider -q ${mirror}/packages.sql 2>/dev/null; then
+		if ! wget -q -T 5 --spider ${mirror}/packages.sql 2>/dev/null; then
 			gettext "Mirror is unreachable"; newline
 		fi
+		
+		# Newer packages.sql ?
+		wget -q "http://localhost/~pankso/cgi-bin/scn/?sup=dbsum" -O -
+		
+		
 		rm -f ${pkgsdb}
-		wget 
+		wget -P ${supdb} ${mirror}/packages.sql
+		sqlite3 ${pkgsdb} 'SELECT timestamp FROM info' \
+			| awk '{printf "Timestamp : %s %s\n",$1,$2 }'
+		
+		for pkg in $(ls $wok); do
+			echo "$pkg"
+		done
 		
 		newline ;;
 	

@@ -261,6 +261,7 @@ Package page: <a href='${host}?sup=pkg&amp;name=$PACKAGE'>$PACKAGE $VERSION</a>"
 	
 	*\ dbsum\ *)
 		# Used by client to check for newer packages.sql
+		header "Content-Type: text/plain"
 		md5sum ${pkgsdb} | awk '{printf $1}'; exit 0 ;;
 
 	*\ admin\ *|*\ db\ *)
