@@ -18,10 +18,10 @@ if [ "$(basename $0)" == "sup.cgi" ]; then
 	. /usr/lib/slitaz/httphelper.sh
 fi
 
-host="http://scn.slitaz.org/"
-scn="/home/slitaz/www/scn"
-#host="http://localhost/~pankso/cgi-bin/scn/"
-#scn="/home/pankso/Public/cgi-bin/scn"
+#host="http://scn.slitaz.org/"
+#scn="/home/slitaz/www/scn"
+host="http://localhost/~pankso/cgi-bin/scn/"
+scn="/home/pankso/Public/cgi-bin/scn"
 
 supdb="$content/sup"
 wok="$supdb/wok"
@@ -46,22 +46,51 @@ case " $(GET sup) " in
 		if ! . ${wok}/${pkg}/receip; then
 			echo "Missing or corrupted receip" && exit 1
 		fi
+		
 		cat << EOT
 <h2>$(gettext "Package:") $PACKAGE $VERSION</h2>
 <div id="tools">
 	<a title="Right click to download link: $PACKAGE-$VERSION.sup" 
 		href='$packages/$PACKAGE-$VERSION.sup'>Download</a>
-	<a href='?sup'>SUP Hub</a>
 EOT
 		# Tools for logged users
 		if check_auth; then
-			cat << EOT
+			# Only package owner can update a package MAIL is set by check_auth
+			if [ "$MAINTAINER" == "$MAIL" ]; then
+				cat << EOT
 	<a href="?sup=upload">$(gettext "Update package")</a>
 EOT
+			fi
 		fi
 		cat << EOT
+	<a href='?sup'>SUP Hub</a>
 </div>
+<pre>
+${SHORT_DESC}
+</pre>
 
+EOT
+		# Get package maintainer/user info from SCN/SliTaz user DB
+		if ! . $(fgrep -l "MAIL=\"${MAINTAINER}\"" ${PEOPLE}/*/account.conf); then
+			USER="unknow"
+		fi	
+		cat << EOT
+<div>
+	<a href="?user=$USER">$(get_gravatar $MAINTAINER 24)</a>
+	$(gettext "Maintainer:") <a href="?user=$USER">$NAME</a> -
+	$(gettext "Build date:") ${build_date} -
+	$(gettext "License:") $LICENSE
+</div>
+EOT
+		# README
+		if [ -f "${wok}/${pkg}/README" ]; then
+			echo "<h3>README</h3>"
+			echo "<pre>"
+			cat ${wok}/${pkg}/README
+			echo "</pre>"
+		fi
+		# Receip
+		cat << EOT
 <h3>$(gettext "Receip")</h3>
 <pre>
 $(cat ${wok}/${pkg}/receip | receip_highlighter)
@@ -125,15 +154,16 @@ EOT
 		# Use COOKIE to make sure user is logged in SCN/SUP Hub
 		user="$(echo $(COOKIE auth) | cut -d ':' -f 1)"
 		if [ "$(COOKIE auth)" ] && [ "$user" != "$(GET user)" ]; then
-			clean_error "user auth cookie" && exit 1
+			clean_error "user auth cookie"; exit 1
 		fi
 		
 		#if [ ! -f "$pkgsdb" ]; then
 			#echo "<pre>ERROR: missing $pkgsdb</pre>" && exit 1
 		#fi
 		
-		if [ "$supfile" != "${supfile%.sup}.sip" ]; then
-			clean_error "not a .sup package" && exit 1
+		# Is it a .sup file ?
+		if [ "$supfile" != "${supfile%.sup}.sup" ]; then
+			clean_error "not a .sup package: $supfile"; exit 1
 		fi
 		
 		cat << EOT
@@ -152,10 +182,6 @@ SUP Hub user   : <a href="${host}?user=$user">$user</a>
 Package file   : ${supfile}
 EOT
 
-		# Is it a .sup file
-		
-		
-		
 		mkdir -p ${cache}
 		if ! mv -f ${tmpfile} ${cache}/${supfile}; then
 			clean_error "moving: ${tmpfile} to ${supfile}" 
@@ -191,7 +217,7 @@ EOT
 			echo " <span class='value'>$(gettext 'no')</span>"
 		fi
 		
-		# Logged user is maintainaer ?
+		# Logged user is maintainer ?
 		if [ "$MAINTAINER" != "$(GET mail)" ]; then
 			error=1
 			echo -e "\n<span class='error'>WARNING: user mail not matching</span>"
@@ -204,8 +230,8 @@ EOT
 			gettext "Moving package to mirror..."
 			mv -f ${supfile} ${packages}; status
 			gettext "Moving receip to public wok..."
-			mkdir -p ${wok}/${PACKAGE} && mv -f receip ${wok}/${PACKAGE}
-			status
+			mkdir -p ${wok}/${PACKAGE} && mv -f receip ${wok}/${PACKAGE}; status
+			[ -f "README" ] && mv -f README ${wok}/${PACKAGE}
 			
 			# Handle packages.md5
 			
