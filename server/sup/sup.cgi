@@ -5,7 +5,7 @@
 # This plugin is part of the SPI tools and services. More information
 # at http://hg.slitaz.org/sup/file/ && http://scn.slitaz.org/?d=en/sup
 # packages.db is a SQLite table with all mirrored packages info, just
-# for the fun of playing witg SQLite :-)
+# for the fun of playing with SQLite :-)
 #
 # Copyright (C) 2017 SliTaz GNU/Linux - BSD License
 # Author: Christophe Lincoln <pankso@slitaz.org>
@@ -191,7 +191,7 @@ EOT
 		# Show MD5sum
 		echo -e "MD5sum         : $(md5sum $cache/$supfile | cut -d ' ' -f 1)\n"
 		
-		# Extract receip: sup cook already check vor empty var. Make
+		# Extract receip: sup cook already checks for empty var. Make
 		# sure SCN user name match package MAINTAINER.
 		gettext "Extracting receip..."
 		cd ${cache}
@@ -225,7 +225,7 @@ EOT
 			gettext "MAINTAINER :"; echo " $MAINTAINER"
 		fi
 		
-		# Publish and display pkg url's if no error
+		# Publish and display pkg urls if no error
 		if [ "$error" == "0" ]; then
 			gettext "Moving package to mirror..."
 			mv -f ${supfile} ${packages}; status
@@ -325,7 +325,7 @@ EOT
 		unset IFS
 		echo "</pre>"
 		
-		# Packages list: if one day, too much packages, then this should
+		# Packages list: if one day, too many packages, then this should
 		# move to ?sup=list
 		cat << EOT
 <h3>$(gettext "SUP packages")</h3>

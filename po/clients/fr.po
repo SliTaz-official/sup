@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Sup Clients\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-26 22:08+0100\n"
+"POT-Creation-Date: 2017-02-27 17:38+0000\n"
 "PO-Revision-Date: 2017-02-26 21:15+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
@@ -18,183 +18,200 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.8.6\n"
 
-#: sup:18
+#: sup:21
 #, fuzzy
 msgid "Not a valid user:"
 msgstr "Utilisateur non valide:"
 
-#: sup:29
+#: sup:32
 msgid "Usage:"
 msgstr "Utilisation:"
 
-#: sup:31
+#: sup:34
 msgid "Commands:"
 msgstr "Commandes:"
 
-#: sup:32
+#: sup:35
 msgid "Cook a package from the wok"
 msgstr "Cuire un paquet depuis le wok"
 
-#: sup:33
+#: sup:36
 msgid "Extract a package to current dir"
 msgstr ""
 
-#: sup:34
+#: sup:37
 #, fuzzy
 msgid "Install a new package"
 msgstr "Installe un paquet sup"
 
-#: sup:35
+#: sup:38
 msgid "Remove package files"
 msgstr "Supprime un paquet et ses fichiers"
 
-#: sup:36
+#: sup:39
 msgid "Create a new package :-)"
 msgstr ""
 
-#: sup:37
-msgid "List installed packages and your wok"
-msgstr ""
+#: sup:40
+#, fuzzy
+msgid "List installed packages in your wok"
+msgstr "Paquet installé:"
 
-#: sup:39
+#: sup:42
 msgid "Options:"
 msgstr ""
 
-#: sup:40
+#: sup:43
 msgid "Initialize sup cook environment"
 msgstr ""
 
-#: sup:41
+#: sup:44
 msgid "Display more output messages"
 msgstr ""
 
-#: sup:60
+#: sup:63
 msgid "Missing package name or file path:"
 msgstr ""
 
-#: sup:104
+#: sup:107
 msgid "Initializing sup cook environment..."
 msgstr ""
 
-#: sup:112
+#: sup:115
 msgid "Can't find receip in wok for:"
 msgstr ""
 
-#: sup:117
+#: sup:120
 msgid "Building package:"
 msgstr ""
 
-#: sup:122
+#: sup:125
 msgid "Checking receip variables..."
 msgstr ""
 
-#: sup:130 sup:135
+#: sup:133 sup:138
 msgid "Empty variable:"
 msgstr ""
 
-#: sup:136
+#: sup:139
 msgid "You can use:"
 msgstr ""
 
-#: sup:157
+#: sup:161
 msgid "Creating compressed archive..."
 msgstr ""
 
-#: sup:164 sup:200
+#: sup:168 sup:208
 msgid "Packages:"
 msgstr ""
 
-#: sup:172
+#: sup:175
 msgid "New package name:"
 msgstr ""
 
-#: sup:176
-msgid "Package already exist in wok:"
+#: sup:181
+msgid "Package already exists in wok:"
 msgstr ""
 
-#: sup:179
+#: sup:184
 msgid "Creating new package files and tree..."
 msgstr ""
 
-#: sup:191
+#: sup:187
+msgid "Executing your favorite editor..."
+msgstr ""
+
+#: sup:189
+msgid "To cook your package:"
+msgstr ""
+
+#: sup:199
 msgid "Can't find package file:"
 msgstr ""
 
-#: sup:195
+#: sup:203
 msgid "Extract package:"
 msgstr ""
 
-#: sup:224
+#: sup:232
 msgid "Can't find sup package:"
 msgstr ""
 
-#: sup:233 sup:278
+#: sup:237
+msgid "SUP Update"
+msgstr ""
+
+#: sup:242
+msgid "Mirror is unreachable"
+msgstr ""
+
+#: sup:254 sup:299
 msgid "Can't find installed package:"
 msgstr ""
 
-#: sup:240
+#: sup:261
 msgid "Installed sup packages:"
 msgstr ""
 
-#: sup:248
+#: sup:269
 msgid "No sup packages installed"
 msgstr ""
 
-#: sup:252
+#: sup:273
 msgid "Sup packages in your wok:"
 msgstr ""
 
-#: sup:270
+#: sup:291
 msgid "Installed package:"
 msgstr "Paquet installé:"
 
-#: sup:274
+#: sup:295
 msgid "Installed files:"
 msgstr "Fichers installés:"
 
-#: libsup.sh:45
+#: libsup.sh:44
 msgid "Uncompressing package tree..."
 msgstr ""
 
-#: libsup.sh:71
+#: libsup.sh:70
 msgid "Checking dependencies for"
 msgstr ""
 
-#: libsup.sh:85 libsup.sh:86
+#: libsup.sh:84 libsup.sh:85
 #, fuzzy
 msgid "Installing package:"
 msgstr "Installation de:"
 
-#: libsup.sh:96
+#: libsup.sh:95
 msgid "Executing install function:"
 msgstr ""
 
-#: libsup.sh:103
+#: libsup.sh:102
 msgid "Creating the list of installed files..."
 msgstr ""
 
-#: libsup.sh:115
+#: libsup.sh:114
 #, fuzzy
 msgid "Installing files:"
 msgstr "Installation de:"
 
-#: libsup.sh:136 libsup.sh:137
+#: libsup.sh:135 libsup.sh:136
 msgid "Removing package:"
 msgstr "Suppression du paquet:"
 
-#: libsup.sh:140
+#: libsup.sh:139
 msgid "Files to remove :"
 msgstr "Fichiers à supprimer :"
 
-#: libsup.sh:149
+#: libsup.sh:148
 msgid "Removing file   :"
 msgstr ""
 
-#: libsup.sh:154
+#: libsup.sh:153
 msgid "Removing folder :"
 msgstr ""
 
-#: libsup.sh:165
+#: libsup.sh:164
 msgid "Removing packages from local database..."
 msgstr ""
 

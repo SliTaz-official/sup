@@ -37,7 +37,7 @@ $(boldify $(gettext "Commands:"))
   -i  install        $(gettext "Install a new package")
   -r  remove         $(gettext "Remove package files")
   -n  new            $(gettext "Create a new package :-)")
-  -l  list           $(gettext "List installed packages and your wok")
+  -l  list           $(gettext "List installed packages in your wok")
 
 $(boldify $(gettext "Options:"))
   --init     cook    $(gettext "Initialize sup cook environment")
@@ -97,7 +97,7 @@ EOT
 case "$1" in
 
 	-c|cook)
-		# Cook in $cache/cook amd mv pkg to a visible dir
+		# Cook in $cache/cook and mv pkg to a visible dir
 		pkg="$2"
 		receip="$wok/$pkg/receip"
 		cache="$cache/cook"
@@ -178,7 +178,7 @@ case "$1" in
 		[ ! "$pkg" ] && exit 0
 		[ ! -d "$wok" ] && cook_init
 		if [ -d "$wok/$pkg" ]; then
-			gettext "Package already exist in wok:"; colorize 35 " $pkg"
+			gettext "Package already exists in wok:"; colorize 35 " $pkg"
 			newline && exit 0
 		fi
 		gettext "Creating new package files and tree..."
