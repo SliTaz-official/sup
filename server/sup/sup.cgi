@@ -18,10 +18,10 @@ if [ "$(basename $0)" == "sup.cgi" ]; then
 	. /usr/lib/slitaz/httphelper.sh
 fi
 
-#host="http://scn.slitaz.org/"
-#scn="/home/slitaz/www/scn"
-host="http://localhost/~pankso/cgi-bin/scn/"
-scn="/home/pankso/Public/cgi-bin/scn"
+host="http://scn.slitaz.org/"
+scn="/home/slitaz/www/scn"
+#host="http://localhost/~pankso/cgi-bin/scn/"
+#scn="/home/pankso/Public/cgi-bin/scn"
 
 supdb="$content/sup"
 wok="$supdb/wok"

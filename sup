@@ -238,9 +238,11 @@ case "$1" in
 		separator
 		
 		# Skip HTTP/1.1 404 Not Found: 2>/dev/null
-		if ! wget --spider -q ${mirror}/${pkgsdb} 2>/dev/null; then
-			gettext "Mirror is unreachable"; echo
+		if ! wget --spider -q ${mirror}/packages.sql 2>/dev/null; then
+			gettext "Mirror is unreachable"; newline
 		fi
+		rm -f ${pkgsdb}
+		wget 
 		
 		newline ;;
 	
