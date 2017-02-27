@@ -115,15 +115,26 @@ EOT
 		suplog="$scn/cache/log/sup.log"
 		error=0
 		
+		# clean_error "Message"
+		clean_error() {
+			echo "<span class='error'>ERROR: ${1}</span>"
+			[ -d "$cache" ] && rm -rf ${cache} 
+			[ -d "$(dirname $tmpfile)" ] && rm -rf $(dirname $tmpfile)
+		}
+		
 		# Use COOKIE to make sure user is logged in SCN/SUP Hub
 		user="$(echo $(COOKIE auth) | cut -d ':' -f 1)"
 		if [ "$(COOKIE auth)" ] && [ "$user" != "$(GET user)" ]; then
-			echo "<pre>ERROR: user auth cookie</pre>" && exit 1
+			clean_error "user auth cookie" && exit 1
 		fi
 		
 		#if [ ! -f "$pkgsdb" ]; then
 			#echo "<pre>ERROR: missing $pkgsdb</pre>" && exit 1
 		#fi
+		
+		if [ "$supfile" != "${supfile%.sup}.sip" ]; then
+			clean_error "not a .sup package" && exit 1
+		fi
 		
 		cat << EOT
 <!DOCTYPE html>
@@ -140,10 +151,15 @@ EOT
 SUP Hub user   : <a href="${host}?user=$user">$user</a>
 Package file   : ${supfile}
 EOT
+
+		# Is it a .sup file
+		
+		
+		
 		mkdir -p ${cache}
 		if ! mv -f ${tmpfile} ${cache}/${supfile}; then
-			echo "<span class='error'>ERROR moving: ${tmpfile} to ${supfile}</span></pre>"
-			rm -rf ${cache} $(dirname $tmpfile) && exit 1
+			clean_error "moving: ${tmpfile} to ${supfile}" 
+			echo "</pre>" && exit 1
 		fi
 		
 		# Show MD5sum
@@ -153,12 +169,16 @@ EOT
 		# sure SCN user name match package MAINTAINER.
 		gettext "Extracting receip..."
 		cd ${cache}
-		cpio -i receip --quiet < ${supfile}
+		if ! cpio -i receip --quiet < ${supfile}; then
+			echo ""
+			clean_error "Can't extract receip"
+			echo "</pre>" && exit 1
+		fi
 		status
 		
 		if ! . receip; then
-			echo "<span class='error'>ERROR: Can't source receip</span></pre>"
-			rm -rf ${cache} $(dirname $tmpfile) && exit 1
+			clean_error "Can't source receip"
+			echo "</pre>" && exit 1
 		fi
 		echo "build_date: $build_date"
 		
@@ -255,7 +275,8 @@ EOT
 		fi
 		cat << EOT
 <p>
-	SliTaz User Packages services: Beta :-)
+	SliTaz User Packages services: Beta :-) -
+	<a href="http://scn.slitaz.org/index.cgi?d=en/sup">Documentation</a>
 </p>
 
 <pre>
