@@ -4,8 +4,8 @@
 #
 # This plugin is part of the SPI tools and services. More information
 # at http://hg.slitaz.org/sup/file/ && http://scn.slitaz.org/?d=en/sup
-# packages.db is a SQLite table with all mirrored packages info, just
-# for the fun of playing with SQLite :-)
+# packages.sql is a SQLite table with all mirrored packages info, just
+# for the fun of playing witg SQLite :-)
 #
 # Copyright (C) 2017 SliTaz GNU/Linux - BSD License
 # Author: Christophe Lincoln <pankso@slitaz.org>
@@ -27,7 +27,8 @@ supdb="$content/sup"
 wok="$supdb/wok"
 packages="$supdb/packages"
 suplog="$cache/log/sup.log"
-		
+pkgsdb="$packages/packages.sql"
+
 # Keep the highlighter minimal :-)
 receip_highlighter() {
 	sed	-e s'|&|\&amp;|g' -e 's|<|\&lt;|g' -e 's|>|\&gt;|'g \
@@ -36,7 +37,7 @@ receip_highlighter() {
 }
 
 case " $(GET sup) " in
-	
+
 	*\ pkg\ *)
 		pkg="$(GET name)"
 		d="SUP: $pkg"
@@ -46,11 +47,11 @@ case " $(GET sup) " in
 		if ! . ${wok}/${pkg}/receip; then
 			echo "Missing or corrupted receip" && exit 1
 		fi
-		
+
 		cat << EOT
 <h2>$(gettext "Package:") $PACKAGE $VERSION</h2>
 <div id="tools">
-	<a title="Right click to download link: $PACKAGE-$VERSION.sup" 
+	<a title="Right click to download link: $PACKAGE-$VERSION.sup"
 		href='$packages/$PACKAGE-$VERSION.sup'>Download</a>
 EOT
 		# Tools for logged users
@@ -73,7 +74,7 @@ EOT
 		# Get package maintainer/user info from SCN/SliTaz user DB
 		if ! . $(fgrep -l "MAIL=\"${MAINTAINER}\"" ${PEOPLE}/*/account.conf); then
 			USER="unknow"
-		fi	
+		fi
 		cat << EOT
 <div>
 	<a href="?user=$USER">$(get_gravatar $MAINTAINER 24)</a>
@@ -97,8 +98,8 @@ $(cat ${wok}/${pkg}/receip | receip_highlighter)
 </pre>
 EOT
 		html_footer && exit 0 ;;
-	
-	*\ upload\ *) 
+
+	*\ upload\ *)
 		# HTML Form: use cloud plugin CSS style
 		header
 		html_header
@@ -115,7 +116,7 @@ EOT
 
 <div id="cloud-upload">
 
-	<form method="post" 
+	<form method="post"
 		action="plugins/sup/sup.cgi?sup=supQA&amp;user=$user&amp;mail=$MAIL"
 		enctype="multipart/form-data">
 		<input type="file" name="supfile" size="150" />
@@ -125,9 +126,9 @@ EOT
 </div>
 EOT
 		html_footer && exit 0 ;;
-	
+
 	*\ supQA\ *)
-		# SUP Upload Quality assurance. Check package in cache before 
+		# SUP Upload Quality assurance. Check package in cache before
 		# publishing. We need full path for upload to work ../../
 		#
 		# This is the geeky part for users, QA output in cmdline style
@@ -140,32 +141,28 @@ EOT
 		wok="$scn/content/sup/wok"
 		packages="$scn/content/sup/packages"
 		cache="$scn/cache/sup/${supfile%.sup}"
-		pkgsdb="$scn/content/sup/packages/packages.db"
+		pkgsdb="$scn/content/sup/packages/packages.sql"
 		suplog="$scn/cache/log/sup.log"
 		error=0
-		
+
 		# clean_error "Message"
 		clean_error() {
 			echo "<span class='error'>ERROR: ${1}</span>"
-			[ -d "$cache" ] && rm -rf ${cache} 
+			[ -d "$cache" ] && rm -rf ${cache}
 			[ -d "$(dirname $tmpfile)" ] && rm -rf $(dirname $tmpfile)
 		}
-		
+
 		# Use COOKIE to make sure user is logged in SCN/SUP Hub
 		user="$(echo $(COOKIE auth) | cut -d ':' -f 1)"
 		if [ "$(COOKIE auth)" ] && [ "$user" != "$(GET user)" ]; then
 			clean_error "user auth cookie"; exit 1
 		fi
-		
-		#if [ ! -f "$pkgsdb" ]; then
-			#echo "<pre>ERROR: missing $pkgsdb</pre>" && exit 1
-		#fi
-		
+
 		# Is it a .sup file ?
 		if [ "$supfile" != "${supfile%.sup}.sup" ]; then
 			clean_error "not a .sup package: $supfile"; exit 1
 		fi
-		
+
 		cat << EOT
 <!DOCTYPE html>
 <html lang="en">
@@ -181,17 +178,22 @@ EOT
 SUP Hub user   : <a href="${host}?user=$user">$user</a>
 Package file   : ${supfile}
 EOT
+		# Server sanity Check
+		if [ ! -f "$pkgsdb" ]; then
+			clean_error "missing : $(basename $pkgsdb)"
+			echo "</pre>" && exit 1
+		fi
 
 		mkdir -p ${cache}
 		if ! mv -f ${tmpfile} ${cache}/${supfile}; then
-			clean_error "moving: ${tmpfile} to ${supfile}" 
+			clean_error "moving: ${tmpfile} to ${supfile}"
 			echo "</pre>" && exit 1
 		fi
-		
+
 		# Show MD5sum
 		echo -e "MD5sum         : $(md5sum $cache/$supfile | cut -d ' ' -f 1)\n"
-		
-		# Extract receip: sup cook already checks for empty var. Make
+
+		# Extract receip: sup cook already check vor empty var. Make
 		# sure SCN user name match package MAINTAINER.
 		gettext "Extracting receip..."
 		cd ${cache}
@@ -199,24 +201,23 @@ EOT
 			echo ""
 			clean_error "Can't extract receip"
 			echo "</pre>" && exit 1
-		fi
-		status
-		
+		fi; status
+
 		if ! . receip; then
 			clean_error "Can't source receip"
 			echo "</pre>" && exit 1
 		fi
-		echo "build_date: $build_date"
-		
+		echo "Build date: <span class='float-right value'>$build_date</span>"
+
 		# README
 		gettext "Checking for a README file..."
 		cpio -i README --quiet < ${supfile}
 		if [ -f "README" ]; then
-			echo " <span class='color32'>$(gettext 'yes')</span>"
+			echo " <span class='float-right color32'>$(gettext 'yes')</span>"
 		else
-			echo " <span class='value'>$(gettext 'no')</span>"
+			echo " <span class='float-right value'>$(gettext 'no')</span>"
 		fi
-		
+
 		# Logged user is maintainer ?
 		if [ "$MAINTAINER" != "$(GET mail)" ]; then
 			error=1
@@ -224,18 +225,18 @@ EOT
 			gettext "User mail  :"; echo " $(GET mail)"
 			gettext "MAINTAINER :"; echo " $MAINTAINER"
 		fi
-		
-		# Publish and display pkg urls if no error
+
+		# Publish and display pkg url's if no error
 		if [ "$error" == "0" ]; then
 			gettext "Moving package to mirror..."
 			mv -f ${supfile} ${packages}; status
 			gettext "Moving receip to public wok..."
 			mkdir -p ${wok}/${PACKAGE} && mv -f receip ${wok}/${PACKAGE}; status
 			[ -f "README" ] && mv -f README ${wok}/${PACKAGE}
-			
+
 			# Handle packages.md5
-			
-			
+
+
 			# Log activity date|user|mail|pkg|version|short_desc
 			cat >> ${suplog} << EOT
 $(date '+%Y-%m-%d %H:%M')|$user|$MAINTAINER|$PACKAGE|$VERSION|$SHORT_DESC
@@ -257,32 +258,11 @@ Package page: <a href='${host}?sup=pkg&amp;name=$PACKAGE'>$PACKAGE $VERSION</a>"
 </html>"
 		rm -rf ${cache} $(dirname $tmpfile) && exit 0 ;;
 
-	*\ admin\ *)
-		# Admin tools: gen packages.md5 for the mirror, clean any buggy
-		# or corrupted packages in wok.
-		d="SUP Hub admin"
-		header
-		html_header
-		user_box
-		if ! check_auth && admin_user; then
-			echo "Only for admins" && html_footer && exit 0
-		fi
-		cat << EOT
-<h2>${d}</h2>
-<div id="tools">
-	<a href="?sup=upload">Upload package</a>
-</div>
-EOT
-		echo "<pre>"
-		echo "Checking: $content/sup/wok"
-		for pkg in $(ls $content/sup/wok); do
-			echo "$pkg"
-		done
-		echo "</pre>"
-		html_footer && exit 0 ;;
-	
+	*\ admin\ *|*\ db\ *)
+		. ${plugins}/sup/sup-admin.cgi ;;
+
 	*\ sup\ *)
-		d="SliTaz User Packages Hub"
+		d="SUP - SliTaz User Packages"
 		header
 		html_header
 		user_box
@@ -301,17 +281,16 @@ EOT
 		fi
 		cat << EOT
 <p>
-	SliTaz User Packages services: Beta :-) -
-	<a href="http://scn.slitaz.org/index.cgi?d=en/sup">Documentation</a>
+	SliTaz User Packages hub: beta testing :-)
+	- Packages: $(ls $wok | wc -l)
+	- <a href="$packages/">Browse mirror</a>
+	- <a href="http://scn.slitaz.org/index.cgi?d=en/sup">Documentation</a>
 </p>
 
-<pre>
-Packages : $(ls $wok | wc -l)
-Mirror   : <a href="$packages/">Browse</a>
-</pre>
 <h3>$(gettext "Latest uploads")</h3>
 <pre>
 EOT
+		# Latest uploads from sup.log
 		IFS="|"
 		tac ${suplog} | head -n 6 | while read date user mail pkg version short_desc
 		do
@@ -324,8 +303,8 @@ EOT
 		done
 		unset IFS
 		echo "</pre>"
-		
-		# Packages list: if one day, too many packages, then this should
+
+		# Packages listing: if one day, too much packages, then this should
 		# move to ?sup=list
 		cat << EOT
 <h3>$(gettext "SUP packages")</h3>
@@ -349,5 +328,5 @@ EOT
 		done
 		echo "</table></div>"
 		html_footer && exit 0 ;;
-		
+
 esac
