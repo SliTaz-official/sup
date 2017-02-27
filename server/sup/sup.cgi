@@ -16,12 +16,13 @@
 if [ "$(basename $0)" == "sup.cgi" ]; then
 	. /lib/libtaz.sh
 	. /usr/lib/slitaz/httphelper.sh
+	. paths.conf
 fi
 
-host="http://scn.slitaz.org/"
-scn="/home/slitaz/www/scn"
-#host="http://localhost/~pankso/cgi-bin/scn/"
-#scn="/home/pankso/Public/cgi-bin/scn"
+# Custom paths.conf for easier development /avois commit this file 
+# with wrong paths like Pankso does! Full paths are needed for upload
+# to work properly.
+[ -f "${plugins}/sup/paths.conf" ] && . ${plugins}/sup/paths.conf
 
 supdb="$content/sup"
 wok="$supdb/wok"
@@ -257,6 +258,10 @@ Package page: <a href='${host}?sup=pkg&amp;name=$PACKAGE'>$PACKAGE $VERSION</a>"
 	</body>
 </html>"
 		rm -rf ${cache} $(dirname $tmpfile) && exit 0 ;;
+	
+	*\ dbsum\ *)
+		# Used by client to check for newer packages.sql
+		md5sum ${pkgsdb} | awk '{printf $1}'; exit 0 ;;
 
 	*\ admin\ *|*\ db\ *)
 		. ${plugins}/sup/sup-admin.cgi ;;
