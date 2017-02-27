@@ -152,7 +152,8 @@ case "$1" in
 		done
 		
 		# Add $build_date
-		echo "build_date=\"$(date "+%Y-%m-%d %H:%M")\"" >> ${receip}
+		sed -i "/^build_date=/"d receip
+		echo "build_date=\"$(date "+%Y-%m-%d %H:%M")\"" >> receip
 		
 		gettext "Creating compressed archive..."
 		find files | cpio -o -H newc --quiet | lzma e files.lzma -si
@@ -162,7 +163,6 @@ case "$1" in
 		
 		size="$(du -sh $cooked/$supfile | cut -d "	" -f 1)"
 		echo "$(gettext 'Packages:') $(colorize 33 $supfile) ($size)"
-		sed -i "/^build_date=/"d ${receip}
 		rm -rf ${cache} && newline ;;
 	
 	-n|new)

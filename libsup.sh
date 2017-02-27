@@ -16,7 +16,6 @@ installed="$supdb/installed"
 activity="$cache/activity.log"
 
 mirror="http://scn.slitaz.org/content/sup/packages"
-md5list="$supdb/packages.md5"
 pkgsdb="$supdb/packages.db"
 
 wok="$supdb/wok"
