@@ -5,7 +5,7 @@
 # Copyright (C) 2017 SliTaz GNU/Linux - BSD License
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
-# Colors: installed 36; wok/package 35; commands/functions 33
+# Colors: installed 036/36; wok/package 035/35; commands/functions 033/33
 #
 
 # Get system wide libsup.sh or development version if working in Hg folder
@@ -165,7 +165,7 @@ case "$1" in
 		status
 		
 		size="$(du -sh $cooked/$supfile | cut -d "	" -f 1)"
-		echo "$(gettext 'Packages:') $(colorize 33 $supfile) ($size)"
+		echo "$(gettext 'Packages:') $(colorize 35 $supfile) ($size)"
 		rm -rf ${cache} && newline ;;
 	
 	-n|new)
@@ -227,12 +227,23 @@ case "$1" in
 		fi
 		
 		# Sup on mirror
-		echo "TODO: check for package on mirror"
+		[ ! -f "${pkgsdb}" ] && sup -u
 		
+		if sqlite3 ${pkgsdb} "SELECT name FROM pkgs WHERE name = '$pkg'" >/dev/null
+		then
+			vers=$(sqlite3 ${pkgsdb} "SELECT version FROM pkgs WHERE name = '$pkg'")
+			mkdir -p ${cache}/wget && cd ${cache}/wget
+			# Download
+			newline
+			download "$pkg" "${mirror}/${pkg}-${vers}.sup"
+			install_sup "${pkg}-${vers}.sup"
+			rm -rf ${cache}/wget && exit 0
+		fi
 		gettext "Can't find sup package:"; colorize 31 " $pkg" ;;
 	
 	-u|update)
 		# Update packages
+		online=""
 		newline
 		colorize 33 $(gettext "SUP Update")
 		separator
@@ -240,22 +251,79 @@ case "$1" in
 		# Skip HTTP/1.1 404 Not Found: 2>/dev/null
 		if ! wget -q -T 5 --spider ${mirror}/packages.sql 2>/dev/null; then
 			gettext "Mirror is unreachable"; newline
+		else
+			online=0
 		fi
 		
 		# Newer packages.sql ?
-		wget -q "http://localhost/~pankso/cgi-bin/scn/?sup=dbsum" -O -
+		gettext "Checking packages.sql..."
+		db_sum=$(wget -q "${server}?sup=dbsum" -O -)
+		if echo "$db_sum  $pkgsdb" | md5sum -s -c -; then
+			indent $(($(tty_size) - 13)) "[ $(colorize 36 synced) ]"
+		else
+			[ "$online" ] && rm -f ${pkgsdb}
+			indent $(($(tty_size) - 13)) "[ $(colorize 35 update) ]"
+		fi
 		
+		# No packages.sql: get latest!
+		if [ ! -f "$pkgsdb" ] && [ "$online" ]; then
+			gettext "Fetching db"; echo -n " → "
+			wget -P ${supdb} ${mirror}/packages.sql 2>&1 | tail -n 2 \
+				| awk '{printf $3}'; status
+			
+			timestamp=$(sqlite3 ${pkgsdb} 'SELECT timestamp FROM info' \
+				| awk '{printf $1 " " $2}')
+			gettext "Database timestamp:"
+			indent $(($(tty_size) - 23)) "[ $(boldify $timestamp) ]"
+		fi
 		
-		rm -f ${pkgsdb}
-		wget -P ${supdb} ${mirror}/packages.sql
-		sqlite3 ${pkgsdb} 'SELECT timestamp FROM info' \
-			| awk '{printf "Timestamp : %s %s\n",$1,$2 }'
-		
-		for pkg in $(ls $wok); do
-			echo "$pkg"
+		# Scan installed packages
+		count=$(ls $installed | wc -l) in=8
+		[ "$count" -gt "10" ] && in=9 && [ "$count" -gt "100" ] && in=10
+		gettext "Installed packages:"
+		indent $(($(tty_size) - ${in})) "[ $(colorize 33 $count) ]"
+		cat << EOT
+
+$(boldify Package $(indent 30 Version) $(indent 52 Status))
+--------------------------------------------------------------------------------
+EOT
+		for pkg in $(ls $installed)
+		do
+			. ${installed}/${pkg}/receip
+			db_sum=$(sqlite3 ${pkgsdb} \
+				"SELECT md5sum FROM pkgs WHERE name = '$pkg'")
+			
+			# MD5sum not matching: new version our new build ?
+			if [ "$md5_sum" != "$db_sum" ]; then
+				vers=$(sqlite3 ${pkgsdb} \
+					"SELECT version FROM pkgs WHERE name = '$pkg'")
+				if [ "$VERSION" != "$vers" ]; then
+					status="$(gettext "update")"
+				else
+					status="$(gettext "rebuilt")"
+				fi
+				echo "$pkg $(indent 30 $VERSION) $(indent 52 $status)"
+				echo "$pkg" >> ${cache}/updates
+			fi
 		done
 		
-		newline ;;
+		if [ -f "$cache/updates" ]; then
+			count=$(cat $cache/updates | wc -l)
+			cat << EOT
+--------------------------------------------------------------------------------
+EOT
+			gettext "Available updates:"; colorize 32 " $count"
+			# --install
+			if [ "$install" ]; then
+				for pkg in $(cat $cache/updates); do
+					sup -i ${pkg}
+				done
+			fi
+		else
+			gettext "Packages are up-to-date"; echo
+			newline
+		fi 
+		rm -f ${cache}/updates ;;
 	
 	-r|remove)
 		# Remove a package

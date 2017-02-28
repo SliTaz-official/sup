@@ -15,9 +15,8 @@ supdb="$data/sup"
 installed="$supdb/installed"
 activity="$cache/activity.log"
 
-host="http://localhost/~pankso/cgi-bin/scn/"
-#host="http://scn.slitaz.org/"
-mirror="${host}content/sup/packages"
+server="http://scn.slitaz.org/"
+mirror="${server}content/sup/packages"
 pkgsdb="$supdb/packages.sql"
 
 wok="$supdb/wok"
@@ -36,6 +35,13 @@ tty_size() {
 	local size=$(stty size | cut -d " " -f 2)
 	[ "$size" ] && local size=80
 	echo ${size}
+}
+
+# Minimal Busybox wget output. Usage: download "name" "url"
+download() {
+	gettext "Fetching"; echo -n $(colorize 30 " db → ")
+	wget "$2" 2>&1 | tail -n 2 | awk '{printf $3}' \
+		| sed s'!*!-!'g
 }
 
 # Extract a sup package: extract_sup "/path/to/pkg.sup"
@@ -58,10 +64,9 @@ extract_sup() {
 install_sup() {
 	pkg="$(basename ${1%.sup})"
 	supfile="$(readlink -f ${1%.sup}.sup)"
-	cache="$cache/install"
 	
-	rm -rf ${cache} && mkdir ${cache} 
-	cp ${supfile} ${cache} && cd ${cache}
+	rm -rf ${cache}/install && mkdir ${cache}/install
+	cp ${supfile} ${cache}/install && cd ${cache}/install
 	
 	# Get receip for deps
 	cpio -i receip --quiet < ${supfile}
@@ -75,7 +80,7 @@ install_sup() {
 			echo "Missing dependency:"; colorize 35 " $dep"
 		fi
 	done
-	. /etc/slitaz/slitaz.conf
+	. /etc/slitaz/slitaz.conf # PKGS_DB
 	for dep in ${DEPENDS}; do
 		if [ ! "$PKGS_DB/installed/$dep" ]; then
 			echo "Missing dependency:"; colorize 35 " $dep"
@@ -88,6 +93,7 @@ install_sup() {
 	separator
 	
 	# Extract and source receip first to check deps
+	md5sum=$(md5sum $supfile | awk '{print $1}')
 	extract_sup "$supfile"
 	
 	# Execute sup_install() in files/ tree so packages maintainers just
@@ -95,7 +101,7 @@ install_sup() {
 	cd files
 	if grep -q "^sup_install" ../receip; then
 		gettext "Executing install function:"
-		indent $(($(tty_size) - 18)) "[ $(colorize 33 sup_install) ]"
+		indent $(($(tty_size) - 18)) "[ $(colorize 033 sup_install) ]"
 		sup_install
 	fi
 	
@@ -103,18 +109,19 @@ install_sup() {
 	if [ "$verbose" ]; then
 		gettext "Creating the list of installed files..."; echo
 	fi
-	files_list="${cache}/${PACKAGE}-${VERSION}/files.list"
+	files_list="${cache}/install/${PACKAGE}-${VERSION}/files.list"
 	find . -type f -print > ${files_list}
 	find . -type l -print >> ${files_list}
 	sed -i s/'^.'/''/g ${files_list}
 	
 	# Back to pkg tree
-	cd ${cache}/${PACKAGE}-${VERSION}
+	cd ${cache}/install/${PACKAGE}-${VERSION}
 	echo "sup_size=\"$(du -sh files | cut -d "	" -f 1)\"" >> receip
+	echo "md5_sum=\"${md5sum}\"" >> receip
 	
 	# Now we need a place to store package data and set $sup_size
-	gettext "Installing files:"
-	echo -n "$(colorize 35 " $(wc -l files.list | cut -d " " -f 1)")"
+	echo -n "$(colorize 036 "$(gettext 'Installing files:') \
+$(wc -l files.list | cut -d " " -f 1)")"
 	data="${installed}/${PACKAGE}"
 	mkdir -p ${data}
 	
@@ -123,8 +130,10 @@ install_sup() {
 	done
 	for file in $(ls -A files); do
 		cp -rf files/${file} ${HOME}
-	done && status
-	newline && rm -rf ${cache}
+	done
+	status
+	
+	newline && rm -rf ${cache}/install
 }
 
 # Remove a sup package
@@ -139,8 +148,9 @@ remove_sup() {
 	separator
 	
 	gettext "Files to remove :"
-	indent $(($(tty_size) - 8)) \
-		"[ $(colorize 33 $(wc -l ${files_list} | cut -d ' ' -f 1)) ]"
+	files="$(wc -l ${files_list} | cut -d ' ' -f 1)" in=8
+	[ "$files" -gt "10" ] && in=9 && [ "$files" -gt "100" ] && in=10
+	indent $(($(tty_size) - ${in})) "[ $(colorize 33 $files) ]"
 	
 	# Remove all files
 	for file in $(cat $files_list)
