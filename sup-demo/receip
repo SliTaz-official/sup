@@ -3,9 +3,9 @@
 PACKAGE="sup-demo"
 VERSION="0.1"
 SHORT_DESC="Short package description and information"
-MAINTAINER="devel@slitaz.org"
+MAINTAINER="pankso@slitaz.org"
 LICENSE="BSD"
-WEB_SITE="http://www.slitaz.org/"
+WEB_SITE="http://scn.slitaz.org/?sup"
 
 # Sup dependencies will be automatically downloaded but system wide 
 # deps must be manually installed by root.

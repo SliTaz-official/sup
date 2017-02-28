@@ -32,16 +32,43 @@ alias wget="busybox wget"
 
 # Set ttysize= # stty will not work if called from GTK box or CGI script
 tty_size() {
-	local size=$(stty size | cut -d " " -f 2)
-	[ "$size" ] && local size=80
-	echo ${size}
+	if ! stty size | cut -d " " -f 2; then
+		echo 80
+	fi
 }
 
-# Minimal Busybox wget output. Usage: download "name" "url"
+# Pretty Busybox wget output. Usage: download [name] [url] [dest]
+# Download in current dir in $3 is not set
 download() {
-	gettext "Fetching"; echo -n $(colorize 30 " db → ")
-	wget "$2" 2>&1 | tail -n 2 | awk '{printf $3}' \
-		| sed s'!*!-!'g
+	name="$1"
+	url="$2"
+	dest=${3:-$(pwd)}
+	file=$(basename $url)
+	trap "echo -e '\nExiting...'; rm -f ${dest%/}/$file" SIGINT INT TERM
+	# i18n
+	dl="$(gettext 'Downloading')"
+	
+	# Get download name chars to adjust progress bar placement
+	char="$(echo $dl $name | wc -L)"
+	in=$((3 + ${char}))
+	
+	echo -n "$dl $(colorize 035 $name →)"
+	wget -c -P ${dest} "$url" 2>&1 | while read file pct progress null
+	do
+		case "$progress" in
+			"|"*) echo -n "$(indent ${in} $progress)" | sed s'!*!-!'g ;;
+		esac
+	done
+	
+	case "$?" in
+		0)
+			# Handle 4.0K 46.0M
+			size="$(du -mh ${dest%/}/$(basename $2) | awk '{print $1}')"
+			char="$(echo $size | wc -L)"
+			in=$((7 + ${char}))
+			indent $(($(tty_size) - ${in})) "[ $(colorize 035 $size) ]" ;;
+		1) status ;;
+	esac
 }
 
 # Extract a sup package: extract_sup "/path/to/pkg.sup"
@@ -88,7 +115,8 @@ install_sup() {
 	done
 	
 	newline
-	gettext "Installing package:"; colorize 36 " $PACKAGE $VERSION"
+	echo -n "$(colorize 33 $(gettext 'Installing package:'))"
+	colorize 36 " $PACKAGE $VERSION"
 	log "$(gettext 'Installing package:') $PACKAGE $VERSION"
 	separator
 	
@@ -120,8 +148,9 @@ install_sup() {
 	echo "md5_sum=\"${md5sum}\"" >> receip
 	
 	# Now we need a place to store package data and set $sup_size
-	echo -n "$(colorize 036 "$(gettext 'Installing files:') \
-$(wc -l files.list | cut -d " " -f 1)")"
+	echo -n "$(colorize 036 $(gettext 'Installing files:'))"
+	echo -n " $(colorize 033 $(wc -l files.list | cut -d ' ' -f 1))"
+	
 	data="${installed}/${PACKAGE}"
 	mkdir -p ${data}
 	
@@ -143,14 +172,16 @@ remove_sup() {
 	. ${installed}/${pkg}/receip
 	
 	newline
-	gettext "Removing package:"; colorize 36 " $PACKAGE $VERSION"
+	echo -n "$(colorize 33 $(gettext 'Removing package:'))"
+	colorize 36 " $PACKAGE $VERSION"
 	log "$(gettext 'Removing package:') $PACKAGE $VERSION"
 	separator
 	
 	gettext "Files to remove :"
-	files="$(wc -l ${files_list} | cut -d ' ' -f 1)" in=8
-	[ "$files" -gt "10" ] && in=9 && [ "$files" -gt "100" ] && in=10
-	indent $(($(tty_size) - ${in})) "[ $(colorize 33 $files) ]"
+	files="$(wc -l ${files_list} | cut -d ' ' -f 1)"
+	char="$(echo $files | wc -L)"
+	in=$((7 + ${char}))
+	indent $(($(tty_size) - ${in})) "[ $(colorize 033 $files) ]"
 	
 	# Remove all files
 	for file in $(cat $files_list)

@@ -5,8 +5,6 @@
 # Copyright (C) 2017 SliTaz GNU/Linux - BSD License
 # Author: Christophe Lincoln <pankso@slitaz.org>
 #
-# Colors: installed 036/36; wok/package 035/35; commands/functions 033/33
-#
 
 # Get system wide libsup.sh or development version if working in Hg folder
 if [ -f "/usr/lib/slitaz/libsup.sh" ]; then
@@ -107,19 +105,18 @@ case "$1" in
 		# Handle --init
 		if [ "$init" ]; then
 			gettext "Initializing sup cook environment..."
-			cook_init
-			status && exit 0
+			cook_init; status; exit 0
 		fi
 		
 		# Sanity check
 		check_pkg_arg "$1"
 		if [ ! -f "$receip" ]; then
-			gettext "Can't find receip in wok for:"
-			colorize 31 " $pkg" && exit 1
+			gettext "Can't find receip in wok for:"; colorize 31 " $pkg"; exit 1
 		fi
 		
 		newline
-		gettext "Building package:"; colorize 36 " $pkg"
+		echo -n "$(colorize 33 $(gettext 'Building package:'))"
+		colorize 35 " $pkg"
 		separator
 		rm -rf ${cache} && mkdir -p ${cache} ${cooked}
 		
@@ -167,8 +164,26 @@ case "$1" in
 		status
 		
 		size="$(du -sh $cooked/$supfile | cut -d "	" -f 1)"
-		echo "$(gettext 'Packages:') $(colorize 35 $supfile) ($size)"
+		echo "$(gettext 'Packages:') $(colorize 035 $supfile) ($size)"
 		rm -rf ${cache} && newline ;;
+	
+	run)
+		# Run sup_install() without any installation to help package creation
+		pkg="$2"
+		receip="$wok/$pkg/receip"
+		
+		# Sanity check
+		check_pkg_arg "$1"
+		if [ ! -f "$receip" ]; then
+			gettext "Can't find receip in wok for:"; colorize 31 " $pkg"; exit 1
+		fi
+		
+		newline
+		echo "$(gettext 'Running') $(colorize 36 $pkg) $(colorize 035 sup_install)"
+		separator
+		
+		echo "To be continued"
+		;;
 	
 	-n|new)
 		pkg="$2"
@@ -198,16 +213,17 @@ case "$1" in
 		# Sanity check
 		check_pkg_arg "$1"
 		if [ ! -f "$pkg" ]; then
-			gettext "Can't find package file:"; colorize 35 " $pkg" && exit 1
+			gettext "Can't find package file:"; colorize 31 " $pkg" && exit 1
 		fi
 		
 		newline
-		gettext "Extract package:"; colorize 36 " $(basename $pkg)"
+		echo -n "$(colorize 33 $(gettext 'Extract package:'))"
+		colorize 36 " $(basename $pkg)"
 		separator
 
 		extract_sup "$pkg"
 		
-		echo "$(gettext 'Packages:') $(colorize 33 $pkg) ($size)"
+		echo "$(gettext 'Packages:') $(colorize 036 $pkg) ($size)"
 		newline ;;
 		 
 	-i|install)
@@ -261,33 +277,38 @@ case "$1" in
 		gettext "Checking packages.sql..."
 		db_sum=$(wget -q "${server}?sup=dbsum" -O -)
 		if echo "$db_sum  $pkgsdb" | md5sum -s -c -; then
-			indent $(($(tty_size) - 13)) "[ $(colorize 36 synced) ]"
+			indent $(($(tty_size) - 13)) "[ $(colorize 036 synced) ]"
 		else
 			[ "$online" ] && rm -f ${pkgsdb}
-			indent $(($(tty_size) - 13)) "[ $(colorize 35 update) ]"
+			indent $(($(tty_size) - 13)) "[ $(colorize 035 update) ]"
 		fi
+		
+		# --force
+		[ "$force" ] && rm -f ${pkgsdb}
 		
 		# No packages.sql: get latest!
 		if [ ! -f "$pkgsdb" ] && [ "$online" ]; then
-			gettext "Fetching db"; echo -n " → "
-			wget -P ${supdb} ${mirror}/packages.sql 2>&1 | tail -n 2 \
-				| awk '{printf $3}'; status
+			
+			download "db" "${mirror}/packages.sql" "${supdb}"
 			
 			timestamp=$(sqlite3 ${pkgsdb} 'SELECT timestamp FROM info' \
 				| awk '{printf $1 " " $2}')
 			gettext "Database timestamp:"
-			indent $(($(tty_size) - 23)) "[ $(boldify $timestamp) ]"
+			indent $(($(tty_size) - 23)) "[ $(colorize 30 $timestamp) ]"
 		fi
 		
 		# Scan installed packages
-		count=$(ls $installed | wc -l) in=8
-		[ "$count" -gt "10" ] && in=9 && [ "$count" -gt "100" ] && in=10
+		count="$(ls $installed | wc -l)"
+		char="$(echo $count | wc -L)"
+		in=$((7 + ${char}))
+		
 		gettext "Installed packages:"
-		indent $(($(tty_size) - ${in})) "[ $(colorize 33 $count) ]"
+		indent $(($(tty_size) - ${in})) "[ $(colorize 033 $count) ]"
 		cat << EOT
 
-$(boldify Package $(indent 30 Version) $(indent 52 Status))
---------------------------------------------------------------------------------
+$(boldify $(gettext "Package") $(indent 30 $(gettext "Version")) \
+$(indent 60 $(gettext "Status")))
+$(separator "-")
 EOT
 		for pkg in $(ls $installed)
 		do
@@ -300,21 +321,20 @@ EOT
 				vers=$(sqlite3 ${pkgsdb} \
 					"SELECT version FROM pkgs WHERE name = '$pkg'")
 				if [ "$VERSION" != "$vers" ]; then
-					status="$(gettext "update")"
+					status="$(colorize 032 $(gettext "update"))"
 				else
-					status="$(gettext "rebuilt")"
+					status="$(colorize 035 $(gettext "rebuilt"))"
 				fi
-				echo "$pkg $(indent 30 $VERSION) $(indent 52 $status)"
+				echo "$pkg $(indent 30 $VERSION) $(indent 60 $status)"
 				echo "$pkg" >> ${cache}/updates
 			fi
 		done
 		
 		if [ -f "$cache/updates" ]; then
 			count=$(cat $cache/updates | wc -l)
-			cat << EOT
---------------------------------------------------------------------------------
-EOT
+			separator "-"
 			gettext "Available updates:"; colorize 32 " $count"
+			newline
 			# --install
 			if [ "$install" ]; then
 				for pkg in $(cat $cache/updates); do
@@ -345,7 +365,7 @@ EOT
 		boldify " $installed_nb"
 		separator
 		for pkg in $(ls ${installed}); do
-			. ${wok}/${pkg}/receip
+			. ${installed}/${pkg}/receip
 			echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
 		done
 		if [ "$installed_nb" == 0 ]; then

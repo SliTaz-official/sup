@@ -30,7 +30,15 @@ Quickstart
      
   3) Play :-)
      $ sup help
-  
+
+
+Cook SUP packages to be uploaded to the server
+--------------------------------------------------------------------------------
+Sup lets users upload packages to the server. To cook your first one you may want to
+use the sup 'new' command:
+
+  $ sup -n
+
 
 What goes where ?
 --------------------------------------------------------------------------------
@@ -96,6 +104,7 @@ files/
 More directories into files/ can be added according to the needs and goals
 of the packages.
 
+
 Receipt variables and function
 --------------------------------------------------------------------------------
 Here are the variables used or usable in a sup receip as well as the uniq function.
@@ -115,14 +124,15 @@ Sup packages can be very simple but also very complex, so feel free to use the
 receip to warn or prompt users to make an action.
 
 
-Cook sup packages to be uploaded to the server
+Colors shems for sup tools
 --------------------------------------------------------------------------------
-Sup lets users upload packages to the server. To cook your first one you may want to
-use the sup-demo package:
-
-  $ sup cook --init
-  $ cp -rf /usr/share/sup/wok/sup-demo ~/.local/share/sup/wok
-  $ sup cook sup-demo
+Here are the colors guide line used in the cmdline tool:
+ 
+  [036/36]  Cyan for installed/mirror 
+  [035/35]  Magenta for cook/wok
+  [033/33]  Yellow for commands/functions
+  
+The CGI/Web hug services match SCN/SliTaz network graphical style.
 
 
 Mime type & Icon
