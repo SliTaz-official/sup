@@ -37,7 +37,7 @@ tty_size() {
 }
 
 # Pretty Busybox wget output. Usage: download [name] [url] [dest]
-# Download in current dir in $3 is not set
+# Download in current dir if $3 is not set
 download() {
 	name="$1"
 	url="$2"
@@ -117,7 +117,7 @@ install_sup() {
 		fi
 	done
 	
-	# Remove existing package files to avois untracked files
+	# Remove existing package files to avoid untracked files
 	if [ -d "$wok/$PACKAGE" ]; then
 		gettext "Removing existing package files..."
 		remove_sup "$PACKAGE" >/dev/null; status

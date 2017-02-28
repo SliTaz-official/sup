@@ -5,7 +5,7 @@
 # This plugin is part of the SPI tools and services. More information
 # at http://hg.slitaz.org/sup/file/ && http://scn.slitaz.org/?d=en/sup
 # packages.sql is a SQLite table with all mirrored packages info, just
-# for the fun of playing witg SQLite :-)
+# for the fun of playing with SQLite :-)
 #
 # Copyright (C) 2017 SliTaz GNU/Linux - BSD License
 # Author: Christophe Lincoln <pankso@slitaz.org>
@@ -19,7 +19,7 @@ if [ "$(basename $0)" == "sup.cgi" ]; then
 	. paths.conf
 fi
 
-# Custom paths.conf for easier development /avois commit this file 
+# Custom paths.conf for easier development /avoid commiting this file 
 # with wrong paths like Pankso does! Full paths are needed for upload
 # to work properly.
 [ -f "${plugins}/sup/paths.conf" ] && . ${plugins}/sup/paths.conf
@@ -194,7 +194,7 @@ EOT
 		# Show MD5sum
 		echo -e "MD5sum         : $(md5sum $cache/$supfile | cut -d ' ' -f 1)\n"
 
-		# Extract receip: sup cook already check vor empty var. Make
+		# Extract receip: sup cook already check for empty var. Make
 		# sure SCN user name match package MAINTAINER.
 		gettext "Extracting receip..."
 		cd ${cache}

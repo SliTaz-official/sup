@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# TinyCM/TazBug Plugin - Admin part splitted so less code sourced by
+# TinyCM/TazBug Plugin - Admin part split so less code sourced by
 # TinyCM core spript. echo ENGLISH Only :-). Admin tools: handle SQLite
-# packages.md5 for the mirror, clean any unconform, buggy or corrupted 
+# packages.md5 for the mirror, clean any unconforming, buggy or corrupted 
 # packages in wok.
 #
 # Copyright (C) 2017 SliTaz GNU/Linux - BSD License
@@ -167,7 +167,7 @@ EOT
 				
 				echo "</pre>" ;;
 				
-			*) echo "<pre>Unknow or command not implemented</pre>" ;;
+			*) echo "<pre>Unknown or command not implemented</pre>" ;;
 			
 		esac
 	
