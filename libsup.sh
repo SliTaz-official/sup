@@ -118,7 +118,7 @@ install_sup() {
 	done
 	
 	# Remove existing package files to avoid untracked files
-	if [ -d "$wok/$PACKAGE" ]; then
+	if [ -d "$installed/$PACKAGE" ]; then
 		gettext "Removing existing package files..."
 		remove_sup "$PACKAGE" >/dev/null; status
 	fi
