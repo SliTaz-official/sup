@@ -7,7 +7,6 @@
 #
 . /lib/libtaz.sh
 
-bin="$HOME/.local/bin"
 config="$HOME/.config"
 cache="$HOME/.cache/sup"
 data="$HOME/.local/share"
@@ -100,19 +99,29 @@ install_sup() {
 	. receip
 	
 	# Install sup deps || exit on missing system deps ?
-	newline
-	gettext "Checking dependencies for"; echo " $PACKAGE..."
+	gettext "Checking package dependencies"
+	deps="$(echo $SUP_DEPS $DEPENDS | wc -L)"
+	in=$((8 + ${deps}))
+	indent $(($(tty_size) - ${in})) "[ $(colorize 033 $deps) ]"
+	
 	for dep in ${SUP_DEPS}; do
 		if [ ! "$installed/$dep" ]; then
-			echo "Missing dependency:"; colorize 35 " $dep"
+			gettext "Missing dependency:"; colorize 35 " $dep"
+			sup -i "$dep"
 		fi
 	done
 	. /etc/slitaz/slitaz.conf # PKGS_DB
 	for dep in ${DEPENDS}; do
 		if [ ! "$PKGS_DB/installed/$dep" ]; then
-			echo "Missing dependency:"; colorize 35 " $dep"
+			gettext "Missing dependency:"; colorize 31 " $dep"
 		fi
 	done
+	
+	# Remove existing package files to avois untracked files
+	if [ -d "$wok/$PACKAGE" ]; then
+		gettext "Removing existing package files..."
+		remove_sup "$PACKAGE" >/dev/null; status
+	fi
 	
 	newline
 	echo -n "$(colorize 33 $(gettext 'Installing package:'))"

@@ -155,9 +155,9 @@ case "$1" in
 			[ -d "files/${dir}" ] && mv files/${dir} files/.${dir}
 		done
 		
-		# Add $build_date
-		sed -i "/^build_date=/"d receip
-		echo "build_date=\"$(date "+%Y-%m-%d %H:%M")\"" >> receip
+		# Add $cook_date
+		sed -i "/^cook_date=/"d receip
+		echo "cook_date=\"$(date "+%Y-%m-%d %H:%M")\"" >> receip
 		
 		gettext "Creating compressed archive..."
 		find files | cpio -o -H newc --quiet | lzma e files.lzma -si
@@ -173,7 +173,7 @@ case "$1" in
 		# Run sup_install() without any installation to help package creation
 		pkg="$2"
 		receip="$wok/$pkg/receip"
-		work="$supcook/sup_install"
+		workdir="$supcook/sup_install"
 		
 		# Sanity check
 		check_pkg_arg "$1"
@@ -184,11 +184,12 @@ case "$1" in
 		newline
 		echo "$(colorize 33 $(gettext 'Running') sup_install\(\):) $(colorize 35 $pkg)"
 		separator
-		mkdir -p ${work} && cd ${work}
+		[ "$clean" ] && rm -rf ${workdir}
+		mkdir -p ${workdir} && cd ${workdir}
 		. ${wok}/${pkg}/receip
 		sup_install
 		separator 
-		gettext "Working folder:"; echo " $work"
+		gettext "Working folder:"; echo " $workdir"
 		newline ;;
 	
 	-n|new)
@@ -236,6 +237,7 @@ case "$1" in
 		# Download/extract run install() in $cache/install
 		pkg="$2"
 		check_pkg_arg "$1"
+		newline
 		
 		# Sup pkg in current dir
 		if [ -f "$pkg" ]; then
@@ -258,7 +260,6 @@ case "$1" in
 			vers=$(sqlite3 ${pkgsdb} "SELECT version FROM pkgs WHERE name = '$pkg'")
 			mkdir -p ${cache}/wget && cd ${cache}/wget
 			# Download
-			newline
 			download "$pkg" "${mirror}/${pkg}-${vers}.sup"
 			install_sup "${pkg}-${vers}.sup"
 			rm -rf ${cache}/wget && exit 0
@@ -399,9 +400,9 @@ EOT
 			newline
 			gettext "Installed package:"; colorize 36 " $PACKAGE $VERSION"
 			separator
-			echo "Short desc: $SHORT_DESC"
-			echo ""
-			boldify "$(gettext 'Installed files:') ($sup_size)"
+			echo "$SHORT_DESC"
+			newline
+			colorize 036 "$(gettext 'Installed files:') ($sup_size)"
 			cat ${installed}/${pkg}/files.list
 			newline
 		else

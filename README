@@ -1,7 +1,6 @@
 README for SliTaz Users Packages (SUP)
 ================================================================================
 
-CURRENT : cook extract and install work nicely.
 
 The goal is to have a user-land packages management system using SHell scripts
 to pack and install files. The sup packages can install all kind of files such
@@ -17,6 +16,7 @@ tools using scripting languages or precompiled packages such as Firefox.
 
 Sup will be also useful in live mode with a persistent home mounted so users
 will have sup packages installed without having a too big rootfs in RAM.
+
 
 Quickstart
 --------------------------------------------------------------------------------

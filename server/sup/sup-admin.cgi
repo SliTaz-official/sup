@@ -93,7 +93,7 @@ CREATE TABLE pkgs(
 	website,
 	sup_deps,
 	depends,
-	build_date,
+	cook_date,
 	md5sum UNIQUE
 );
 EOT
@@ -136,7 +136,7 @@ INSERT INTO pkgs VALUES(
 	"$WEB_SITE",
 	"$SUP_DEPS",
 	"$DEPENDS",
-	"$build_date",
+	"$cook_date",
 	"$sum"
 );
 EOT

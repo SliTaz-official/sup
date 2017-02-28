@@ -80,7 +80,7 @@ EOT
 <div>
 	<a href="?user=$USER">$(get_gravatar $MAINTAINER 24)</a>
 	$(gettext "Maintainer:") <a href="?user=$USER">$NAME</a> -
-	$(gettext "Build date:") ${build_date} -
+	$(gettext "Build date:") ${cook_date} -
 	$(gettext "License:") $LICENSE
 </div>
 EOT
@@ -208,7 +208,7 @@ EOT
 			clean_error "Can't source receip"
 			echo "</pre>" && exit 1
 		fi
-		echo "Build date: <span class='float-right value'>$build_date</span>"
+		echo "Build date: <span class='float-right value'>$cook_date</span>"
 
 		# README
 		gettext "Checking for a README file..."
