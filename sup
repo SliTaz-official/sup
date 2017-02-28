@@ -35,11 +35,13 @@ $(boldify $(gettext "Commands:"))
   -c  cook           $(gettext "Cook a package from the wok")
   -e  extract        $(gettext "Extract a package to current dir")
   -i  install        $(gettext "Install a new package")
+  -u  update         $(gettext "Update installed package")
   -r  remove         $(gettext "Remove package files")
   -n  new            $(gettext "Create a new package :-)")
   -l  list           $(gettext "List installed packages in your wok")
 
 $(boldify $(gettext "Options:"))
+  --install  update  $(gettext "Install updates")
   --init     cook    $(gettext "Initialize sup cook environment")
   --verbose  all     $(gettext "Display more output messages")
 
