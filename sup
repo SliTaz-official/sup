@@ -31,15 +31,17 @@ $(boldify $(gettext "Usage:")) $(basename $0) [command|package] [package]
 
 $(boldify $(gettext "Commands:"))
   -c  cook           $(gettext "Cook a package from the wok")
+  -r  run            $(gettext "Run sup_install without installing")
   -e  extract        $(gettext "Extract a package to current dir")
   -i  install        $(gettext "Install a new package")
   -u  update         $(gettext "Update installed package")
   -r  remove         $(gettext "Remove package files")
-  -n  new            $(gettext "Create a new package :-)")
+  -n  new            $(gettext "Create a new SUP package :-)")
   -l  list           $(gettext "List installed packages in your wok")
 
 $(boldify $(gettext "Options:"))
-  --install  update  $(gettext "Install updates")
+  --install  update  $(gettext "Install all updates from mirror")
+  --force    update  $(gettext "Force recharging packages database")
   --init     cook    $(gettext "Initialize sup cook environment")
   --verbose  all     $(gettext "Display more output messages")
 
@@ -148,9 +150,9 @@ case "$1" in
 		cp -rf ${wok}/${pkg} ${cache}/${supfile%.sup}
 		cd ${cache}/${supfile%.sup}
 		
-		# Move to hidden dir: ~/.local and ~/.config
-		for dir in local config; do
-			mv files/${dir} files/.${dir}
+		# Move to hidden dir: ~/.local ~/.config ~./icons
+		for dir in local config icons; do
+			[ -d "files/${dir}" ] && mv files/${dir} files/.${dir}
 		done
 		
 		# Add $build_date
@@ -167,10 +169,11 @@ case "$1" in
 		echo "$(gettext 'Packages:') $(colorize 035 $supfile) ($size)"
 		rm -rf ${cache} && newline ;;
 	
-	run)
+	-r|run)
 		# Run sup_install() without any installation to help package creation
 		pkg="$2"
 		receip="$wok/$pkg/receip"
+		work="$supcook/sup_install"
 		
 		# Sanity check
 		check_pkg_arg "$1"
@@ -179,11 +182,14 @@ case "$1" in
 		fi
 		
 		newline
-		echo "$(gettext 'Running') $(colorize 36 $pkg) $(colorize 035 sup_install)"
+		echo "$(colorize 33 $(gettext 'Running') sup_install\(\):) $(colorize 35 $pkg)"
 		separator
-		
-		echo "To be continued"
-		;;
+		mkdir -p ${work} && cd ${work}
+		. ${wok}/${pkg}/receip
+		sup_install
+		separator 
+		gettext "Working folder:"; echo " $work"
+		newline ;;
 	
 	-n|new)
 		pkg="$2"
