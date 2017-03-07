@@ -29,11 +29,19 @@ alias wget="busybox wget"
 # Functions
 #
 
-# Set ttysize= # stty will not work if called from GTK box or CGI script
+# --> get_cols
 tty_size() {
 	if ! stty size | cut -d " " -f 2; then
 		echo 80
 	fi
+}
+
+# Print info a la status way: info [color] [content]
+info() {
+	local info="$2"
+	local char="$(echo $info | wc -L)"
+	local in=$((7 + ${char}))
+	indent $(($(get_cols) - ${in})) "[ $(colorize $1 $info) ]"
 }
 
 # Pretty Busybox wget output. Usage: download [name] [url] [dest]
@@ -86,6 +94,16 @@ extract_sup() {
 	status
 }
 
+# System dependencies: exit on missing system deps ?
+check_sys_deps() {
+	. /etc/slitaz/slitaz.conf # PKGS_DB
+	for dep in ${DEPENDS}; do
+		if [ ! -d "$PKGS_DB/installed/$dep" ]; then
+			gettext "Missing dependency:"; colorize 31 " $dep"; return 1
+		fi
+	done
+}
+
 # Install a sup package
 install_sup() {
 	pkg="$(basename ${1%.sup})"
@@ -98,24 +116,19 @@ install_sup() {
 	cpio -i receip --quiet < ${supfile}
 	. receip
 	
-	# Install sup deps || exit on missing system deps ?
+	# Install sup deps
 	gettext "Checking package dependencies"
-	deps="$(echo $SUP_DEPS $DEPENDS | wc -L)"
+	deps="$(echo $SUP_DEPS $DEPENDS | wc -w)"
 	in=$((8 + ${deps}))
 	indent $(($(tty_size) - ${in})) "[ $(colorize 033 $deps) ]"
 	
 	for dep in ${SUP_DEPS}; do
-		if [ ! "$installed/$dep" ]; then
+		if [ ! -d "$installed/$dep" ]; then
 			gettext "Missing dependency:"; colorize 35 " $dep"
 			sup -i "$dep"
 		fi
 	done
-	. /etc/slitaz/slitaz.conf # PKGS_DB
-	for dep in ${DEPENDS}; do
-		if [ ! "$PKGS_DB/installed/$dep" ]; then
-			gettext "Missing dependency:"; colorize 31 " $dep"
-		fi
-	done
+	check_sys_deps
 	
 	# Remove existing package files to avoid untracked files
 	if [ -d "$installed/$PACKAGE" ]; then
@@ -149,7 +162,7 @@ install_sup() {
 	files_list="${cache}/install/${PACKAGE}-${VERSION}/files.list"
 	find . -type f -print > ${files_list}
 	find . -type l -print >> ${files_list}
-	sed -i s/'^.'/''/g ${files_list}
+	sed -i sed s'/^.//'g ${files_list}
 	
 	# Back to pkg tree
 	cd ${cache}/install/${PACKAGE}-${VERSION}

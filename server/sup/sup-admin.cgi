@@ -157,8 +157,17 @@ EOT
 				# SUP SQLite commands testsuite
 				echo "<pre>"
 				
+				echo -n "Running: sqlite3 ANALYZE..."
+				sqlite3 ${pkgsdb} 'ANALYZE'
+				status
+				
 				echo "Running: <span class='value'>SELECT name FROM pkgs LIMIT 4</span>"
 				sqlite3 ${pkgsdb} 'SELECT name FROM pkgs LIMIT 4' && newline
+				
+				# sqlite_master .schema
+				echo "<span class='value'>sqlite_master schema</span>"
+				echo "-----------------"
+				sqlite3 ${pkgsdb} '.schema sqlite_master'; newline
 				
 				# .schema
 				echo "<span class='value'>CREATE statements</span>"

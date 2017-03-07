@@ -42,10 +42,11 @@ $(boldify $(gettext "Commands:"))
 $(boldify $(gettext "Options:"))
   --install  update  $(gettext "Install all updates from mirror")
   --force    update  $(gettext "Force recharging packages database")
+  --db       list    $(gettext "List all packages in database")
   --init     cook    $(gettext "Initialize sup cook environment")
   --verbose  all     $(gettext "Display more output messages")
 
-$(colorize 33 README)               /usr/share/sup/README
+$(colorize 33 Manual)               man sup
 $(colorize 33 Documentation)        http://scn.slitaz.org/?d=en/sup
 
 EOT
@@ -187,6 +188,11 @@ case "$1" in
 		[ "$clean" ] && rm -rf ${workdir}
 		mkdir -p ${workdir} && cd ${workdir}
 		. ${wok}/${pkg}/receip
+		gettext "Checking package dependencies"
+		deps="$(echo $DEPENDS | wc -w)"
+		in=$((8 + ${deps}))
+		indent $(($(tty_size) - ${in})) "[ $(colorize 033 $deps) ]"
+		check_sys_deps || exit 1
 		sup_install
 		separator 
 		gettext "Working folder:"; echo " $workdir"
@@ -302,6 +308,7 @@ case "$1" in
 				| awk '{printf $1 " " $2}')
 			gettext "Database timestamp:"
 			indent $(($(tty_size) - 23)) "[ $(colorize 30 $timestamp) ]"
+			log "$(gettext 'Updated packages database: $timestamp') "
 		fi
 		
 		# Scan installed packages
@@ -325,16 +332,19 @@ EOT
 			
 			# MD5sum not matching: new version our new build ?
 			if [ "$md5_sum" != "$db_sum" ]; then
+			
 				vers=$(sqlite3 ${pkgsdb} \
 					"SELECT version FROM pkgs WHERE name = '$pkg'")
+				
 				if [ "$VERSION" != "$vers" ]; then
-					status="$(colorize 032 $(gettext "update"))"
+					status="$(colorize 032 $(gettext "update") )"
 				else
 					status="$(colorize 035 $(gettext "rebuilt"))"
 				fi
 				echo "$pkg $(indent 30 $VERSION) $(indent 60 $status)"
 				echo "$pkg" >> ${cache}/updates
 			fi
+			
 		done
 		
 		if [ -f "$cache/updates" ]; then
@@ -365,10 +375,37 @@ EOT
 			exit 1
 		fi ;;
 	
+	-s|search)
+		# TODO: better :-)
+		query="$2"
+		newline
+		echo -n "$(colorize 33 $(gettext 'Searching for:'))"
+		boldify " $query"
+		separator
+		sqlite3 ${pkgsdb} << EOT
+.headers on
+.mode column
+SELECT name, version, short_desc FROM pkgs WHERE name = '$2';
+EOT
+		newline ;;
+	
 	-l|list)
+		# only --db
+		if [ "$db" ]; then
+			newline
+			echo -n "$(colorize 33 $(gettext 'SUP packages in database:'))"
+			boldify " $(sqlite3 ${pkgsdb} 'SELECT COUNT(name) FROM pkgs')"
+			separator
+			sqlite3 ${pkgsdb} << EOT
+.mode column
+SELECT name, short_desc FROM pkgs;
+EOT
+			newline; exit 0
+		fi
+		
 		installed_nb=$(ls ${installed} | wc -l)
 		newline
-		echo -n "$(colorize 36 $(gettext 'Installed sup packages:'))"
+		echo -n "$(colorize 36 $(gettext 'Installed SUP packages:'))"
 		boldify " $installed_nb"
 		separator
 		for pkg in $(ls ${installed}); do
@@ -380,7 +417,7 @@ EOT
 		fi
 		newline
 		if [ -d "$wok" ]; then
-			echo -n "$(colorize 35 $(gettext 'Sup packages in your wok:'))"
+			echo -n "$(colorize 35 $(gettext 'SUP packages in your wok:'))"
 			boldify " $(ls ${wok} | wc -l)"
 			separator
 			for pkg in $(ls ${wok}); do
@@ -388,7 +425,10 @@ EOT
 				echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
 			done
 			newline 
-		fi ;;
+		fi
+		echo -n "$(colorize 33 $(gettext 'SUP packages in database:'))"
+		boldify " $(sqlite3 ${pkgsdb} 'SELECT COUNT(name) FROM pkgs')"
+		newline ;;
 	
 	""|-h|help) help ;;
 		

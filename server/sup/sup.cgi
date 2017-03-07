@@ -19,7 +19,7 @@ if [ "$(basename $0)" == "sup.cgi" ]; then
 	. paths.conf
 fi
 
-# Custom paths.conf for easier development /avoid commiting this file 
+# Custom paths.conf for easier development avoid commit this file 
 # with wrong paths like Pankso does! Full paths are needed for upload
 # to work properly.
 [ -f "${plugins}/sup/paths.conf" ] && . ${plugins}/sup/paths.conf

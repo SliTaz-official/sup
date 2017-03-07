@@ -38,15 +38,18 @@ msgfmt:
 install:
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/lib/slitaz
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/sup
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/locale
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/mime/packages
+	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/doc/slitaz
+	
 	install -m 0755 sup $(DESTDIR)$(PREFIX)/bin
 	install -m 0755 libsup.sh $(DESTDIR)$(PREFIX)/lib/slitaz
 	install -m 0644 data/*.desktop $(DESTDIR)$(PREFIX)/share/applications
 	install -m 0644 data/mime/sup.xml $(DESTDIR)$(PREFIX)/share/mime/packages
-	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/sup
-	install -m 0644 README $(DESTDIR)$(PREFIX)/share/sup
+	
+	cp -f README $(DESTDIR)$(PREFIX)/share/doc/slitaz/sup.txt
 	cp -rf sup-demo $(DESTDIR)$(PREFIX)/share/sup
 	cp -rf po/clients/mo/* $(DESTDIR)$(PREFIX)/share/locale
 
