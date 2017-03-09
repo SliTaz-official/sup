@@ -9,8 +9,9 @@
 
 config="$HOME/.config"
 cache="$HOME/.cache/sup"
-data="$HOME/.local/share"
-supdb="$data/sup"
+local="$HOME/.local"
+data="$local/share"
+supdb="$local/share/sup"
 installed="$supdb/installed"
 activity="$cache/activity.log"
 
