@@ -9,11 +9,11 @@
 
 config="$HOME/.config"
 cache="$HOME/.cache/sup"
-local="$HOME/.local"
-data="$local/share"
-supdb="$local/share/sup"
+data="$HOME/.local/share"
+supdb="$data/sup"
 installed="$supdb/installed"
 activity="$cache/activity.log"
+downloads="$cache/downloads"
 
 server="http://scn.slitaz.org/"
 mirror="${server}content/sup/packages"

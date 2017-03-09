@@ -8,8 +8,8 @@ as scripts, non free tools, icons, wallpapers, templates, pre-compiled binaries,
 etc. Sup is designed to handle software that can/should be installed in user
 space such as web frameworks.
 
-This lets users get involved in the project without coding skills, sup provides a
-cmdline tool and a GTK+ interface to install and build packages. The server
+This lets users get involved in the project without coding skills, sup provides
+a cmdline tool and a GTK+ interface to install and build packages. The server
 provides a CGI web interface to upload packages receipts and files. The build 
 is a simple pack without compilation since the idea is to provide custom 
 tools using scripting languages or precompiled packages such as Firefox.
@@ -34,47 +34,25 @@ Quickstart
 
 Cook SUP packages to be uploaded to the server
 --------------------------------------------------------------------------------
-Sup lets users upload packages to the server. To cook your first one you may want to
-use the sup 'new' command:
+Sup lets users upload packages to the server. To cook your first one you may want
+to use the sup 'new' command:
 
   $ sup -n
 
 
-What goes where ?
+Packaging helpers
 --------------------------------------------------------------------------------
+When creating packages you want to be sure everything goes well and for that you
+need testing. Sup provides some helpers to test the package. The sup_install()
+function in the receip is the one who will downlaod files, extract tarballs,
+move files, etc. All commands MUST be run in the current directory. To run the
+sup_install function without installing anything:
 
-  * sup         Client side cmdline tool to install and cook packages
-                --> /usr/bin/sup
-  * sup-box     GTK+ Client side user interface to manage packages
-                --> /usr/bin/sup-box
-  * libsup.sh   Shared SHell function between sup tools
-                --> /usr/lib/slitaz/libsup.sh
-  * server      Server side web interface: TinyCM/SCN plugin
-                --> http://scn.slitaz.org/?sup
+  $ sup run [package]
 
 
-Development environment
---------------------------------------------------------------------------------
-It's easy to work on sup code, commands will talk by themselves:
-
-  --> Cmdline client
-  $ hg clone http://hg.slitaz.org/sup
-  $ cd sup && ./sup
-  
-  --> Server side needs lighttpd & TinyCM install
-  $ make DESTDIR=/home/tux/Public/cgi-bin/tinycm server-install
-  $ tazweb http://localhost/~tux/cgi-bin/tinycm/?sup
-
-
-Developers coding style
---------------------------------------------------------------------------------
-Keep sup simple, clean and fast. Sup tools are written in SHell script, they
-use libtaz.sh and httphelper.sh functions. Sup uses XDG directories paths to 
-store packages' information and build process:
-	
-  ~/.local         User data, executables and sup database
-  ~/.cache         Non-essential data such as tmp and build files
-  ~/.config        Peer user configuration files
+If you download big files and want to keep the in cache, you can use in your
+receip the variable: ${downloads} wich is set to: ~/.cache/sup/downloads
 
 
 Packages format and max size
@@ -99,16 +77,18 @@ files/
   |- local/bin                 For executable binaries and scripts
   |- local/share/XXX           Where XXX is the name of the package
   |- local/share/applications  All .desktop files for menu entry
-   ` config/                   For any configuration file in ~/.config
+  |- config/                   For any configuration file in ~/.config
+   ` icons/                    Applications icons folder
 
 More directories into files/ can be added according to the needs and goals
-of the packages.
+of the packages. The packages you can upload are limited to a few MB, please
+download big files on installation.
 
 
 Receipt variables and function
 --------------------------------------------------------------------------------
-Here are the variables used or usable in a sup receip as well as the uniq function.
-Check out the sup-demo package for a receip example.
+Here are the variables used or usable in a sup receip as well as the uniq 
+function. Check out the sup-demo package for a receip example.
 
   * $build_date     Auto added by 'sup cook' to get the build date
   * $sup_size       Auto added by 'sup cook' to get installed size
@@ -116,12 +96,53 @@ Check out the sup-demo package for a receip example.
 
 Packages dependencies
 --------------------------------------------------------------------------------
-Since sup is not run as root, less deps is better - but some precompiled packages
-will need some system wide tools/libraries, sup will not install any system wide
-packages but warns if dependencies are not installed if DEPENDS is set. 
+Since sup is not run as root, less deps is better - but some precompiled 
+packages will need some system wide tools/libraries, sup will not install any
+system wide packages but warns if dependencies are not installed if DEPENDS is
+set. 
 
 Sup packages can be very simple but also very complex, so feel free to use the 
 receip to warn or prompt users to make an action.
+
+
+Development environment
+--------------------------------------------------------------------------------
+It's easy to work on sup code, commands will talk by themselves:
+
+  --> Cmdline client
+  
+  $ hg clone http://hg.slitaz.org/sup
+  $ cd sup && ./sup
+  
+  --> Server side needs lighttpd & TinyCM install
+  
+  $ make DESTDIR=/home/tux/Public/cgi-bin/tinycm server-install
+  $ tazweb http://localhost/~tux/cgi-bin/tinycm/?sup
+
+
+Source tree: What goes where ?
+--------------------------------------------------------------------------------
+
+  * sup         Client side cmdline tool to install and cook packages
+                --> /usr/bin/sup
+  * sup-box     GTK+ Client side user interface to manage packages
+                --> /usr/bin/sup-box
+  * libsup.sh   Shared SHell function between sup tools
+                --> /usr/lib/slitaz/libsup.sh
+  * server      Server side web interface: TinyCM/SCN plugin
+                --> http://scn.slitaz.org/?sup
+
+
+Developers coding style
+--------------------------------------------------------------------------------
+Keep sup simple, clean and fast. Sup tools are written in SHell script, they
+use libtaz.sh and httphelper.sh functions. Sup uses XDG directories paths to 
+store packages' information and build process:
+	
+  ~/.local         User data, executables and sup database
+  ~/.cache         Non-essential data such as tmp and build files
+  ~/.config        Peer user configuration files
+  ~/.icons         Applications icons used by XDG *.desktop files
 
 
 Colors shems for sup tools

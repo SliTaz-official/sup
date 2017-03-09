@@ -18,7 +18,7 @@ fi
 if ! [ -d "/home/$(id -un)" ]; then
 	gettext "Not a valid user:"; colorize 31 " $(id -un)" && exit 1
 fi
-mkdir -p ${cache} ${installed}
+mkdir -p ${cache} ${installed} ${downloads}
 
 #
 # Functions
@@ -35,9 +35,11 @@ $(boldify $(gettext "Commands:"))
   -e  extract        $(gettext "Extract a package to current dir")
   -i  install        $(gettext "Install a new package")
   -u  update         $(gettext "Update installed package")
-  -r  remove         $(gettext "Remove package files")
+  -r  remove         $(gettext "Remove an installed package")
   -n  new            $(gettext "Create a new SUP package :-)")
-  -l  list           $(gettext "List installed packages in your wok")
+  -l  list           $(gettext "List packages: installed/wok/db")
+  -s  search         $(gettext "Search for packages in the database")
+  -d  debug          $(gettext "Debug info and sup environment")
 
 $(boldify $(gettext "Options:"))
   --install  update  $(gettext "Install all updates from mirror")
@@ -424,11 +426,25 @@ EOT
 				. ${wok}/${pkg}/receip
 				echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
 			done
-			newline 
+			newline
+		fi
+		if [ -d "$cooked" ]; then
+			echo -n "$(colorize 33 $(gettext 'Cooked packages:'))"
+			boldify " $(ls $cooked | wc -l)"
 		fi
 		echo -n "$(colorize 33 $(gettext 'SUP packages in database:'))"
 		boldify " $(sqlite3 ${pkgsdb} 'SELECT COUNT(name) FROM pkgs')"
 		newline ;;
+	
+	-d|debug)
+		# Packaging environment and debugger
+		newline
+		echo "$(colorize 35 $(gettext "Cooked packages:")) $cooked"
+		separator  "-"
+		ls -1 ${cooked}; newline
+		echo "$(colorize 35 $(gettext "Downloads::")) $downloads"
+		separator  "-"
+		ls -1 ${downloads}; newline ;;
 	
 	""|-h|help) help ;;
 		
