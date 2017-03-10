@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SUP Clients\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-10 09:12+0100\n"
+"POT-Creation-Date: 2017-03-10 10:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,178 +90,190 @@ msgid "Initialize sup cook environment"
 msgstr ""
 
 #: sup:49
+msgid "List installed files by a package"
+msgstr ""
+
+#: sup:50
 msgid "Display more output messages"
 msgstr ""
 
-#: sup:68
+#: sup:69
 msgid "Missing package name or file path:"
 msgstr ""
 
-#: sup:112
+#: sup:113
 msgid "Initializing sup cook environment..."
 msgstr ""
 
-#: sup:119 sup:184
+#: sup:120 sup:185
 msgid "Can't find receip in wok for:"
 msgstr ""
 
-#: sup:123
+#: sup:124
 msgid "Building package:"
 msgstr ""
 
-#: sup:129
+#: sup:130
 msgid "Checking receip variables..."
 msgstr ""
 
-#: sup:137 sup:142
+#: sup:138 sup:143
 msgid "Empty variable:"
 msgstr ""
 
-#: sup:143
+#: sup:144
 msgid "You can use:"
 msgstr ""
 
-#: sup:165
+#: sup:166
 msgid "Creating compressed archive..."
 msgstr ""
 
-#: sup:172 sup:241
+#: sup:173 sup:242
 msgid "Packages:"
 msgstr ""
 
-#: sup:188
+#: sup:189
 msgid "Running"
 msgstr ""
 
-#: sup:193 libsup.sh:120
+#: sup:194 libsup.sh:120
 msgid "Checking package dependencies"
 msgstr ""
 
-#: sup:200
+#: sup:201
 msgid "Working folder:"
 msgstr ""
 
-#: sup:207
+#: sup:208
 msgid "New package name:"
 msgstr ""
 
-#: sup:213
+#: sup:214
 msgid "Package already exists in wok:"
 msgstr ""
 
-#: sup:216
+#: sup:217
 msgid "Creating new package files and tree..."
 msgstr ""
 
-#: sup:219
+#: sup:220
 msgid "Executing your favorite editor..."
 msgstr ""
 
-#: sup:221
+#: sup:222
 msgid "To cook your package:"
 msgstr ""
 
-#: sup:231
+#: sup:232
 msgid "Can't find package file:"
 msgstr ""
 
-#: sup:235
+#: sup:236
 msgid "Extract package:"
 msgstr ""
 
-#: sup:275
+#: sup:276
 msgid "Can't find sup package:"
 msgstr ""
 
-#: sup:281
+#: sup:282
 msgid "SUP Update"
 msgstr ""
 
-#: sup:286
+#: sup:287
 msgid "Mirror is unreachable"
 msgstr ""
 
-#: sup:292
+#: sup:293
 msgid "Checking packages.sql..."
 msgstr ""
 
-#: sup:311
+#: sup:312
 msgid "Database timestamp:"
 msgstr ""
 
-#: sup:313
+#: sup:314
 msgid "Updated packages database:"
 msgstr ""
 
-#: sup:318
+#: sup:319
 msgid "Please try later. Missing packages database"
 msgstr ""
 
-#: sup:326
+#: sup:327
 msgid "Installed packages:"
 msgstr ""
 
-#: sup:328
+#: sup:329
 msgid "Package"
 msgstr ""
 
-#: sup:328
+#: sup:329
 msgid "Version"
 msgstr ""
 
-#: sup:329
+#: sup:330
 msgid "Status"
 msgstr ""
 
-#: sup:355
+#: sup:356
 msgid "rebuilt"
 msgstr ""
 
-#: sup:366
+#: sup:367
 msgid "Available updates:"
 msgstr ""
 
-#: sup:375
+#: sup:376
 msgid "Packages are up-to-date"
 msgstr ""
 
-#: sup:387 sup:476
+#: sup:388 sup:485
 msgid "Can't find installed package:"
 msgstr ""
 
-#: sup:395
+#: sup:396
 msgid "Searching for:"
 msgstr ""
 
-#: sup:409 sup:446
+#: sup:410 sup:447
 msgid "SUP packages in database:"
 msgstr ""
 
-#: sup:421
+#: sup:422
 msgid "Installed SUP packages:"
 msgstr ""
 
-#: sup:429
+#: sup:430
 msgid "No sup packages installed"
 msgstr ""
 
-#: sup:433
+#: sup:434
 msgid "SUP packages in your wok:"
 msgstr ""
 
-#: sup:443 sup:453
+#: sup:444 sup:454
 msgid "Cooked packages:"
 msgstr ""
 
-#: sup:456
+#: sup:457
 msgid "Downloads::"
 msgstr ""
 
-#: sup:468
+#: sup:470
 msgid "Installed package:"
 msgstr ""
 
-#: sup:472
+#: sup:475
+msgid "Files list:"
+msgstr ""
+
+#: sup:479
+msgid "Installed size:"
+msgstr ""
+
+#: sup:481
 msgid "Installed files:"
 msgstr ""
 

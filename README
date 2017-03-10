@@ -151,7 +151,7 @@ Here are the colors guide line used in the cmdline tool:
  
   [036/36]  Cyan for installed/mirror 
   [035/35]  Magenta for cook/wok
-  [033/33]  Yellow for commands/functions
+  [033/33]  Yellow for commands/functions/info()
   
 The CGI/Web hug services match SCN/SliTaz network graphical style.
 

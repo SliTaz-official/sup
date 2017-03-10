@@ -27,7 +27,7 @@ mkdir -p ${cache} ${installed} ${downloads}
 help() {
 	cat << EOT
 
-$(boldify $(gettext "Usage:")) $(basename $0) [command|package] [package]
+$(boldify $(gettext "Usage:")) $(basename $0) [command|package] [package|--option]
 
 $(boldify $(gettext "Commands:"))
   -i  install        $(gettext "Install a new package")
@@ -46,6 +46,7 @@ $(boldify $(gettext "Options:"))
   --force    update  $(gettext "Force recharging packages database")
   --db       list    $(gettext "List all packages in database")
   --init     cook    $(gettext "Initialize sup cook environment")
+  --list     info    $(gettext "List installed files by a package")
   --verbose  all     $(gettext "Display more output messages")
 
 $(colorize 33 Manual)               man sup
@@ -459,8 +460,9 @@ EOT
 	
 	""|-h|help) help ;;
 		
-	*)
+	*|info)
 		# Display pkg info if installed
+		[ "$1" == "info" ] && shift
 		pkg="$1"
 		if [ -f "$installed/$pkg/receip" ]; then
 			. ${installed}/${pkg}/receip
@@ -469,8 +471,15 @@ EOT
 			separator
 			echo "$SHORT_DESC"
 			newline
-			colorize 036 "$(gettext 'Installed files:') ($sup_size)"
-			cat ${installed}/${pkg}/files.list
+			if [ "$list" ]; then
+				colorize 036 "$(gettext 'Files list:')"
+				cat ${installed}/${pkg}/files.list
+				separator "-"
+			fi
+			echo -n $(colorize 036 "$(gettext 'Installed size:')")
+			info 033 "$sup_size"
+			echo -n $(colorize 036 "$(gettext 'Installed files:')")
+			info 033 $(cat ${installed}/${pkg}/files.list | wc -l)
 			newline
 		else
 			gettext "Can't find installed package:"; colorize 31 " $pkg"

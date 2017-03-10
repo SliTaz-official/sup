@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SUP Clients\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-10 09:12+0100\n"
+"POT-Creation-Date: 2017-03-10 10:11+0100\n"
 "PO-Revision-Date: 2017-02-28 22:56+0200\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
@@ -99,188 +99,202 @@ msgid "Initialize sup cook environment"
 msgstr "Инициализировать среду sup cook"
 
 #: sup:49
+#, fuzzy
+msgid "List installed files by a package"
+msgstr "Установленный пакет:"
+
+#: sup:50
 msgid "Display more output messages"
 msgstr "Показывать больше выходных сообщений"
 
-#: sup:68
+#: sup:69
 msgid "Missing package name or file path:"
 msgstr "Отсутствует название пакета или путь к файлу:"
 
-#: sup:112
+#: sup:113
 msgid "Initializing sup cook environment..."
 msgstr "Инициализация среды sup cook…"
 
-#: sup:119 sup:184
+#: sup:120 sup:185
 msgid "Can't find receip in wok for:"
 msgstr "Не удалось найти receip в wok для:"
 
-#: sup:123
+#: sup:124
 msgid "Building package:"
 msgstr "Создание пакета:"
 
-#: sup:129
+#: sup:130
 msgid "Checking receip variables..."
 msgstr "Проверка переменных receip…"
 
-#: sup:137 sup:142
+#: sup:138 sup:143
 msgid "Empty variable:"
 msgstr "Пустая переменная:"
 
-#: sup:143
+#: sup:144
 msgid "You can use:"
 msgstr "Вы можете использовать:"
 
-#: sup:165
+#: sup:166
 msgid "Creating compressed archive..."
 msgstr "Создание сжатого архива…"
 
-#: sup:172 sup:241
+#: sup:173 sup:242
 msgid "Packages:"
 msgstr "Пакеты:"
 
-#: sup:188
+#: sup:189
 msgid "Running"
 msgstr ""
 
-#: sup:193 libsup.sh:120
+#: sup:194 libsup.sh:120
 #, fuzzy
 msgid "Checking package dependencies"
 msgstr "Проверка зависимостей для"
 
-#: sup:200
+#: sup:201
 #, fuzzy
 msgid "Working folder:"
 msgstr "Удаление папки:"
 
-#: sup:207
+#: sup:208
 msgid "New package name:"
 msgstr "Название нового пакета:"
 
-#: sup:213
+#: sup:214
 msgid "Package already exists in wok:"
 msgstr "Пакет уже существует в wok:"
 
-#: sup:216
+#: sup:217
 msgid "Creating new package files and tree..."
 msgstr "Создание файлов и дерева нового пакета…"
 
-#: sup:219
+#: sup:220
 msgid "Executing your favorite editor..."
 msgstr "Запуск вашего любимого редактора…"
 
-#: sup:221
+#: sup:222
 msgid "To cook your package:"
 msgstr "Чтобы создать ваш пакет:"
 
-#: sup:231
+#: sup:232
 msgid "Can't find package file:"
 msgstr "Не удалось найти файл пакета:"
 
-#: sup:235
+#: sup:236
 msgid "Extract package:"
 msgstr "Распаковка пакета:"
 
-#: sup:275
+#: sup:276
 msgid "Can't find sup package:"
 msgstr "Не удалось найти пакет sup:"
 
-#: sup:281
+#: sup:282
 msgid "SUP Update"
 msgstr "Обновление SUP"
 
-#: sup:286
+#: sup:287
 msgid "Mirror is unreachable"
 msgstr "Зеркало недоступно"
 
-#: sup:292
+#: sup:293
 #, fuzzy
 msgid "Checking packages.sql..."
 msgstr "Проверка переменных receip…"
 
-#: sup:311
+#: sup:312
 msgid "Database timestamp:"
 msgstr ""
 
-#: sup:313
+#: sup:314
 #, fuzzy
 msgid "Updated packages database:"
 msgstr "Название нового пакета:"
 
-#: sup:318
+#: sup:319
 msgid "Please try later. Missing packages database"
 msgstr ""
 
-#: sup:326
+#: sup:327
 #, fuzzy
 msgid "Installed packages:"
 msgstr "Установленный пакет:"
 
-#: sup:328
+#: sup:329
 #, fuzzy
 msgid "Package"
 msgstr "Пакеты:"
 
-#: sup:328
+#: sup:329
 msgid "Version"
 msgstr ""
 
-#: sup:329
+#: sup:330
 msgid "Status"
 msgstr ""
 
-#: sup:355
+#: sup:356
 msgid "rebuilt"
 msgstr ""
 
-#: sup:366
+#: sup:367
 msgid "Available updates:"
 msgstr ""
 
-#: sup:375
+#: sup:376
 msgid "Packages are up-to-date"
 msgstr ""
 
-#: sup:387 sup:476
+#: sup:388 sup:485
 msgid "Can't find installed package:"
 msgstr "Не удалось найти установленный пакет:"
 
-#: sup:395
+#: sup:396
 msgid "Searching for:"
 msgstr ""
 
-#: sup:409 sup:446
+#: sup:410 sup:447
 #, fuzzy
 msgid "SUP packages in database:"
 msgstr "Название нового пакета:"
 
-#: sup:421
+#: sup:422
 #, fuzzy
 msgid "Installed SUP packages:"
 msgstr "Установленный пакет:"
 
-#: sup:429
+#: sup:430
 msgid "No sup packages installed"
 msgstr "Нет установленных пакетов sup"
 
-#: sup:433
+#: sup:434
 #, fuzzy
 msgid "SUP packages in your wok:"
 msgstr "Пакеты sup в вашем wok:"
 
-#: sup:443 sup:453
+#: sup:444 sup:454
 #, fuzzy
 msgid "Cooked packages:"
 msgstr "Чтобы создать ваш пакет:"
 
-#: sup:456
+#: sup:457
 msgid "Downloads::"
 msgstr ""
 
-#: sup:468
+#: sup:470
 msgid "Installed package:"
 msgstr "Установленный пакет:"
 
-#: sup:472
+#: sup:475
+msgid "Files list:"
+msgstr ""
+
+#: sup:479
+#, fuzzy
+msgid "Installed size:"
+msgstr "Установленные файлы:"
+
+#: sup:481
 msgid "Installed files:"
 msgstr "Установленные файлы:"
 
