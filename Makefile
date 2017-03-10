@@ -4,7 +4,7 @@
 PREFIX?=/usr
 CGI_BIN?=/var/www/cgi-bin
 DESTDIR?=
-LINGUAS?=fr
+LINGUAS?=fr ru
 
 all: msgfmt
 

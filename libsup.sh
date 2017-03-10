@@ -24,7 +24,6 @@ supcook="$HOME/sup-cook"
 cooked="$supcook/packages"
 
 export TEXTDOMAIN='sup-clients'
-alias wget="busybox wget"
 
 #
 # Functions
@@ -61,7 +60,7 @@ download() {
 	in=$((3 + ${char}))
 	
 	echo -n "$dl $(colorize 035 $name →)"
-	wget -c -P ${dest} "$url" 2>&1 | while read file pct progress null
+	busybox wget -c -P ${dest} "$url" 2>&1 | while read file pct progress null
 	do
 		case "$progress" in
 			"|"*) echo -n "$(indent ${in} $progress)" | sed s'!*!-!'g ;;
