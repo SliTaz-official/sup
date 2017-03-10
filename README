@@ -44,15 +44,15 @@ Packaging helpers
 --------------------------------------------------------------------------------
 When creating packages you want to be sure everything goes well and for that you
 need testing. Sup provides some helpers to test the package. The sup_install()
-function in the receip is the one who will downlaod files, extract tarballs,
+function in the receip is the one which will download files, extract tarballs,
 move files, etc. All commands MUST be run in the current directory. To run the
 sup_install function without installing anything:
 
   $ sup run [package]
 
 
-If you download big files and want to keep the in cache, you can use in your
-receip the variable: ${downloads} wich is set to: ~/.cache/sup/downloads
+If you download big files and want to keep them in the cache, you can use in your
+receip the variable: ${downloads} which is set to: ~/.cache/sup/downloads
 
 
 Packages format and max size
@@ -145,15 +145,15 @@ store packages' information and build process:
   ~/.icons         Applications icons used by XDG *.desktop files
 
 
-Colors shems for sup tools
+Color schemes for sup tools
 --------------------------------------------------------------------------------
-Here are the colors guide line used in the cmdline tool:
+Here are the color guidelines used in the cmdline tool:
  
   [036/36]  Cyan for installed/mirror 
   [035/35]  Magenta for cook/wok
   [033/33]  Yellow for commands/functions/info()
   
-The CGI/Web hug services match SCN/SliTaz network graphical style.
+The CGI/Web hub services match SCN/SliTaz network graphical style.
 
 
 Mime type & Icon
