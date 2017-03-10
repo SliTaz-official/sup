@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Sup Clients\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-10 10:11+0100\n"
-"PO-Revision-Date: 2017-02-26 21:15+0100\n"
+"PO-Revision-Date: 2017-03-10 10:24+0100\n"
 "Last-Translator: Christophe Lincoln <pankso@slitaz.org>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -32,19 +32,16 @@ msgid "Commands:"
 msgstr "Commandes:"
 
 #: sup:33
-#, fuzzy
 msgid "Install a new package"
-msgstr "Installe un paquet sup"
+msgstr "Installe un nouveau paquet sup"
 
 #: sup:34
-#, fuzzy
 msgid "Update installed package"
-msgstr "Paquet installé:"
+msgstr "Mise à jour des paquets installés"
 
 #: sup:35
-#, fuzzy
 msgid "Remove an installed package"
-msgstr "Paquet installé:"
+msgstr "Supprime un paquet installé"
 
 #: sup:36
 msgid "Cook a package from the wok"
@@ -52,24 +49,23 @@ msgstr "Cuire un paquet depuis le wok"
 
 #: sup:37
 msgid "Run sup_install without installing"
-msgstr ""
+msgstr "Exécute sup_install sans rien installer"
 
 #: sup:38
 msgid "Extract a package to current dir"
-msgstr ""
+msgstr "Extrait un paquet dans le dossier courant"
 
 #: sup:39
-#, fuzzy
 msgid "Create a new SUP package :-)"
-msgstr "Installe un paquet sup"
+msgstr "Créer un nouveau paquet SUP :-)"
 
 #: sup:40
 msgid "List packages: installed/wok/db"
-msgstr ""
+msgstr "Liste les paquets: installés/wok/db"
 
 #: sup:41
 msgid "Search for packages in the database"
-msgstr ""
+msgstr "Rechercher un paquet dans la base de données"
 
 #: sup:42
 msgid "Debug info and sup environment"
@@ -77,7 +73,7 @@ msgstr ""
 
 #: sup:44
 msgid "Options:"
-msgstr ""
+msgstr "Options:"
 
 #: sup:45
 msgid "Install all updates from mirror"
@@ -119,7 +115,7 @@ msgstr ""
 
 #: sup:124
 msgid "Building package:"
-msgstr ""
+msgstr "Construction du paquet:"
 
 #: sup:130
 msgid "Checking receip variables..."
@@ -179,7 +175,7 @@ msgstr ""
 
 #: sup:236
 msgid "Extract package:"
-msgstr ""
+msgstr "Extraction du paquet:"
 
 #: sup:276
 msgid "Can't find sup package:"
@@ -187,7 +183,7 @@ msgstr ""
 
 #: sup:282
 msgid "SUP Update"
-msgstr ""
+msgstr "Mise à jour SUP"
 
 #: sup:287
 msgid "Mirror is unreachable"
@@ -216,27 +212,27 @@ msgstr "Paquet installé:"
 
 #: sup:329
 msgid "Package"
-msgstr ""
+msgstr "Paquet"
 
 #: sup:329
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: sup:330
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: sup:356
 msgid "rebuilt"
-msgstr ""
+msgstr "reconstruit"
 
 #: sup:367
 msgid "Available updates:"
-msgstr ""
+msgstr "Mises à jours disponibles:"
 
 #: sup:376
 msgid "Packages are up-to-date"
-msgstr ""
+msgstr "Les paquets installés sont à jour"
 
 #: sup:388 sup:485
 msgid "Can't find installed package:"
@@ -244,7 +240,7 @@ msgstr ""
 
 #: sup:396
 msgid "Searching for:"
-msgstr ""
+msgstr "Recherche de:"
 
 #: sup:410 sup:447
 msgid "SUP packages in database:"
@@ -279,12 +275,11 @@ msgstr "Paquet installé:"
 
 #: sup:475
 msgid "Files list:"
-msgstr ""
+msgstr "Liste des fichiers:"
 
 #: sup:479
-#, fuzzy
 msgid "Installed size:"
-msgstr "Fichers installés:"
+msgstr "Taille des fichers installés:"
 
 #: sup:481
 msgid "Installed files:"
@@ -292,7 +287,7 @@ msgstr "Fichers installés:"
 
 #: libsup.sh:56
 msgid "Downloading"
-msgstr ""
+msgstr "Téléchargement"
 
 #: libsup.sh:86
 msgid "Uncompressing package tree..."
@@ -303,27 +298,24 @@ msgid "Missing dependency:"
 msgstr ""
 
 #: libsup.sh:135
-#, fuzzy
 msgid "Removing existing package files..."
-msgstr "Supprime un paquet et ses fichiers"
+msgstr "Suppression des fichiers du paquet..."
 
 #: libsup.sh:140 libsup.sh:142
-#, fuzzy
 msgid "Installing package:"
-msgstr "Installation de:"
+msgstr "Installation du paquet:"
 
 #: libsup.sh:153
 msgid "Executing install function:"
-msgstr ""
+msgstr "Exécution de la fonction d'installation:"
 
 #: libsup.sh:160
 msgid "Creating the list of installed files..."
 msgstr ""
 
 #: libsup.sh:175
-#, fuzzy
 msgid "Installing files:"
-msgstr "Installation de:"
+msgstr "Installation des fichiers:"
 
 #: libsup.sh:199 libsup.sh:201
 msgid "Removing package:"
@@ -335,11 +327,11 @@ msgstr "Fichiers à supprimer :"
 
 #: libsup.sh:215
 msgid "Removing file   :"
-msgstr ""
+msgstr "Suppression du fichier :"
 
 #: libsup.sh:220
 msgid "Removing folder :"
-msgstr ""
+msgstr "Suppresion du dossier :"
 
 #: libsup.sh:231
 msgid "Removing packages from local database..."
