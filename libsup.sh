@@ -98,7 +98,7 @@ extract_sup() {
 # System dependencies: exit on missing system deps ?
 check_sys_deps() {
 	. /etc/slitaz/slitaz.conf # PKGS_DB
-	for dep in ${DEPENDS}; do
+	for dep in ${@}; do
 		if [ ! -d "$PKGS_DB/installed/$dep" ]; then
 			gettext "Missing dependency:"; colorize 31 " $dep"; return 1
 		fi
@@ -129,7 +129,7 @@ install_sup() {
 			sup -i "$dep"
 		fi
 	done
-	check_sys_deps
+	check_sys_deps "$DEPENDS"
 	
 	# Remove existing package files to avoid untracked files
 	if [ -d "$installed/$PACKAGE" ]; then
@@ -161,14 +161,16 @@ install_sup() {
 		gettext "Creating the list of installed files..."; echo
 	fi
 	files_list="${cache}/install/${PACKAGE}-${VERSION}/files.list"
+	cd ${cache}/install/${PACKAGE}-${VERSION}/files
 	find . -type f -print > ${files_list}
 	find . -type l -print >> ${files_list}
-	sed -i sed s'/^.//'g ${files_list}
+	sed -i s'/^.//'g ${files_list}
 	
 	# Back to pkg tree
 	cd ${cache}/install/${PACKAGE}-${VERSION}
 	echo "sup_size=\"$(du -sh files | cut -d "	" -f 1)\"" >> receip
 	echo "md5_sum=\"${md5sum}\"" >> receip
+	separator "-"
 	
 	# Now we need a place to store package data and set $sup_size
 	echo -n "$(colorize 036 $(gettext 'Installing files:'))"

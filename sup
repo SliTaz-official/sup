@@ -30,12 +30,12 @@ help() {
 $(boldify $(gettext "Usage:")) $(basename $0) [command|package] [package]
 
 $(boldify $(gettext "Commands:"))
-  -c  cook           $(gettext "Cook a package from the wok")
-  -r  run            $(gettext "Run sup_install without installing")
-  -e  extract        $(gettext "Extract a package to current dir")
   -i  install        $(gettext "Install a new package")
   -u  update         $(gettext "Update installed package")
   -r  remove         $(gettext "Remove an installed package")
+  -c  cook           $(gettext "Cook a package from the wok")
+      run            $(gettext "Run sup_install without installing")
+  -e  extract        $(gettext "Extract a package to current dir")
   -n  new            $(gettext "Create a new SUP package :-)")
   -l  list           $(gettext "List packages: installed/wok/db")
   -s  search         $(gettext "Search for packages in the database")
@@ -172,7 +172,7 @@ case "$1" in
 		echo "$(gettext 'Packages:') $(colorize 035 $supfile) ($size)"
 		rm -rf ${cache} && newline ;;
 	
-	-r|run)
+	run)
 		# Run sup_install() without any installation to help package creation
 		pkg="$2"
 		receip="$wok/$pkg/receip"
@@ -292,10 +292,10 @@ case "$1" in
 		gettext "Checking packages.sql..."
 		db_sum=$(wget -q "${server}?sup=dbsum" -O -)
 		if echo "$db_sum  $pkgsdb" | md5sum -s -c -; then
-			indent $(($(tty_size) - 13)) "[ $(colorize 036 synced) ]"
+			info 036 "synced"
 		else
 			[ "$online" ] && rm -f ${pkgsdb}
-			indent $(($(tty_size) - 13)) "[ $(colorize 035 update) ]"
+			info 035 "update"
 		fi
 		
 		# --force
@@ -310,7 +310,12 @@ case "$1" in
 				| awk '{printf $1 " " $2}')
 			gettext "Database timestamp:"
 			indent $(($(tty_size) - 23)) "[ $(colorize 30 $timestamp) ]"
-			log "$(gettext 'Updated packages database: $timestamp') "
+			log "$(gettext 'Updated packages database:') $timestamp"
+		fi
+		
+		# Exit now if no packages.sql
+		if [ ! -f "$pkgsdb" ]; then
+			gettext "Please try later. Missing packages database"; echo; exit 1
 		fi
 		
 		# Scan installed packages
@@ -319,34 +324,40 @@ case "$1" in
 		in=$((7 + ${char}))
 		
 		gettext "Installed packages:"
-		indent $(($(tty_size) - ${in})) "[ $(colorize 033 $count) ]"
-		cat << EOT
+		info 033 "$count"; newline
+		echo -n $(boldify $(gettext "Package") $(indent 30 $(gettext "Version")))
+		info 40 $(gettext "Status")
+		separator "-"
 
-$(boldify $(gettext "Package") $(indent 30 $(gettext "Version")) \
-$(indent 60 $(gettext "Status")))
-$(separator "-")
-EOT
 		for pkg in $(ls $installed)
 		do
 			. ${installed}/${pkg}/receip
-			db_sum=$(sqlite3 ${pkgsdb} \
-				"SELECT md5sum FROM pkgs WHERE name = '$pkg'")
 			
-			# MD5sum not matching: new version our new build ?
-			if [ "$md5_sum" != "$db_sum" ]; then
-			
-				vers=$(sqlite3 ${pkgsdb} \
-					"SELECT version FROM pkgs WHERE name = '$pkg'")
+			name=$(sqlite3 ${pkgsdb} \
+				"SELECT name FROM pkgs WHERE name = '$pkg'")
+			if [ ! "$name" ]; then
+				#echo -n "$pkg $(indent 30 $VERSION)"
+				#info 036 "$(gettext "local")"
+				continue
+			else
+				db_sum=$(sqlite3 ${pkgsdb} \
+					"SELECT md5sum FROM pkgs WHERE name = '$pkg'")
 				
-				if [ "$VERSION" != "$vers" ]; then
-					status="$(colorize 032 $(gettext "update") )"
-				else
-					status="$(colorize 035 $(gettext "rebuilt"))"
+				# MD5sum not matching: new version our new build ?
+				if [ "$md5_sum" != "$db_sum" ]; then
+					echo -n "$pkg $(indent 30 $VERSION)"
+					vers=$(sqlite3 ${pkgsdb} \
+						"SELECT version FROM pkgs WHERE name = '$pkg'")
+					
+					if [ "$VERSION" != "$vers" ]; then
+						info 032 "$(gettext "$vers")"
+					else
+						info 035 "$(gettext "rebuilt")"
+					fi
+					echo "$pkg" >> ${cache}/updates
 				fi
-				echo "$pkg $(indent 30 $VERSION) $(indent 60 $status)"
-				echo "$pkg" >> ${cache}/updates
 			fi
-			
+			unset name db_sum vers
 		done
 		
 		if [ -f "$cache/updates" ]; then
