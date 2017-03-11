@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SUP Clients\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-10 18:42+0000\n"
-"PO-Revision-Date: 2017-02-28 22:56+0200\n"
+"POT-Creation-Date: 2017-03-11 11:27+0200\n"
+"PO-Revision-Date: 2017-03-11 11:56+0200\n"
 "Last-Translator: Aleksej Bobylev <al.bobylev@gmail.com>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -38,14 +38,12 @@ msgid "Install a new package"
 msgstr "Установить новый пакет"
 
 #: sup:34
-#, fuzzy
 msgid "Update installed package"
-msgstr "Установленный пакет:"
+msgstr "Обновить установленный пакет"
 
 #: sup:35
-#, fuzzy
 msgid "Remove an installed package"
-msgstr "Не удалось найти установленный пакет:"
+msgstr "Удалить установленный пакет"
 
 #: sup:36
 msgid "Cook a package from the wok"
@@ -53,29 +51,27 @@ msgstr "Создать пакет из wok"
 
 #: sup:37
 msgid "Run sup_install without installing"
-msgstr ""
+msgstr "Запустить sup_install() без установки"
 
 #: sup:38
 msgid "Extract a package to current dir"
 msgstr "Распаковать пакет в текущую папку"
 
 #: sup:39
-#, fuzzy
 msgid "Create a new SUP package :-)"
-msgstr "Создать новый пакет :-)"
+msgstr "Создать новый пакет SUP :-)"
 
 #: sup:40
-#, fuzzy
 msgid "List packages: installed/wok/db"
-msgstr "Нет установленных пакетов sup"
+msgstr "Список пакетов: установленные/wok/DB"
 
 #: sup:41
 msgid "Search for packages in the database"
-msgstr ""
+msgstr "Искать пакеты в базе данных"
 
 #: sup:42
 msgid "Debug info and sup environment"
-msgstr ""
+msgstr "Отладочная информация и окружение SUP"
 
 #: sup:44
 msgid "Options:"
@@ -83,25 +79,23 @@ msgstr "Параметры:"
 
 #: sup:45
 msgid "Install all updates from mirror"
-msgstr ""
+msgstr "Установить все обновления с зеркала"
 
 #: sup:46
 msgid "Force recharging packages database"
-msgstr ""
+msgstr "Принудительно перезагрузить базу данных пакетов"
 
 #: sup:47
-#, fuzzy
 msgid "List all packages in database"
-msgstr "Список пакетов, установленных в вашем wok"
+msgstr "Перечислить все пакеты в базе данных"
 
 #: sup:48
 msgid "Initialize sup cook environment"
 msgstr "Инициализировать среду sup cook"
 
 #: sup:49
-#, fuzzy
 msgid "List files installed by a package"
-msgstr "Установленный пакет:"
+msgstr "Перечислить файлы, устанавливаемые пакетом"
 
 #: sup:50
 msgid "Display more output messages"
@@ -145,17 +139,15 @@ msgstr "Пакеты:"
 
 #: sup:189
 msgid "Running"
-msgstr ""
+msgstr "Запускается"
 
 #: sup:194 libsup.sh:120
-#, fuzzy
 msgid "Checking package dependencies"
-msgstr "Проверка зависимостей для"
+msgstr "Проверка зависимостей пакета"
 
 #: sup:201
-#, fuzzy
 msgid "Working folder:"
-msgstr "Удаление папки:"
+msgstr "Рабочая папка:"
 
 #: sup:208
 msgid "New package name:"
@@ -198,52 +190,48 @@ msgid "Mirror is unreachable"
 msgstr "Зеркало недоступно"
 
 #: sup:293
-#, fuzzy
 msgid "Checking packages.sql..."
-msgstr "Проверка переменных receip…"
+msgstr "Проверка packages.sql…"
 
 #: sup:312
 msgid "Database timestamp:"
-msgstr ""
+msgstr "Временная метка базы данных:"
 
 #: sup:314
-#, fuzzy
 msgid "Updated packages database:"
-msgstr "Название нового пакета:"
+msgstr "База данных пакетов обновлена:"
 
 #: sup:319
 msgid "Please try later. Missing packages database"
-msgstr ""
+msgstr "Пожалуйста, попробуйте позднее. Отсутствует база данных пакетов"
 
 #: sup:327
-#, fuzzy
 msgid "Installed packages:"
-msgstr "Установленный пакет:"
+msgstr "Установленные пакеты:"
 
 #: sup:329
-#, fuzzy
 msgid "Package"
-msgstr "Пакеты:"
+msgstr "Пакет"
 
 #: sup:329
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: sup:330
 msgid "Status"
-msgstr ""
+msgstr "Состояние"
 
 #: sup:356
 msgid "rebuilt"
-msgstr ""
+msgstr "пересобран"
 
 #: sup:367
 msgid "Available updates:"
-msgstr ""
+msgstr "Доступные обновления:"
 
 #: sup:376
 msgid "Packages are up-to-date"
-msgstr ""
+msgstr "Пакеты обновлены"
 
 #: sup:388 sup:485
 msgid "Can't find installed package:"
@@ -251,35 +239,31 @@ msgstr "Не удалось найти установленный пакет:"
 
 #: sup:396
 msgid "Searching for:"
-msgstr ""
+msgstr "Поиск:"
 
 #: sup:410 sup:447
-#, fuzzy
 msgid "SUP packages in database:"
-msgstr "Название нового пакета:"
+msgstr "Пакеты SUP в базе данных:"
 
 #: sup:422
-#, fuzzy
 msgid "Installed SUP packages:"
-msgstr "Установленный пакет:"
+msgstr "Установленные пакеты SUP:"
 
 #: sup:430
 msgid "No sup packages installed"
 msgstr "Нет установленных пакетов sup"
 
 #: sup:434
-#, fuzzy
 msgid "SUP packages in your wok:"
-msgstr "Пакеты sup в вашем wok:"
+msgstr "Пакеты SUP в вашем wok:"
 
 #: sup:444 sup:454
-#, fuzzy
 msgid "Cooked packages:"
-msgstr "Чтобы создать ваш пакет:"
+msgstr "Созданные пакеты:"
 
 #: sup:457
 msgid "Downloads::"
-msgstr ""
+msgstr "Загрузки::"
 
 #: sup:470
 msgid "Installed package:"
@@ -287,12 +271,11 @@ msgstr "Установленный пакет:"
 
 #: sup:475
 msgid "Files list:"
-msgstr ""
+msgstr "Список файлов:"
 
 #: sup:479
-#, fuzzy
 msgid "Installed size:"
-msgstr "Установленные файлы:"
+msgstr "Установленный размер:"
 
 #: sup:481
 msgid "Installed files:"
@@ -300,7 +283,7 @@ msgstr "Установленные файлы:"
 
 #: libsup.sh:56
 msgid "Downloading"
-msgstr ""
+msgstr "Загрузка"
 
 #: libsup.sh:86
 msgid "Uncompressing package tree..."
@@ -308,12 +291,11 @@ msgstr "Распаковка дерева пакета…"
 
 #: libsup.sh:102 libsup.sh:127
 msgid "Missing dependency:"
-msgstr ""
+msgstr "Отсутствует зависимость:"
 
 #: libsup.sh:135
-#, fuzzy
 msgid "Removing existing package files..."
-msgstr "Удалить файлы пакета"
+msgstr "Удаление имеющихся файлов пакета…"
 
 #: libsup.sh:140 libsup.sh:142
 msgid "Installing package:"
@@ -329,11 +311,11 @@ msgstr "Создание списка установленных файлов…
 
 #: libsup.sh:175
 msgid "Installing files:"
-msgstr "Установка файлов:"
+msgstr "Установка файлов  :"
 
 #: libsup.sh:199 libsup.sh:201
 msgid "Removing package:"
-msgstr "Удаление пакета:"
+msgstr "Удаление пакета   :"
 
 #: libsup.sh:204
 msgid "Files to remove :"
@@ -341,11 +323,11 @@ msgstr "Файлы для удаления:"
 
 #: libsup.sh:215
 msgid "Removing file   :"
-msgstr "Удаление файла:"
+msgstr "Удаление файла    :"
 
 #: libsup.sh:220
 msgid "Removing folder :"
-msgstr "Удаление папки:"
+msgstr "Удаление папки    :"
 
 #: libsup.sh:231
 msgid "Removing packages from local database..."
