@@ -132,8 +132,9 @@ install_sup() {
 	
 	# Remove existing package files to avoid untracked files
 	if [ -d "$installed/$PACKAGE" ]; then
-		gettext "Removing existing package files..."
+		gettext "Removing old package files..."
 		remove_sup "$PACKAGE" >/dev/null; status
+		. receip
 	fi
 	
 	newline
@@ -160,10 +161,13 @@ install_sup() {
 		gettext "Creating the list of installed files..."; echo
 	fi
 	files_list="${cache}/install/${PACKAGE}-${VERSION}/files.list"
+	dirs_list="${cache}/install/${PACKAGE}-${VERSION}/dirs.list"
 	cd ${cache}/install/${PACKAGE}-${VERSION}/files
 	find . -type f -print > ${files_list}
 	find . -type l -print >> ${files_list}
+	find . -type d -print > ${dirs_list}
 	sed -i s'/^.//'g ${files_list}
+	sed -i s'/^.//'g ${dirs_list}
 	
 	# Back to pkg tree
 	cd ${cache}/install/${PACKAGE}-${VERSION}
@@ -178,7 +182,7 @@ install_sup() {
 	data="${installed}/${PACKAGE}"
 	mkdir -p ${data}
 	
-	for file in receip README files.list; do
+	for file in receip README files.list dirs.list; do
 		[ -f "$file" ] && cp -f ${file} ${data}
 	done
 	for file in $(ls -A files); do
@@ -192,8 +196,11 @@ install_sup() {
 # Remove a sup package
 remove_sup() {
 	pkg="$1"
-	files_list="$installed/$pkg/files.list"
 	. ${installed}/${pkg}/receip
+	
+	files_list="$installed/$pkg/files.list"
+	dirs_list="$installed/$pkg/dirs.list"
+	touch ${dirs_list}
 	
 	newline
 	echo -n "$(colorize 33 $(gettext 'Removing package:'))"
@@ -207,27 +214,22 @@ remove_sup() {
 	in=$((7 + ${char}))
 	indent $(($(tty_size) - ${in})) "[ $(colorize 033 $files) ]"
 	
-	# Remove all files
-	for file in $(cat $files_list)
-	do
-		# --verbose
-		if [ "$verbose" ]; then
-			gettext "Removing file   :"; echo -n " ${file#/}"
-			rm -f "${HOME}${file}"; status
-			# Empty folder ?
-			if [ ! "$(ls -A ${HOME}$(dirname $file))" ]; then
-				path="$(dirname $file)"
-				gettext "Removing folder :"; echo -n " ${path#/}"
-				rmdir "${HOME}$(dirname $file)"; status
-			fi
-		else
-			rm -f "${HOME}${file}"
-			# Empty folder ?
-			if [ ! "$(ls -A ${HOME}$(dirname $file))" ]; then
-				rmdir "${HOME}$(dirname $file)"
-			fi
-		fi
-	done
+	# Remove all files and empty folders (code idea from Tazpkg :-)
+	IFS=$'\n'
+	files2remove="$(mktemp)"
+	dirs2remove="$(mktemp)"
+	
+	awk -vhome="$HOME" '{ printf "%s%s\n", home, $0; }' \
+		"$files_list" > "$files2remove"
+	xargs rm < "$files2remove"
+	
+	awk -vhome="$HOME" '{ printf "%s%s\n", home, $0; }' \
+		"$dirs_list" > "$dirs2remove"
+	xargs rmdir -p < "$dirs2remove" 2>/dev/null
+	
+	rm ${files2remove} ${dirs2remove}
+	unset IFS
+	
 	gettext "Removing packages from local database..."
 	rm -rf ${installed}/${pkg}; status
 	newline

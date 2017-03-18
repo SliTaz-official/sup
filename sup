@@ -46,7 +46,7 @@ $(boldify $(gettext "Options:"))
   --force    update  $(gettext "Force recharging packages database")
   --db       list    $(gettext "List all packages in database")
   --init     cook    $(gettext "Initialize sup cook environment")
-  --list     info    $(gettext "List files installed by a package")
+  --list     pkg     $(gettext "List files installed by a package")
   --verbose  all     $(gettext "Display more output messages")
 
 $(colorize 33 Manual)               man sup
