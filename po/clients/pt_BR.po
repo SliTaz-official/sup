@@ -1,0 +1,331 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SUP Clients\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-20 03:44-0300\n"
+"PO-Revision-Date: 2017-04-20 04:48-0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"Last-Translator: Leonardo Laporte <hackdorte@yandex.com>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: pt_BR\n"
+
+#: sup:19
+msgid "Not a valid user:"
+msgstr "Não é um usuário válido:"
+
+#: sup:30
+msgid "Usage:"
+msgstr "Uso:"
+
+#: sup:32
+msgid "Commands:"
+msgstr "Comandos:"
+
+#: sup:33
+msgid "Install a new package"
+msgstr "Instalar um novo pacote"
+
+#: sup:34
+msgid "Update installed package"
+msgstr "Atualizar pacotes instalados"
+
+#: sup:35
+msgid "Remove an installed package"
+msgstr "Remover um pacote instalado"
+
+#: sup:36
+msgid "Cook a package from the wok"
+msgstr "Cozinhar pacote do wok"
+
+#: sup:37
+msgid "Run sup_install without installing"
+msgstr "Executar sup_install sem instalar"
+
+#: sup:38
+msgid "Extract a package to current dir"
+msgstr "Extrair pacote para diretório atual"
+
+#: sup:39
+msgid "Create a new SUP package :-)"
+msgstr "Criar um novo pacote SUP :-)"
+
+#: sup:40
+msgid "List packages: installed/wok/db"
+msgstr "Lista de pacotes: installed/wok/db"
+
+#: sup:41
+msgid "Search for packages in the database"
+msgstr "Buscar pacotes no banco de dados"
+
+#: sup:42
+msgid "Debug info and sup environment"
+msgstr "Informações de depuração e ambiente SUP"
+
+#: sup:44
+msgid "Options:"
+msgstr "Opções:"
+
+#: sup:45
+msgid "Install all updates from mirror"
+msgstr "Instalar todas as atualizações do mirror"
+
+#: sup:46
+msgid "Force recharging packages database"
+msgstr "Forçar recarregamento dos pacotes no banco de dados"
+
+#: sup:47
+msgid "List all packages in database"
+msgstr "Listar todos os pacotes no banco de dados"
+
+#: sup:48
+msgid "Initialize sup cook environment"
+msgstr "Iniciar o ambiente do cozinheiro SUP"
+
+#: sup:49
+msgid "List files installed by a package"
+msgstr "Listar arquivos instalados por um pacote"
+
+#: sup:50
+msgid "Display more output messages"
+msgstr "Exibir mais mensagens de saída"
+
+#: sup:69
+msgid "Missing package name or file path:"
+msgstr "Faltando um pacote ou caminho do arquivo:"
+
+#: sup:113
+msgid "Initializing sup cook environment..."
+msgstr "Iniciando o ambiente do cozinheiro SUP"
+
+#: sup:120 sup:185
+msgid "Can't find receip in wok for:"
+msgstr "Receip não localizado no wok para:"
+
+#: sup:124
+msgid "Building package:"
+msgstr "Criando pacote:"
+
+#: sup:130
+msgid "Checking receip variables..."
+msgstr "Checando variáveis do receip..."
+
+#: sup:138 sup:143
+msgid "Empty variable:"
+msgstr "Variável vazia:"
+
+#: sup:144
+msgid "You can use:"
+msgstr "Você pode usar:"
+
+#: sup:166
+msgid "Creating compressed archive..."
+msgstr "Criando arquivo compactado..."
+
+#: sup:173 sup:242
+msgid "Packages:"
+msgstr "Pacotes:"
+
+#: sup:189
+msgid "Running"
+msgstr "Rodando"
+
+#: sup:194 libsup.sh:120
+msgid "Checking package dependencies"
+msgstr "Checando dependências do pacote"
+
+#: sup:201
+msgid "Working folder:"
+msgstr "Pasta de trabalho:"
+
+#: sup:208
+msgid "New package name:"
+msgstr "Novo nome do pacote:"
+
+#: sup:214
+msgid "Package already exists in wok:"
+msgstr "O pacote já existe no wok:"
+
+#: sup:217
+msgid "Creating new package files and tree..."
+msgstr "Criando novo pacote e árvore dos arquivos..."
+
+#: sup:220
+msgid "Executing your favorite editor..."
+msgstr "Executando seu editor favorito..."
+
+#: sup:222
+msgid "To cook your package:"
+msgstr "Para cozinhar seu pacote:"
+
+#: sup:232
+msgid "Can't find package file:"
+msgstr "Arquivo do pacote não encontrado:"
+
+#: sup:236
+msgid "Extract package:"
+msgstr "Extrair pacote:"
+
+#: sup:276
+msgid "Can't find sup package:"
+msgstr "Pacote SUP não encontrado:"
+
+#: sup:282
+msgid "SUP Update"
+msgstr "Atualizar SUP"
+
+#: sup:287
+msgid "Mirror is unreachable"
+msgstr "Mirror está inacessível"
+
+#: sup:293
+msgid "Checking packages.sql..."
+msgstr "Checando packages.sql..."
+
+#: sup:312
+msgid "Database timestamp:"
+msgstr "Data e Hora do banco de dados:"
+
+#: sup:314
+msgid "Updated packages database:"
+msgstr "Banco de dados de pacotes atualizados:"
+
+#: sup:319
+msgid "Please try later. Missing packages database"
+msgstr "Por favor tente mais tarde. Banco de dados ausente."
+
+#: sup:327
+msgid "Installed packages:"
+msgstr "Pacotes instalados:"
+
+#: sup:329
+msgid "Package"
+msgstr "Pacote"
+
+#: sup:329
+msgid "Version"
+msgstr "Versão"
+
+#: sup:330
+msgid "Status"
+msgstr "Estado"
+
+#: sup:356
+msgid "rebuilt"
+msgstr "reconstruído"
+
+#: sup:367
+msgid "Available updates:"
+msgstr "Atualizações disponíveis:"
+
+#: sup:376
+msgid "Packages are up-to-date"
+msgstr "Pacotes estão atualizados"
+
+#: sup:388 sup:485
+msgid "Can't find installed package:"
+msgstr "Pacote instalado não encontrado:"
+
+#: sup:396
+msgid "Searching for:"
+msgstr "Procurando por:"
+
+#: sup:410 sup:447
+msgid "SUP packages in database:"
+msgstr "Pacotes SUP no banco de dados:"
+
+#: sup:422
+msgid "Installed SUP packages:"
+msgstr "Pacotes SUP instalados:"
+
+#: sup:430
+msgid "No sup packages installed"
+msgstr "Nenhum pacote SUP instalado"
+
+#: sup:434
+msgid "SUP packages in your wok:"
+msgstr "Pacotes SUP em seu wok:"
+
+#: sup:444 sup:454
+msgid "Cooked packages:"
+msgstr "Pacotes cozinhados:"
+
+#: sup:457
+msgid "Downloads::"
+msgstr "Transferências:"
+
+#: sup:470
+msgid "Installed package:"
+msgstr "Pacote instalado:"
+
+#: sup:475
+msgid "Files list:"
+msgstr "Lista de arquivos:"
+
+#: sup:479
+msgid "Installed size:"
+msgstr "Tamanho instalado:"
+
+#: sup:481
+msgid "Installed files:"
+msgstr "Arquivos instalados:"
+
+#: libsup.sh:56
+msgid "Downloading"
+msgstr "Transferindo"
+
+#: libsup.sh:86
+msgid "Uncompressing package tree..."
+msgstr "Descompactando árvore do pacote..."
+
+#: libsup.sh:102 libsup.sh:127
+msgid "Missing dependency:"
+msgstr "Dependência faltando:"
+
+#: libsup.sh:135
+msgid "Removing existing package files..."
+msgstr "Removendo arquivos de pacotes existentes..."
+
+#: libsup.sh:140 libsup.sh:142
+msgid "Installing package:"
+msgstr "Instalando o pacote:"
+
+#: libsup.sh:153
+msgid "Executing install function:"
+msgstr "Executando funções da instalação:"
+
+#: libsup.sh:160
+msgid "Creating the list of installed files..."
+msgstr "Criando lista de arquivos instalados..."
+
+#: libsup.sh:175
+msgid "Installing files:"
+msgstr "Instalando arquivos:"
+
+#: libsup.sh:199 libsup.sh:201
+msgid "Removing package:"
+msgstr "Removendo pacote:"
+
+#: libsup.sh:204
+msgid "Files to remove :"
+msgstr "Arquivos para remoção:"
+
+#: libsup.sh:215
+msgid "Removing file   :"
+msgstr "Removendo arquivo:"
+
+#: libsup.sh:220
+msgid "Removing folder :"
+msgstr "Removendo pasta:"
+
+#: libsup.sh:231
+msgid "Removing packages from local database..."
+msgstr "Removendo pacotes do banco de dados local..."
