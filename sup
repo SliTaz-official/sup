@@ -426,7 +426,7 @@ EOT
 			. ${installed}/${pkg}/receip
 			echo "$pkg $(indent 26 $VERSION) $(indent 42 $MAINTAINER)"
 		done
-		if [ "$installed_nb" == 0 ]; then
+		if [ "$installed_nb" = 0 ]; then
 			gettext "No sup packages installed"; echo
 		fi
 		newline
@@ -462,7 +462,7 @@ EOT
 		
 	*|info)
 		# Display pkg info if installed
-		[ "$1" == "info" ] && shift
+		[ "$1" = "info" ] && shift
 		pkg="$1"
 		if [ -f "$installed/$pkg/receip" ]; then
 			. ${installed}/${pkg}/receip

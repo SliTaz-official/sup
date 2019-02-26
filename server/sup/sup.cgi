@@ -13,7 +13,7 @@
 
 # This script is called directly on upload: get httphelper.sh functions
 # and set full path to move files
-if [ "$(basename $0)" == "sup.cgi" ]; then
+if [ "$(basename $0)" = "sup.cgi" ]; then
 	. /lib/libtaz.sh
 	. /usr/lib/slitaz/httphelper.sh
 	. paths.conf
@@ -58,7 +58,7 @@ EOT
 		# Tools for logged users
 		if check_auth; then
 			# Only package owner can update a package MAIL is set by check_auth
-			if [ "$MAINTAINER" == "$MAIL" ]; then
+			if [ "$MAINTAINER" = "$MAIL" ]; then
 				cat << EOT
 	<a href="?sup=upload">$(gettext "Update package")</a>
 EOT
@@ -228,7 +228,7 @@ EOT
 		fi
 
 		# Publish and display pkg url's if no error
-		if [ "$error" == "0" ]; then
+		if [ "$error" = "0" ]; then
 			gettext "Moving package to mirror..."
 			mv -f ${supfile} ${packages}; status
 			gettext "Moving receip to public wok..."
